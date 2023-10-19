@@ -40,9 +40,6 @@ public class Card {
      * Create a card given a string shordhand formatted as:
      * "TD" should create a TEN of DIAMONDS, etc.
      */
-    public Card(String s) {
-        this(getRankFromAbbrev(s.charAt(0)), getSuitFromAbbrev(s.charAt(1)));
-    }
 
     public Card(cardType t, colour c) {
         this.type = t;
