@@ -13,6 +13,7 @@ public class Uno {
     private Card playedCard;
 
     private Card topCard;
+
     private Scanner choice;
 
     private Player currentPlayer;
@@ -26,8 +27,7 @@ public class Uno {
     private boolean finished;
 
 
-
-    public Uno(){
+    public Uno() {
 
         players = new ArrayList<Player>();
         discardPile = new ArrayList<Card>();
@@ -43,8 +43,6 @@ public class Uno {
         createPlayers(n);
         choice.nextLine();
         giveCards();
-        startingCard = deck.draw();
-        topCard = startingCard;
 
         for (Player player : players) {
             if (player.getName() == null) {
@@ -54,13 +52,17 @@ public class Uno {
             }
         }
 
-        System.out.println("Starting Card:" + startingCard.toString());
+        startingCard = deck.draw();
+        System.out.println("Starting card:" + startingCard.toString());
 
-        while (!finished){
+        topCard = startingCard;
+
+        while (!finished) {
 
             for (Player player: players){
                 takeTurn(player);
             }
+
             finished = true;
 
         }
@@ -76,62 +78,57 @@ public class Uno {
     }
 
 
-    public void drawOne(){
+    public void drawOne() {
         return;
     }
 
-    public void wildCard(){
+    public void wildCard() {
 
     }
 
-    public void reverse(){
+    public void reverse() {
         return;
     }
 
-    public void skip(){
+    public void skip() {
         return;
     }
 
-    public void isValidChoice(){
+    public void isValidChoice() {
 
     }
 
-    public void createPlayers(int n){
-
-        if (n >= 2 && n <=4) {
+    public void createPlayers(int n) {
+        if (n >= 2 && n <= 4) {
             while (n > 0) {
                 players.add(new Player());
                 n--;
             }
-        } else {
-            System.out.println("Enter a valid number of players.");
         }
     }
 
-    public int getDeckCards(){
+    public int getDeckCards() {
         return deck.getNumDeckCards();
     }
 
-    public void changePlayer(){
-
-    }
-
-    public void takeTurn(Player player){
+    public void takeTurn(Player player) {
         currentPlayer = player;
         System.out.println(currentPlayer.getName() + "'s Turn.");
         System.out.println("Current Side: Light");
-        currentPlayer.getMyCards();
+        currentPlayer.displayCards();
         System.out.println("\nTop Card: " + topCard.toString());
 
         System.out.println("Enter card index to play or 0 to draw card:");
         int index = choice.nextInt();
-        if (index > 0){
+        if (index > 0) {
 
-            playedCard = currentPlayer.playCard(index-1);
+            playedCard = currentPlayer.playCard(index - 1);
+            topCard = playedCard;
 
         } else {
             player.drawCard(deck);
-            currentPlayer.getMyCards();
+            currentPlayer.displayCards();
         }
     }
+
 }
