@@ -44,7 +44,9 @@ public class Player {
         }
     }
 
-    public void drawCard(){
-
+    public void drawCard(Deck deck){
+        myCards.add(deck.draw());
+        numCards++;
+        getMyCards();
     }
 }
