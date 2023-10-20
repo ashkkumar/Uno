@@ -16,16 +16,18 @@ public class Deck {
     public Deck(){
         deck = new ArrayList<Card>();
     }
-    /*
-    public makeCards(int n, ){
 
-        for (int i = 0;;i++){
-            for (int j = 0;;++){
-                Card card = new Card(, )
+    public void makeCards(){
+
+        for (Card.colour colour: Card.colour.values()){
+            for (Card.cardType type: Card.cardType.values()){
+                Card card = new Card(type, colour);
+                deck.add(card);
+                numDeckCards++;
             }
         }
     }
-    */
+
     public Card draw(){
         Random rand = new Random();
         int i = rand.nextInt(numDeckCards);
