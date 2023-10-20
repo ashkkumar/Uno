@@ -56,7 +56,7 @@ public class DeckTest {
 
     @Test
     public void test_makeCards() {
-        System.out.println("Testing makeCards method...");
+        System.out.println("Testing Method makeCards...");
         deck = new Deck();
         int i = 0;
         assertEquals(100, deck.getNumDeckCards());
@@ -86,7 +86,7 @@ public class DeckTest {
 
     @Test
     public void test_draw(){
-        System.out.println("Testing draw method...");
+        System.out.println("Testing Method draw...");
         ArrayList<Card> test_deck = new ArrayList<>();
         test_deck.add(new Card(Card.CardType.THREE,Card.Colour.RED));
         test_deck.add(new Card(Card.CardType.REVERSE,Card.Colour.GREEN));
@@ -100,7 +100,7 @@ public class DeckTest {
 
     @Test
     public void test_isEmpty(){
-        System.out.println("Testing method isEmpty...");
+        System.out.println("Testing Method isEmpty...");
         ArrayList<Card> test_deck = new ArrayList<>();
         deck = new Deck(test_deck);
         assertTrue(deck.isEmpty());
@@ -116,7 +116,7 @@ public class DeckTest {
 
     @Test
     public void test_getNumDeckCards(){
-        System.out.println("Testing method getNumDeckCards");
+        System.out.println("Testing Method getNumDeckCards");
         ArrayList<Card> test_deck = new ArrayList<>();
         test_deck.add(new Card(Card.CardType.THREE,Card.Colour.RED));
         test_deck.add(new Card(Card.CardType.REVERSE,Card.Colour.GREEN));
@@ -129,7 +129,7 @@ public class DeckTest {
 
     @Test
     public void test_getCard(){
-        System.out.println("Testing method getCard");
+        System.out.println("Testing Method getCard");
         ArrayList<Card> test_deck = new ArrayList<>();
         test_deck.add(new Card(Card.CardType.THREE,Card.Colour.RED));
         test_deck.add(new Card(Card.CardType.REVERSE,Card.Colour.GREEN));
@@ -141,7 +141,7 @@ public class DeckTest {
 
     @Test
     public void test_getCards(){
-        System.out.println("Testing method getCards");
+        System.out.println("Testing Method getCards");
         ArrayList<Card> test_deck = new ArrayList<>();
         test_deck.add(new Card(Card.CardType.THREE,Card.Colour.RED));
         test_deck.add(new Card(Card.CardType.REVERSE,Card.Colour.GREEN));

@@ -40,7 +40,7 @@ public class CardTest {
 
     @Test
     public void test_getCardType(){
-        System.out.println("Testing getCardType...");
+        System.out.println("Testing Method getCardType...");
         card = new Card(Card.CardType.DRAWONE, Card.Colour.RED);
         assertEquals(Card.CardType.DRAWONE, card.getCardType());
         counter = 1;
@@ -48,7 +48,7 @@ public class CardTest {
 
     @Test
     public void test_getColour(){
-        System.out.println("Testing getColour...");
+        System.out.println("Testing Method getColour...");
         card = new Card(Card.CardType.REVERSE, Card.Colour.YELLOW);
         assertEquals(Card.Colour.YELLOW, card.getColour());
         counter = 1;
