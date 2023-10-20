@@ -2,13 +2,13 @@ import java.util.ArrayList;
 
 public class Player {
 
-    String name;
+    private String name;
 
-    ArrayList<Card> myCards;
+    private ArrayList<Card> myCards;
 
-    int score;
+    private int score;
 
-    int numCards;
+    private int numCards;
 
     public Player(){
         myCards = new ArrayList<Card>();
