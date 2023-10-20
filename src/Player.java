@@ -10,9 +10,8 @@ public class Player {
 
     private int numCards;
 
-    public Player(String name){
+    public Player(){
 
-        this.name = name;
         myCards = new ArrayList<Card>();
         numCards = 0;
     }

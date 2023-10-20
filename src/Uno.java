@@ -79,9 +79,7 @@ public class Uno {
     public void createPlayers(int n){
         if (n >= 2 && n <=4) {
             while (n > 0) {
-                Scanner scan = new Scanner(System.in);
-                String name = scan.toString();
-                players.add(new Player(name));
+                players.add(new Player());
                 n--;
             }
         }
