@@ -21,9 +21,11 @@ public class Player {
         numCards++;
     }
 
-    public void removeCard(Card card){
-        myCards.remove(card);
+    public Card playCard(int i){
+        Card card = myCards.get(i);
+        myCards.remove(i);
         numCards--;
+        return card;
     }
 
     public void setScore(int score) {
