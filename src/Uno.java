@@ -12,6 +12,7 @@ public class Uno {
     private Card startingCard;
     private Card playedCard;
 
+    private Card topCard;
     private Scanner choice;
 
     private Player currentPlayer;
@@ -42,6 +43,8 @@ public class Uno {
         createPlayers(n);
         choice.nextLine();
         giveCards();
+        startingCard = deck.draw();
+        topCard = startingCard;
 
         for (Player player : players) {
             if (player.getName() == null) {
@@ -51,13 +54,13 @@ public class Uno {
             }
         }
 
-        while (!finished){
-            startingCard = deck.draw();
-            System.out.println("Starting Card:" + startingCard.toString());
-            currentPlayer = players.get(0);
-            System.out.println(currentPlayer.getName() + "'s Turn.");
-            currentPlayer.getMyCards();
+        System.out.println("Starting Card:" + startingCard.toString());
 
+        while (!finished){
+
+            for (Player player: players){
+                takeTurn(player);
+            }
             finished = true;
 
         }
@@ -94,11 +97,14 @@ public class Uno {
     }
 
     public void createPlayers(int n){
+
         if (n >= 2 && n <=4) {
             while (n > 0) {
                 players.add(new Player());
                 n--;
             }
+        } else {
+            System.out.println("Enter a valid number of players.");
         }
     }
 
@@ -108,5 +114,24 @@ public class Uno {
 
     public void changePlayer(){
 
+    }
+
+    public void takeTurn(Player player){
+        currentPlayer = player;
+        System.out.println(currentPlayer.getName() + "'s Turn.");
+        System.out.println("Current Side: Light");
+        currentPlayer.getMyCards();
+        System.out.println("\nTop Card: " + topCard.toString());
+
+        System.out.println("Enter card index to play or 0 to draw card:");
+        int index = choice.nextInt();
+        if (index > 0){
+
+            playedCard = currentPlayer.playCard(index-1);
+
+        } else {
+            player.drawCard(deck);
+            currentPlayer.getMyCards();
+        }
     }
 }
