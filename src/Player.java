@@ -11,6 +11,7 @@ public class Player {
     private int numCards;
 
     public Player(){
+
         myCards = new ArrayList<Card>();
         numCards = 0;
     }
@@ -39,14 +40,14 @@ public class Player {
 
     public void getMyCards() {
         System.out.println("Your Cards:");
-        for (int i = 0; i < numCards; i++){
-            System.out.println(i + "." + myCards.get(i));
+        for (int i = 0; i < myCards.size(); i++){
+            System.out.println(i+1 + ". " + myCards.get(i).getColour() + " " + myCards.get(i).getCardType());
         }
     }
 
     public void drawCard(Deck deck){
         myCards.add(deck.draw());
         numCards++;
-        getMyCards();
     }
+
 }
