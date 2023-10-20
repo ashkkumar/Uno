@@ -32,6 +32,7 @@ public class Deck {
             } else {
                 for (int i = 4; i > 0; i--){
                     deck.add(new Card(Card.CardType.WILD, Card.Colour.WILD));
+                    numDeckCards++;
                 }
 
             }
