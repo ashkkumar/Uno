@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class Uno {
@@ -61,58 +60,20 @@ public class Uno {
         return;
     }
 
-    /**
-     * When this method is called, it prompts the user to enter a colour of their choice
-     * to change the current card's colour
-     */
     public void wildCard(){
-        choice = new Scanner(System.in);
-
-        while (true) {
-            String colourChoice = choice.next();
-            Card.Colour chosenColour = null;
-
-            for (Card.Colour colour : Card.Colour.values()) {
-                if (colour.name().equalsIgnoreCase(colourChoice)) {
-                    //Card is valid
-                    chosenColour = colour;
-                    break;
-                }
-            }
-            if (chosenColour != null) {
-                currentColour = chosenColour;
-                break;
-            } else {
-                System.out.println("Invalid colour choice. Please choose a valid colour.");
-            }
-        }
-
+        return;
     }
 
-    /**
-     * Reverses the direction of player's turns
-     */
     public void reverse(){
-        Collections.reverse(players);
+        return;
     }
 
-    /**
-     * Skips the current players turn and gives turn to next player
-     */
     public void skip(){
-        int currPlayerIndex = players.indexOf(currentPlayer);
-        currentPlayer = players.get(currPlayerIndex + 1);
+        return;
     }
 
-    /**
-     * Validates the current card with the card being played
-     * @return true if the played card's colour or type matches the current card, false otherwise
-     */
-    public boolean isValidChoice(){
-        if ((currentColour == playedCard.getColour())||(currentNumber == playedCard.getCardType())){
-            return true;
-        }
-        else return false;
+    public void isValidChoice(){
+
     }
 
     public void createPlayers(int n){

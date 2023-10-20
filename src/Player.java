@@ -50,4 +50,11 @@ public class Player {
         numCards++;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
