@@ -54,4 +54,8 @@ public class Deck {
         }
         return false;
     }
+
+    public int getNumDeckCards() {
+        return numDeckCards;
+    }
 }
