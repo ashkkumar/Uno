@@ -21,9 +21,11 @@ public class Player {
         numCards++;
     }
 
-    public void removeCard(Card card){
-        myCards.remove(card);
+    public Card playCard(int i){
+        Card card = myCards.get(i);
+        myCards.remove(i);
         numCards--;
+        return card;
     }
 
     public void setScore(int score) {
@@ -41,7 +43,7 @@ public class Player {
     public void getMyCards() {
         System.out.println("Your Cards:");
         for (int i = 0; i < myCards.size(); i++){
-            System.out.println(i+1 + ". " + myCards.get(i).getColour() + " " + myCards.get(i).getCardType());
+            System.out.println(i+1 + ". " + myCards.get(i).toString());
         }
     }
 
@@ -50,4 +52,11 @@ public class Player {
         numCards++;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

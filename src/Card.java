@@ -20,4 +20,8 @@ public class Card {
         return this.COLOUR;
     }
 
+    @Override
+    public String toString() {
+        return " " + TYPE + " " + COLOUR;
+    }
 }
