@@ -34,16 +34,22 @@ public class Uno {
 
     }
 
-    public void play(){
+    public void play() {
 
         System.out.print("Enter number of players (2-4):");
-        Scanner intPlayers = new Scanner(System.in);
-        int n = intPlayers.nextInt();
+        choice = new Scanner(System.in);
+        int n = choice.nextInt();
         createPlayers(n);
+        choice.nextLine();
         giveCards();
 
-        currentPlayer = players.get(0);
-        currentPlayer.getMyCards();
+        for (Player player : players) {
+            if (player.getName() == null) {
+                System.out.print("Enter player name: ");
+                String name = choice.nextLine();
+                player.setName(name);
+            }
+        }
 
     }
 
@@ -56,12 +62,12 @@ public class Uno {
     }
 
 
-    public void drawTwo(){
+    public void drawOne(){
         return;
     }
 
     public void wildCard(){
-        return;
+
     }
 
     public void reverse(){
@@ -83,5 +89,9 @@ public class Uno {
                 n--;
             }
         }
+    }
+
+    public int getDeckCards(){
+        return deck.getNumDeckCards();
     }
 }
