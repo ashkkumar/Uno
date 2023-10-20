@@ -21,9 +21,8 @@ public class Player {
         numCards++;
     }
 
-    public Card playCard(int i){
-        Card card = myCards.get(i);
-        myCards.remove(i);
+    public Card playCard(int index){
+        Card card = myCards.remove(index);
         numCards--;
         return card;
     }
@@ -40,10 +39,10 @@ public class Player {
         return numCards;
     }
 
-    public void getMyCards() {
+    public void displayCards() {
         System.out.println("Your Cards:");
         for (int i = 0; i < myCards.size(); i++){
-            System.out.println(i+1 + ". " + myCards.get(i).toString());
+            System.out.println(i+1 + "." + myCards.get(i).toString());
         }
     }
 
@@ -52,11 +51,11 @@ public class Player {
         numCards++;
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 }
