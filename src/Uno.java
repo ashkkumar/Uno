@@ -22,18 +22,39 @@ public class Uno {
 
     private Player winner;
 
+    private boolean finished;
+
 
 
     public Uno(){
 
-        System.out.println("Select Number of players: ");
-
+        players = new ArrayList<Player>();
+        discardPile = new ArrayList<Card>();
+        deck = new Deck();
 
     }
 
-    public void giveCards(){
-        return;
+    public void play(){
+
+        System.out.print("Enter number of players (2-4):");
+        Scanner intPlayers = new Scanner(System.in);
+        int n = intPlayers.nextInt();
+        createPlayers(n);
+        giveCards();
+
+        currentPlayer = players.get(0);
+        currentPlayer.getMyCards();
+
     }
+
+    public void giveCards() {
+        for (int i = 0; i < 7; i++) {
+            for (Player player : players) {
+                player.drawCard(deck);
+            }
+        }
+    }
+
 
     public void drawTwo(){
         return;
@@ -53,5 +74,14 @@ public class Uno {
 
     public void isValidChoice(){
 
+    }
+
+    public void createPlayers(int n){
+        if (n >= 2 && n <=4) {
+            while (n > 0) {
+                players.add(new Player());
+                n--;
+            }
+        }
     }
 }
