@@ -51,6 +51,17 @@ public class Uno {
             }
         }
 
+        while (!finished){
+            startingCard = deck.draw();
+            System.out.println("Starting Card:" + startingCard.toString());
+            currentPlayer = players.get(0);
+            System.out.println(currentPlayer.getName() + "'s Turn.");
+            currentPlayer.getMyCards();
+
+            finished = true;
+
+        }
+
     }
 
     public void giveCards() {
@@ -93,5 +104,9 @@ public class Uno {
 
     public int getDeckCards(){
         return deck.getNumDeckCards();
+    }
+
+    public void changePlayer(){
+
     }
 }
