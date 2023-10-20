@@ -1,6 +1,6 @@
 public class Card {
-    public enum cardType {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, REVERSE, DRAWONE, SKIP, WILD}
-    public enum colour {RED, BLUE, GREEN, YELLOW}
+    public enum cardType {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, REVERSE, DRAWONE, SKIP}
+    public enum colour {RED, BLUE, GREEN, YELLOW, WILD}
 
     /*
     public static cardType getRankFromAbbrev(char c) {

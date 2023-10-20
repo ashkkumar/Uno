@@ -15,6 +15,7 @@ public class Deck {
 
     public Deck(){
         deck = new ArrayList<Card>();
+        makeCards();
     }
 
     public void makeCards(){
@@ -22,6 +23,7 @@ public class Deck {
         for (Card.colour colour: Card.colour.values()){
             for (Card.cardType type: Card.cardType.values()){
                 Card card = new Card(type, colour);
+                deck.add(card);
                 deck.add(card);
                 numDeckCards++;
             }
