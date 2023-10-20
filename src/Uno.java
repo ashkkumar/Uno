@@ -26,8 +26,15 @@ public class Uno {
 
     public Uno(){
 
-        System.out.println("Select Number of players: ");
+        players = new ArrayList<Player>();
+        discardPile = new ArrayList<Card>();
+        deck = new Deck();
 
+    }
+
+    public void play(){
+
+        System.out.println("");
 
     }
 

@@ -4,10 +4,6 @@ public class Card {
 
     private final CardType TYPE;
     private final Colour COLOUR;
-    /**
-     * Create a card given a string shordhand formatted as:
-     * "TD" should create a TEN of DIAMONDS, etc.
-     */
 
     public Card(CardType t, Colour c) {
         this.TYPE = t;
