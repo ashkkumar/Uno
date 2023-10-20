@@ -16,9 +16,9 @@ public class Uno {
 
     private Player currentPlayer;
 
-    private Card.cardType currentNumber;
+    private Card.CardType currentNumber;
 
-    private Card.colour currentColour;
+    private Card.Colour currentColour;
 
     private Player winner;
 

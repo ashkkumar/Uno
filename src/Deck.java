@@ -29,15 +29,15 @@ public class Deck {
                         numDeckCards += 2;
                     }
                 }
-            } else{
-                Card card = new Card(Card.CardType.WILD, Card.Colour.WILD);
-
+            } else {
+                for (int i = 4; i > 0; i--){
+                    deck.add(new Card(Card.CardType.WILD, Card.Colour.WILD));
+                }
 
             }
         }
-
-
     }
+
 
     public Card draw(){
         Random rand = new Random();
