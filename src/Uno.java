@@ -16,9 +16,9 @@ public class Uno {
 
     private Player currentPlayer;
 
-    private Card.cardType currentNumber;
+    private Card.CardType currentNumber;
 
-    private Card.colour currentColour;
+    private Card.Colour currentColour;
 
     private Player winner;
 
@@ -26,8 +26,15 @@ public class Uno {
 
     public Uno(){
 
-        System.out.println("Select Number of players: ");
+        players = new ArrayList<Player>();
+        discardPile = new ArrayList<Card>();
+        deck = new Deck();
 
+    }
+
+    public void play(){
+
+        System.out.println("");
 
     }
 

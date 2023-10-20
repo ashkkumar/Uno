@@ -15,17 +15,31 @@ public class Deck {
 
     public Deck(){
         deck = new ArrayList<Card>();
+        makeCards();
     }
-    /*
-    public makeCards(int n, ){
 
-        for (int i = 0;;i++){
-            for (int j = 0;;++){
-                Card card = new Card(, )
+    public void makeCards(){
+
+        for (Card.Colour Colour: Card.Colour.values()){
+            if (!Colour.equals(Card.Colour.WILD)) {
+                for (Card.CardType Type : Card.CardType.values()) {
+                    if (!Type.equals(Card.CardType.WILD)) {
+                        deck.add(new Card(Type, Colour));
+                        deck.add(new Card(Type, Colour));
+                        numDeckCards += 2;
+                    }
+                }
+            } else {
+                for (int i = 4; i > 0; i--){
+                    deck.add(new Card(Card.CardType.WILD, Card.Colour.WILD));
+                    numDeckCards++;
+                }
+
             }
         }
     }
-    */
+
+
     public Card draw(){
         Random rand = new Random();
         int i = rand.nextInt(numDeckCards);
