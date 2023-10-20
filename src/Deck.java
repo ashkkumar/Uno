@@ -20,14 +20,23 @@ public class Deck {
 
     public void makeCards(){
 
-        for (Card.colour colour: Card.colour.values()){
-            for (Card.cardType type: Card.cardType.values()){
-                Card card = new Card(type, colour);
-                deck.add(card);
-                deck.add(card);
-                numDeckCards++;
+        for (Card.Colour Colour: Card.Colour.values()){
+            if (!Colour.equals(Card.Colour.WILD)) {
+                for (Card.CardType Type : Card.CardType.values()) {
+                    if (!Type.equals(Card.CardType.WILD)) {
+                        deck.add(new Card(Type, Colour));
+                        deck.add(new Card(Type, Colour));
+                        numDeckCards += 2;
+                    }
+                }
+            } else{
+                Card card = new Card(Card.CardType.WILD, Card.Colour.WILD);
+
+
             }
         }
+
+
     }
 
     public Card draw(){

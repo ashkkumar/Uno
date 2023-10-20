@@ -1,6 +1,6 @@
 public class Card {
-    public enum cardType {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, REVERSE, DRAWONE, SKIP}
-    public enum colour {RED, BLUE, GREEN, YELLOW, WILD}
+    public enum CardType {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, REVERSE, DRAWONE, SKIP, WILD}
+    public enum Colour {RED, BLUE, GREEN, YELLOW, WILD}
 
     /*
     public static cardType getRankFromAbbrev(char c) {
@@ -34,26 +34,26 @@ public class Card {
         }
     }
     */
-    private final cardType type;
-    private final colour colour;
+    private final CardType TYPE;
+    private final Colour COLOUR;
     /**
      * Create a card given a string shordhand formatted as:
      * "TD" should create a TEN of DIAMONDS, etc.
      */
 
-    public Card(cardType t, colour c) {
-        this.type = t;
-        this.colour = c;
+    public Card(CardType t, Colour c) {
+        this.TYPE = t;
+        this.COLOUR = c;
     }
 
-    public cardType getCardType() {
+    public CardType getCardType() {
 
-        return this.type;
+        return this.TYPE;
     }
 
-    public colour getColour() {
+    public Colour getColour() {
 
-        return this.colour;
+        return this.COLOUR;
     }
 
 }
