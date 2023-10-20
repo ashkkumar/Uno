@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PlayerTest {
     private static Player player;
@@ -25,6 +27,11 @@ public class PlayerTest {
     @Test
     public void test_DefaultConstructor(){
         System.out.println("Testing Default Constructor");
+        ArrayList<Card> empty_list = new ArrayList<>();
+        player = new Player();
+        assertEquals(0, player.getNumCards());
+        //assertEquals(empty_list, player.getMyCards());
+
     }
 
     @Test
@@ -33,7 +40,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void test_removeCard(){
+    public void test_playCard(){
         System.out.println("Testing Method removeCard");
     }
 
@@ -60,5 +67,15 @@ public class PlayerTest {
     @Test
     public void test_drawCard(){
         System.out.println("Testing Method drawCard");
+    }
+
+    @Test
+    public void test_setName(){
+        System.out.println("Testing Method setName");
+    }
+
+    @Test
+    public void test_getName(){
+        System.out.println("Testing Method getName");
     }
 }
