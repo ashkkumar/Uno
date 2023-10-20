@@ -58,4 +58,12 @@ public class Deck {
     public int getNumDeckCards() {
         return numDeckCards;
     }
+
+    public Card getCard(int i){
+        return deck.get(i);
+    }
+
+    public ArrayList<Card> getCards(){
+        return deck;
+    }
 }
