@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/**
+ * The Uno class represents the main controller for the Uno game.
+ */
 public class Uno {
 
     private ArrayList<Player> players;
@@ -24,8 +26,9 @@ public class Uno {
 
     private boolean finished;
 
-
-
+    /**
+     * Constructs a new Uno game by initializing players, discard pile, and the deck.
+     */
     public Uno(){
 
         players = new ArrayList<Player>();
@@ -34,6 +37,9 @@ public class Uno {
 
     }
 
+    /**
+     * Start and manage the Uno game.
+     */
     public void play(){
 
         System.out.print("Enter number of players (2-4):");
@@ -47,6 +53,9 @@ public class Uno {
 
     }
 
+    /**
+     * Distribute cards to players at the beginning of the game.
+     */
     public void giveCards() {
         for (int i = 0; i < 7; i++) {
             for (Player player : players) {
@@ -55,27 +64,46 @@ public class Uno {
         }
     }
 
-
-    public void drawTwo(){
-        return;
+    /**
+     * Draw a card from the deck and add it to the current player's hand.
+     */
+    public void drawOne(){
+        currentPlayer.drawCard(deck);
     }
 
+    /**
+     * Handle the effects of a wild card.
+     */
     public void wildCard(){
         return;
     }
 
+    /**
+     * Handle the effects of a reverse card.
+     */
     public void reverse(){
         return;
     }
 
+    /**
+     * Handle the effects of a skip card.
+     */
     public void skip(){
         return;
     }
 
+    /**
+     * Check if the player's choice is valid.
+     */
     public void isValidChoice(){
 
     }
 
+    /**
+     * Create and initialize player instances based on the number of players provided.
+     *
+     * @param n The number of players (2-4) in the game.
+     */
     public void createPlayers(int n){
         if (n >= 2 && n <=4) {
             while (n > 0) {

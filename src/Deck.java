@@ -1,26 +1,37 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class  Deck {
+/**
+ * The Deck class represents the deck of Uno cards.
+ */
+public class Deck {
 
     private ArrayList<Card> deck;
-
     private int numDeckCards;
 
-
-    public Deck(ArrayList<Card> cards){
+    /**
+     * Constructs a deck with the specified list of cards.
+     *
+     * @param cards The list of cards to use for the deck.
+     */
+    public Deck(ArrayList<Card> cards) {
         this.deck = cards;
         numDeckCards = cards.size();
     }
 
-    public Deck(){
+    /**
+     * Constructs a new Uno deck and initializes it with standard Uno cards.
+     */
+    public Deck() {
         deck = new ArrayList<Card>();
         makeCards();
     }
 
-    public void makeCards(){
-
-        for (Card.Colour Colour: Card.Colour.values()){
+    /**
+     * Generate and add standard Uno cards to the deck.
+     */
+    public void makeCards() {
+        for (Card.Colour Colour : Card.Colour.values()) {
             if (!Colour.equals(Card.Colour.WILD)) {
                 for (Card.CardType Type : Card.CardType.values()) {
                     if (!Type.equals(Card.CardType.WILD)) {
@@ -30,17 +41,20 @@ public class  Deck {
                     }
                 }
             } else {
-                for (int i = 4; i > 0; i--){
+                for (int i = 4; i > 0; i--) {
                     deck.add(new Card(Card.CardType.WILD, Card.Colour.WILD));
                     numDeckCards++;
                 }
-
             }
         }
     }
 
-
-    public Card draw(){
+    /**
+     * Draw a card randomly from the deck and remove it.
+     *
+     * @return The drawn card.
+     */
+    public Card draw() {
         Random rand = new Random();
         int i = rand.nextInt(numDeckCards);
         Card card = deck.remove(i);
@@ -48,13 +62,20 @@ public class  Deck {
         return card;
     }
 
-    public boolean isEmpty(){
-        if (numDeckCards == 0){
-            return true;
-        }
-        return false;
+    /**
+     * Check if the deck is empty.
+     *
+     * @return true if the deck is empty, false otherwise.
+     */
+    public boolean isEmpty() {
+        return numDeckCards == 0;
     }
 
+    /**
+     * Get the number of cards in the deck.
+     *
+     * @return The number of cards in the deck.
+     */
     public int getNumDeckCards() {
         return numDeckCards;
     }
