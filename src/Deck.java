@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Deck {
+public class  Deck {
 
     private ArrayList<Card> deck;
 
