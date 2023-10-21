@@ -111,8 +111,11 @@ public class Uno {
     }
 
     public void skip() {
-        int currPlayerIndex = players.indexOf(currentPlayer);
-        currentPlayer = players.get((currPlayerIndex + 1) % players.size());
+        int currentPlayerIndex = players.indexOf(currentPlayer);
+
+        int skipPlayerIndex = (currentPlayerIndex + 1) % players.size();
+
+        currentPlayer = players.get(skipPlayerIndex);
     }
 
     public boolean isValidChoice() {
@@ -151,22 +154,26 @@ public class Uno {
         checkTopCard();
         printTurn();
 
-        int index = choice.nextInt();
-        if (index > 0) {
-            playedCard = currentPlayer.playCard(index - 1);
-            if (isValidChoice()){
-                setTopCard();
-            } else{
-                System.out.println("Choose a valid card");
-                int i = choice.nextInt();
-                playedCard = currentPlayer.playCard(i - 1);
-                setTopCard();
-            }
-        } else if (index == 0){
-            if (currentColour.equals(Card.Colour.WILD)){
+        while (true) {
+            int index = choice.nextInt();
+
+            if (index > 0) {
+                playedCard = currentPlayer.playCard(index - 1);
+
+                if (isValidChoice()) {
+                    setTopCard();
+
+                    if (playedCard.getCardType() == Card.CardType.SKIP) {
+                        skip();
+                    }
+
+                    break;
+                } else {
+                    System.out.println("Choose a valid card");
+                }
+            } else {
                 player.drawCard(deck);
-            }else {
-                player.drawCard(deck);
+                break;
             }
         }
     }
@@ -226,4 +233,5 @@ public class Uno {
             }
         }
     }
+
 }
