@@ -157,13 +157,12 @@ public class Uno {
         while (true) {
             int index = choice.nextInt();
 
-            if (index > 0 && index <= currentPlayer.getNumCards()) {
-                playedCard = currentPlayer.playCard(index - 1);
+            if (index > 0) {
+                playedCard = currentPlayer.chooseCard(index - 1);
 
                 if (isValidChoice()) {
+                    currentPlayer.playCard(index-1);
                     setTopCard();
-                    checkActionCard();
-
                     if (playedCard.getCardType() == Card.CardType.SKIP) {
                         skip();
                     }
@@ -172,12 +171,9 @@ public class Uno {
                 } else {
                     System.out.println("Choose a valid card");
                 }
-            } else if (index == 0) {
+            } else {
                 player.drawCard(deck);
                 break;
-            } else {
-                System.out.println("Invalid card index. Please choose a valid card or press 0 to draw a card.");
-                choice.nextLine();
             }
         }
     }

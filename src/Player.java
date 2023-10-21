@@ -22,8 +22,14 @@ public class Player {
     }
 
     public Card playCard(int index){
+
         Card card = myCards.remove(index);
         numCards--;
+        return card;
+    }
+
+    public Card chooseCard(int index){
+        Card card = myCards.get(index);
         return card;
     }
 
