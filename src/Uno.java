@@ -39,20 +39,8 @@ public class Uno {
     public void play() {
 
         System.out.print("Enter number of players (2-4):");
-        choice = new Scanner(System.in);
-        int n = choice.nextInt();
-        createPlayers(n);
-        choice.nextLine();
-        giveCards();
-
-        for (Player player : players) {
-            if (player.getName() == null) {
-                System.out.print("Enter player name: ");
-                String name = choice.nextLine();
-                player.setName(name);
-            }
-        }
-
+        createPlayers();
+        setPlayerNames();
         startingCard = deck.draw();
         System.out.println("Starting card:" + startingCard.toString());
 
@@ -137,11 +125,19 @@ public class Uno {
         return false;
     }
 
-    public void createPlayers(int n) {
-        if (n >= 2 && n <= 4) {
-            while (n > 0) {
-                players.add(new Player());
-                n--;
+    public void createPlayers() {
+        while (players.size() < 2) {
+            choice = new Scanner(System.in);
+            int n = choice.nextInt();
+            if (n < 2 || n > 4) {
+                System.out.print("Please select a valid number of players (2-4):");
+            } else{
+                while (n > 0) {
+                    players.add(new Player());
+                    n--;
+                }
+                choice.nextLine();
+                giveCards();
             }
         }
     }
@@ -155,7 +151,7 @@ public class Uno {
         checkTopCard();
         printTurn();
         int index = choice.nextInt();
-        if (index > 0) {
+        if (index < currentPlayer.getNumCards()) {
             playedCard = currentPlayer.playCard(index - 1);
             if (isValidChoice()){
                 setTopCard();
@@ -217,6 +213,16 @@ public class Uno {
                 }
             }
             currentPlayer.setScore(score);
+        }
+    }
+
+    public void setPlayerNames(){
+        for (Player player : players) {
+            if (player.getName() == null) {
+                System.out.print("Enter player name: ");
+                String name = choice.nextLine();
+                player.setName(name);
+            }
         }
     }
 
