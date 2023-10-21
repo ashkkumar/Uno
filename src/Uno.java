@@ -162,14 +162,14 @@ public class Uno {
 
                 if (isValidChoice()) {
                     setTopCard();
-                    checkActionCard();
-
+                    currentPlayer.removeCard(index);
                     if (playedCard.getCardType() == Card.CardType.SKIP) {
                         skip();
                     }
 
                     break;
                 } else {
+                    currentPlayer.addCard(playedCard);
                     System.out.println("Choose a valid card");
                 }
             } else if (index == 0) {
