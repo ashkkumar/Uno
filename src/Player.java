@@ -23,7 +23,6 @@ public class Player {
 
     public Card playCard(int index){
         Card card = myCards.get(index);
-        numCards--;
         return card;
     }
 
@@ -65,6 +64,7 @@ public class Player {
 
     public void removeCard(int n){
         myCards.remove(n);
+        numCards--;
     }
 }
 
