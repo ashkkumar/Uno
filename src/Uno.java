@@ -62,7 +62,8 @@ public class Uno {
 
         while (!finished) {
 
-            for (Player player: players){
+            for (int i = 0; i < players.size(); i++){
+                Player player = players.get(i);
                 takeTurn(player);
                 checkActionCard();
                 checkWinner();
@@ -124,18 +125,17 @@ public class Uno {
 
     public void skip() {
         int currPlayerIndex = players.indexOf(currentPlayer);
-        currentPlayer = players.get((currPlayerIndex + 2) % players.size());
+        currentPlayer = players.get((currPlayerIndex + 1) % players.size());
     }
 
     public boolean isValidChoice() {
         if ((currentColour == playedCard.getColour()) || (currentNumber == playedCard.getCardType())) {
             return true;
-        } else if (playedCard.getCardType().equals(Card.CardType.WILD)){
+        }
+        if (playedCard.getCardType().equals(Card.CardType.WILD)){
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     public void createPlayers(int n) {
