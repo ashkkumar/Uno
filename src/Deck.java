@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class  Deck {
@@ -41,9 +42,8 @@ public class  Deck {
 
 
     public Card draw(){
-        Random rand = new Random();
-        int i = rand.nextInt(numDeckCards);
-        Card card = deck.remove(i);
+        Collections.shuffle(deck);
+        Card card = deck.remove(0);
         numDeckCards--;
         return card;
     }
