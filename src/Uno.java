@@ -172,8 +172,7 @@ public class Uno {
 
                 if (isValidChoice()) {
                     setTopCard();
-                    checkActionCard();
-
+                    currentPlayer.removeCard(index-1);
                     if (playedCard.getCardType() == Card.CardType.SKIP) {
                         skip();
                     }
