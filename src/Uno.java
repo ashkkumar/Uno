@@ -75,11 +75,6 @@ public class Uno {
         }
     }
 
-
-    public void drawOne() {
-        return;
-    }
-
     public void wildCard() {
 
         choice.nextLine();
