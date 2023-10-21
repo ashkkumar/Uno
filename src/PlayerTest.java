@@ -26,7 +26,7 @@ public class PlayerTest {
     }
     @Test
     public void test_DefaultConstructor(){
-        System.out.println("Testing Default Constructor");
+        System.out.println("Testing Default Constructor...");
         ArrayList<Card> empty_list = new ArrayList<>();
         player = new Player();
         assertEquals(0, player.getNumCards());
@@ -37,7 +37,7 @@ public class PlayerTest {
 
     @Test
     public void test_addCard(){
-        System.out.println("Testing Method addCard");
+        System.out.println("Testing Method addCard...");
         player = new Player();
         player.addCard(new Card(Card.CardType.FOUR, Card.Colour.YELLOW));
         assertEquals(1,player.getNumCards());
@@ -48,7 +48,7 @@ public class PlayerTest {
 
     @Test
     public void test_playCard(){
-        System.out.println("Testing Method removeCard");
+        System.out.println("Testing Method removeCard...");
         player = new Player();
         player.addCard(new Card(Card.CardType.FOUR, Card.Colour.YELLOW));
         player.addCard(new Card(Card.CardType.SEVEN, Card.Colour.RED));
@@ -62,7 +62,7 @@ public class PlayerTest {
 
     @Test
     public void test_setScore(){
-        System.out.println("Testing Method setScore");
+        System.out.println("Testing Method setScore...");
         player = new Player();
         player.setScore(50);
         assertEquals(50,player.getScore());
@@ -73,7 +73,7 @@ public class PlayerTest {
 
     @Test
     public void test_getScore(){
-        System.out.println("Testing Method getScore");
+        System.out.println("Testing Method getScore...");
         player = new Player();
         player.setScore(150);
         assertEquals(150,player.getScore());
@@ -82,7 +82,7 @@ public class PlayerTest {
 
     @Test
     public void test_getNumCards(){
-        System.out.println("Testing Method getNumCards");
+        System.out.println("Testing Method getNumCards...");
         player = new Player();
         player.addCard(new Card(Card.CardType.FOUR, Card.Colour.YELLOW));
         player.addCard(new Card(Card.CardType.SEVEN, Card.Colour.RED));
@@ -93,7 +93,7 @@ public class PlayerTest {
 
     @Test
     public void test_drawCard(){
-        System.out.println("Testing Method drawCard");
+        System.out.println("Testing Method drawCard...");
         Deck deck = new Deck();
         player = new Player();
         player.drawCard(deck);
@@ -104,7 +104,7 @@ public class PlayerTest {
 
     @Test
     public void test_getName(){
-        System.out.println("Testing Method getName");
+        System.out.println("Testing Method getName...");
         player = new Player();
         player.setName("Tommy");
         assertEquals("Tommy",player.getName());
@@ -113,7 +113,7 @@ public class PlayerTest {
 
     @Test
     public void test_setName(){
-        System.out.println("Testing Method setName");
+        System.out.println("Testing Method setName...");
         player = new Player();
         player.setName("Victor");
         assertEquals("Victor",player.getName());

@@ -36,6 +36,21 @@ public class Uno {
 
     }
 
+    public ArrayList<Player> getPlayers(){
+        return this.players;
+    }
+
+    public ArrayList<Card> getDiscardPile(){
+        return this.discardPile;
+    }
+
+    public Deck getDeck(){
+        return this.deck;
+    }
+
+    public Player getCurrentPlayer(){
+        return this.currentPlayer;
+    }
     public void play() {
 
         System.out.print("Enter number of players (2-4):");
@@ -73,11 +88,6 @@ public class Uno {
                 player.drawCard(deck);
             }
         }
-    }
-
-
-    public void drawOne() {
-        return;
     }
 
     public void wildCard() {
