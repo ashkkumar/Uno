@@ -161,7 +161,7 @@ public class Uno {
                 playedCard = currentPlayer.chooseCard(index - 1);
 
                 if (isValidChoice()) {
-                    currentPlayer.playCard(index-1);
+                    currentPlayer.playCard(index - 1);
                     setTopCard();
                     if (playedCard.getCardType() == Card.CardType.SKIP) {
                         skip();

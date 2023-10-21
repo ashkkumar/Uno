@@ -28,6 +28,11 @@ public class Player {
         return card;
     }
 
+    /**
+     * Chooses and returns specified card from player hand
+     * @param index
+     * @return card at index
+     */
     public Card chooseCard(int index){
         Card card = myCards.get(index);
         return card;
