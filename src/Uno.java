@@ -71,6 +71,7 @@ public class Uno {
                     winner = currentPlayer;
                     System.out.println("The winner is: " + winner.getName());
                     finished = true;
+                    break;
                 }
             }
 
@@ -93,10 +94,8 @@ public class Uno {
 
     public void wildCard() {
 
-        System.out.println("Select a new colour");
         choice.nextLine();
-        boolean isWild = true;
-        while (isWild) {
+        while (currentColour.equals(Card.Colour.WILD)) {
             String colourChoice = choice.nextLine();
             colourChoice = colourChoice.toUpperCase(); // Convert to uppercase
             Card.Colour chosenColour = null;
@@ -110,11 +109,11 @@ public class Uno {
             }
             if (chosenColour != null) {
                 currentColour = chosenColour;
+                System.out.println(currentColour + " has been chosen");
                 break;
             } else {
                 System.out.println("Invalid colour choice. Please choose a valid colour.");
             }
-            isWild = false;
         }
 
     }
@@ -166,8 +165,12 @@ public class Uno {
                 playedCard = currentPlayer.playCard(i - 1);
                 setTopCard();
             }
-        } else {
-            player.drawCard(deck);
+        } else if (index == 0){
+            if (currentColour.equals(Card.Colour.WILD)){
+                player.drawCard(deck);
+            }else {
+                player.drawCard(deck);
+            }
         }
     }
 
@@ -191,6 +194,7 @@ public class Uno {
             reverse();
         }
         else if (topCard.getCardType().equals(Card.CardType.WILD)){
+            System.out.println("Select a new colour: (RED, BLUE, GREEN, YELLOW)");
             wildCard();
         }
         else if (topCard.getCardType().equals(Card.CardType.SKIP)){
