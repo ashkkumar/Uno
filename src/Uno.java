@@ -150,8 +150,9 @@ public class Uno {
         currentPlayer = player;
         checkTopCard();
         printTurn();
+
         int index = choice.nextInt();
-        if (index < currentPlayer.getNumCards()) {
+        if (index > 0) {
             playedCard = currentPlayer.playCard(index - 1);
             if (isValidChoice()){
                 setTopCard();
@@ -225,6 +226,4 @@ public class Uno {
             }
         }
     }
-
-
 }
