@@ -1,6 +1,5 @@
 public class Card {
-    public enum CardType
-    {
+    public enum CardType {
         ONE(1),
         TWO(2),
         THREE(3),
@@ -19,11 +18,12 @@ public class Card {
 
         int cardScore;
 
-        CardType (int cardScore){
+        CardType(int cardScore) {
             this.cardScore = cardScore;
         }
 
     }
+
     public enum Colour {RED, BLUE, GREEN, YELLOW, WILD}
 
     private final CardType TYPE;
@@ -39,6 +39,7 @@ public class Card {
         this.TYPE = t;
         this.COLOUR = c;
     }
+
     /**
      * Gets the card type of this Uno card.
      *
@@ -48,6 +49,7 @@ public class Card {
 
         return this.TYPE;
     }
+
     /**
      * Gets the color of the card.
      *
@@ -57,6 +59,7 @@ public class Card {
 
         return this.COLOUR;
     }
+
     /**
      * Returns a string representation of the card, including its color and type.
      *
