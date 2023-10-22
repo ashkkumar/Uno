@@ -17,6 +17,7 @@ public class Uno {
 
     private Scanner choice;
 
+    private Player previousPlayer;
     private Player currentPlayer;
 
     private Card.CardType currentNumber;
@@ -25,9 +26,13 @@ public class Uno {
 
     private Player winner;
 
+    int i;
+
     private boolean finished;
 
-
+    /**
+     * Constructs a new Uno game by initializing player and card-related attributes.
+     */
     public Uno() {
 
         players = new ArrayList<Player>();
@@ -51,6 +56,10 @@ public class Uno {
     public Player getCurrentPlayer(){
         return this.currentPlayer;
     }
+
+    /**
+     * Begins and manages the Uno game, including player turns, card actions, and determining the winner.
+     */
     public void play() {
 
         System.out.print("Enter number of players (2-4):");
@@ -60,17 +69,21 @@ public class Uno {
         System.out.println("Starting card:" + startingCard.toString());
 
         topCard = startingCard;
-        currentColour = topCard.getColour();
-        currentNumber = topCard.getCardType();
+        currentColour = startingCard.getColour();
+        currentNumber = startingCard.getCardType();
+        if (currentColour.equals(Card.Colour.WILD)){
+            currentColour = Card.Colour.RED;
+            System.out.println("Red has been chosen as default");
+        }
 
         while (!finished) {
 
-            for (int i = 0; i < players.size(); i++){
+            for (this.i = 0; i < players.size(); i++){
                 Player player = players.get(i);
                 takeTurn(player);
                 checkActionCard();
                 checkWinner();
-                if (currentPlayer.getScore() >= 30){
+                if (currentPlayer.getScore() >= 500){
                     winner = currentPlayer;
                     System.out.println("The winner is: " + winner.getName());
                     finished = true;
@@ -82,6 +95,9 @@ public class Uno {
 
     }
 
+    /**
+     * Populates each player's hand with Uno cards from the deck.
+     */
     public void giveCards() {
         for (int i = 0; i < 7; i++) {
             for (Player player : players) {
@@ -90,6 +106,9 @@ public class Uno {
         }
     }
 
+    /**
+     * Handles the selection of a new color for a wild card played by the current player.
+     */
     public void wildCard() {
 
         choice.nextLine();
@@ -116,28 +135,44 @@ public class Uno {
 
     }
 
+    /**
+     * Reverses the order of play.
+     */
     public void reverse() {
+        previousPlayer = currentPlayer;
+        players.remove(previousPlayer);
         Collections.reverse(players);
+        players.add(previousPlayer);
     }
 
+    /**
+     * Skips the next player's turn in the game.
+     */
     public void skip() {
         int currentPlayerIndex = players.indexOf(currentPlayer);
 
-        int skipPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        this.i = (currentPlayerIndex + 1) % players.size();
 
-        currentPlayer = players.get(skipPlayerIndex);
     }
 
+    /**
+     * Checks if the player's choice of card to play is valid based on the current top card.
+     *
+     * @return True if the choice is valid, false otherwise.
+     */
     public boolean isValidChoice() {
         if ((currentColour == playedCard.getColour()) || (currentNumber == playedCard.getCardType())) {
             return true;
         }
-        if (playedCard.getCardType().equals(Card.CardType.WILD)){
+        if (playedCard.getCardType().equals(Card.CardType.WILD) || playedCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)){
             return true;
         }
         return false;
     }
 
+    /**
+     * Creates a specified number of players for the Uno game.
+     */
     public void createPlayers() {
         while (players.size() < 2) {
             choice = new Scanner(System.in);
@@ -155,10 +190,20 @@ public class Uno {
         }
     }
 
+    /**
+     * Gets the number of cards remaining in the Uno deck.
+     *
+     * @return The count of cards in the Uno deck.
+     */
     public int getDeckCards() {
         return deck.getNumDeckCards();
     }
 
+    /**
+     * Manages a player's turn, including card selection, drawing cards, and card actions.
+     *
+     * @param player The current player taking their turn.
+     */
     public void takeTurn(Player player) {
         currentPlayer = player;
         checkTopCard();
@@ -191,6 +236,9 @@ public class Uno {
         }
     }
 
+    /**
+     * Displays the current player's turn information, including their cards and the top card.
+     */
     public void printTurn(){
         System.out.println(currentPlayer.getName() + "'s Turn.");
         System.out.println("Current Side: Light");
@@ -200,12 +248,24 @@ public class Uno {
         System.out.println("Enter card index to play or 0 to draw card:");
     }
 
+    /**
+     * Checks if the top card requires a player to draw an additional card.
+     */
     public void checkTopCard(){
-        if (topCard.getCardType().equals(Card.CardType.DRAWONE)){
-            currentPlayer.drawCard(deck);
+        if (!topCard.equals(startingCard)) {
+            if (topCard.getCardType().equals(Card.CardType.DRAWONE)) {
+                currentPlayer.drawCard(deck);
+            }
+            if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)) {
+                currentPlayer.drawCard(deck);
+                currentPlayer.drawCard(deck);
+            }
         }
     }
 
+    /**
+     * Checks and handles action cards like "Reverse", "Wild","Skip" and "WILD_DRAW_TWO" in the game.
+     */
     public void checkActionCard(){
         if (topCard.getCardType().equals(Card.CardType.REVERSE)){
             reverse();
@@ -217,26 +277,39 @@ public class Uno {
         else if (topCard.getCardType().equals(Card.CardType.SKIP)){
             skip();
         }
+        else if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)){
+            System.out.println("Select a new colour: (RED, BLUE, GREEN, YELLOW)");
+            wildCard();
+        }
     }
 
+    /**
+     * Sets the current top card to the card played by the current player.
+     */
     public void setTopCard(){
         topCard = playedCard;
         currentNumber = topCard.getCardType();
         currentColour = topCard.getColour();
     }
 
+    /**
+     * Checks if a player has won the game by emptying their hand and calculates their score.
+     */
     public void checkWinner(){
         if (currentPlayer.getNumCards() == 0){
             int score = 0;
             for (Player player: players){
                 for (Card card: player.getMyCards()){
-                    score += 10;
+                    score += card.getCardType().cardScore;
                 }
             }
             currentPlayer.setScore(score);
         }
     }
 
+    /**
+     * Sets the names of players who have not provided their names yet.
+     */
     public void setPlayerNames(){
         for (Player player : players) {
             if (player.getName() == null) {
