@@ -13,7 +13,9 @@ public class Card {
         REVERSE(20),
         DRAWONE(10),
         SKIP(20),
-        WILD(40);
+        WILD(40),
+
+        WILD_DRAW_TWO(50);
 
         int cardScore;
 

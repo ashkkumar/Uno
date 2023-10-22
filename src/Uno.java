@@ -142,7 +142,7 @@ public class Uno {
         if ((currentColour == playedCard.getColour()) || (currentNumber == playedCard.getCardType())) {
             return true;
         }
-        if (playedCard.getCardType().equals(Card.CardType.WILD)){
+        if (playedCard.getCardType().equals(Card.CardType.WILD) || playedCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)){
             return true;
         }
         return false;
@@ -234,6 +234,10 @@ public class Uno {
         if (topCard.getCardType().equals(Card.CardType.DRAWONE)){
             currentPlayer.drawCard(deck);
         }
+        if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)){
+            currentPlayer.drawCard(deck);
+            currentPlayer.drawCard(deck);
+        }
     }
 
     /**
@@ -249,6 +253,10 @@ public class Uno {
         }
         else if (topCard.getCardType().equals(Card.CardType.SKIP)){
             skip();
+        }
+        else if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)){
+            System.out.println("Select a new colour: (RED, BLUE, GREEN, YELLOW)");
+            wildCard();
         }
     }
 

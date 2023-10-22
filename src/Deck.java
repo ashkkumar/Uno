@@ -32,7 +32,7 @@ public class  Deck {
         for (Card.Colour Colour: Card.Colour.values()){
             if (!Colour.equals(Card.Colour.WILD)) {
                 for (Card.CardType Type : Card.CardType.values()) {
-                    if (!Type.equals(Card.CardType.WILD)) {
+                    if (!Type.equals(Card.CardType.WILD) && !Type.equals(Card.CardType.WILD_DRAW_TWO)) {
                         deck.add(new Card(Type, Colour));
                         deck.add(new Card(Type, Colour));
                         numDeckCards += 2;
@@ -41,6 +41,7 @@ public class  Deck {
             } else {
                 for (int i = 4; i > 0; i--){
                     deck.add(new Card(Card.CardType.WILD, Card.Colour.WILD));
+                    deck.add(new Card(Card.CardType.WILD_DRAW_TWO, Card.Colour.WILD));
                     numDeckCards++;
                 }
 
