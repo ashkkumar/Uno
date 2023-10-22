@@ -48,7 +48,6 @@ public class Deck {
      * @return The drawn Uno card.
      */
     public Card draw() {
-
         Card card = deck.remove(0);
         numDeckCards--;
         return card;
