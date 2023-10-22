@@ -27,7 +27,7 @@ The Uno game is implemented in Java and consists of several key components:
 
 4. Players take turns, and on each turn, they can play a card that matches either the color or the number of the card on top of the discard pile. If they can't play a valid card, they must draw a card.
 
-5. Special action cards like "Reverse," "Skip," "Wild," "Draw Two," and "Wild Draw Two" have unique effects in the game.
+5. Special action cards like "Reverse," "Skip," "Wild," "Draw One," and "Wild Draw Two" have unique effects in the game.
 
 6. The game continues until one player has no cards left, and they are declared the winner. The game also takes into account scores based on the cards left in other players' hands.
 
