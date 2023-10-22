@@ -41,8 +41,8 @@ public class CardTest {
     @Test
     public void test_getCardType(){
         System.out.println("Testing Method getCardType...");
-        card = new Card(Card.CardType.DRAWONE, Card.Colour.RED);
-        assertEquals(Card.CardType.DRAWONE, card.getCardType());
+        card = new Card(Card.CardType.DRAW_ONE, Card.Colour.RED);
+        assertEquals(Card.CardType.DRAW_ONE, card.getCardType());
         counter = 1;
     }
 

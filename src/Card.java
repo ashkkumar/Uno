@@ -11,7 +11,7 @@ public class Card {
         EIGHT(8),
         NINE(9),
         REVERSE(20),
-        DRAWONE(10),
+        DRAW_ONE(10),
         SKIP(20),
         WILD(40),
 

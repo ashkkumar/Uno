@@ -71,9 +71,11 @@ public class Uno {
         topCard = startingCard;
         currentColour = startingCard.getColour();
         currentNumber = startingCard.getCardType();
-        if (currentColour.equals(Card.Colour.WILD)){
-            currentColour = Card.Colour.RED;
-            System.out.println("Red has been chosen as default");
+        if (currentNumber.equals(Card.CardType.REVERSE)){
+            this.reverse();
+            System.out.println("Order has been reversed");
+        } else if (currentNumber.equals(Card.CardType.SKIP)){
+            this.skip();
         }
 
         while (!finished) {
@@ -139,10 +141,8 @@ public class Uno {
      * Reverses the order of play.
      */
     public void reverse() {
-        previousPlayer = currentPlayer;
-        players.remove(previousPlayer);
+        i = (players.size() - players.indexOf(currentPlayer)) % players.size() - 1;
         Collections.reverse(players);
-        players.add(previousPlayer);
     }
 
     /**
@@ -253,12 +253,14 @@ public class Uno {
      */
     public void checkTopCard(){
         if (!topCard.equals(startingCard)) {
-            if (topCard.getCardType().equals(Card.CardType.DRAWONE)) {
+            if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)) {
                 currentPlayer.drawCard(deck);
+                this.skip();
             }
             if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)) {
                 currentPlayer.drawCard(deck);
                 currentPlayer.drawCard(deck);
+                this.skip();
             }
         }
     }
