@@ -6,6 +6,8 @@ public class Player {
 
     private ArrayList<Card> myCards;
 
+    private ArrayList<Card> cardsPlayed;
+
     private int score;
 
     private int numCards;
@@ -14,6 +16,7 @@ public class Player {
 
         myCards = new ArrayList<Card>();
         numCards = 0;
+        score = 0;
     }
 
     public void addCard(Card card){
@@ -26,8 +29,15 @@ public class Player {
         return card;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void addCardsPlayed(Card cardPlayed){
+        cardsPlayed.add(cardPlayed);
+    }
+
+    public void addToScore() {
+        for( Card card: cardsPlayed){
+            Card.CardType cardType = card.getCardType();
+            score += cardType.cardScore;
+        }
     }
 
     public int getScore() {

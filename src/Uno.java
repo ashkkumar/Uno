@@ -55,8 +55,8 @@ public class Uno {
                 takeTurn(player);
                 checkActionCard();
                 checkWinner();
-                if (currentPlayer.getScore() >= 30){
-                    winner = currentPlayer;
+                if (checkWinner() != null){
+                    winner = checkWinner();
                     System.out.println("The winner is: " + winner.getName());
                     finished = true;
                     break;
@@ -158,6 +158,7 @@ public class Uno {
                 if (isValidChoice()) {
                     setTopCard();
                     currentPlayer.removeCard(index-1);
+                    currentPlayer.addCardsPlayed(playedCard);
                     if (playedCard.getCardType() == Card.CardType.SKIP) {
                         skip();
                     }
@@ -210,16 +211,23 @@ public class Uno {
         currentColour = topCard.getColour();
     }
 
-    public void checkWinner(){
-        if (currentPlayer.getNumCards() == 0){
-            int score = 0;
-            for (Player player: players){
-                for (Card card: player.getMyCards()){
-                    score += 10;
-                }
+    public Player checkWinner() {
+        Player highestScoringPlayer = null;
+        int highestScore = Integer.MIN_VALUE;
+
+        for (Player player : players) {
+            player.addToScore();
+            int playerScore = player.getScore();
+
+            if (playerScore > highestScore) {
+                highestScore = playerScore;
+                highestScoringPlayer = player;
             }
-            currentPlayer.setScore(score);
         }
+        if(highestScore != 500){
+            return null;
+        }
+        return highestScoringPlayer;
     }
 
     public void setPlayerNames(){
