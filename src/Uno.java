@@ -26,7 +26,7 @@ public class Uno {
 
     private Player winner;
 
-    int i;
+    int playerIndex;
 
     private boolean finished;
 
@@ -61,7 +61,7 @@ public class Uno {
      * Begins and manages the Uno game, including player turns, card actions, and determining the winner.
      */
     public void play() {
-
+        playerIndex = 0;
         System.out.print("Enter number of players (2-4):");
         createPlayers();
         setPlayerNames();
@@ -72,26 +72,29 @@ public class Uno {
         currentColour = startingCard.getColour();
         currentNumber = startingCard.getCardType();
         if (currentNumber.equals(Card.CardType.REVERSE)){
-            this.reverse();
+            reverse();
             System.out.println("Order has been reversed");
         } else if (currentNumber.equals(Card.CardType.SKIP)){
-            this.skip();
+            skip();
+        } else if (currentNumber.equals(Card.CardType.DRAW_ONE)){
+            drawN(1,0);
         }
 
         while (!finished) {
 
-            for (this.i = 0; i < players.size(); i++){
-                Player player = players.get(i);
-                takeTurn(player);
-                checkActionCard();
-                checkWinner();
-                if (currentPlayer.getScore() >= 500){
-                    winner = currentPlayer;
-                    System.out.println("The winner is: " + winner.getName());
-                    finished = true;
-                    break;
-                }
+            if (playerIndex > players.size()-1){
+                playerIndex = 0;
             }
+            Player player = players.get(playerIndex);
+            takeTurn(player);
+            checkWinner();
+            if (currentPlayer.getScore() >= 500){
+                winner = currentPlayer;
+                System.out.println("The winner is: " + winner.getName());
+                finished = true;
+                break;
+            }
+
 
         }
 
@@ -141,18 +144,16 @@ public class Uno {
      * Reverses the order of play.
      */
     public void reverse() {
-
-        i = ((players.size() - i) % players.size() - 1);
-        Collections.reverse(players);
+        playerIndex = ((players.size() - playerIndex) % players.size());
+            Collections.reverse(players);
     }
 
     /**
      * Skips the next player's turn in the game.
      */
     public void skip() {
-        int currentPlayerIndex = players.indexOf(currentPlayer);
 
-        this.i = (currentPlayerIndex + 1) % players.size();
+        this.playerIndex = (playerIndex + 2) % players.size();
 
     }
 
@@ -210,7 +211,6 @@ public class Uno {
      */
     public void takeTurn(Player player) {
         currentPlayer = player;
-        checkTopCard();
         printTurn();
 
         while (true) {
@@ -223,16 +223,16 @@ public class Uno {
                     if (isValidChoice()) {
                         setTopCard();
                         currentPlayer.removeCard(index - 1);
-                        if (playedCard.getCardType() == Card.CardType.SKIP) {
-                            skip();
+                        if (!checkActionCard()) {
+                            playerIndex++;
                         }
-
                         break;
                     } else {
                         System.out.println("Choose a valid card");
                     }
                 } else if (index == 0) {
                     player.drawCard(deck);
+                    playerIndex ++;
                     break;
                 } else {
                     System.out.println("Invalid card index. Please choose a valid card or press 0 to draw a card.");
@@ -258,40 +258,44 @@ public class Uno {
     }
 
     /**
-     * Checks if the top card requires a player to draw an additional card.
+     * Draws N amount of cards for the next player
      */
-    public void checkTopCard(){
-        if (!topCard.equals(startingCard)) {
-            if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)) {
-                currentPlayer.drawCard(deck);
-                this.skip();
-            }
-            if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)) {
-                currentPlayer.drawCard(deck);
-                currentPlayer.drawCard(deck);
-                this.skip();
-            }
+    public void drawN(int numCards, int playerIndex){
+        for (int i = 0; i < numCards; i++){
+            players.get(playerIndex+1 % players.size()).drawCard(deck);
         }
+        skip();
     }
 
     /**
      * Checks and handles action cards like "Reverse", "Wild","Skip" and "WILD_DRAW_TWO" in the game.
      */
-    public void checkActionCard(){
+    public boolean checkActionCard(){
         if (topCard.getCardType().equals(Card.CardType.REVERSE)){
             reverse();
+            return true;
         }
         else if (topCard.getCardType().equals(Card.CardType.WILD)){
             System.out.println("Select a new colour: (RED, BLUE, GREEN, YELLOW)");
             wildCard();
+            playerIndex ++;
+            return true;
         }
-        else if (topCard.getCardType().equals(Card.CardType.SKIP)){
+        else if (topCard.getCardType().equals(Card.CardType.SKIP)) {
             skip();
+            return true;
+        }
+        else if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)){
+            drawN(1,playerIndex);
+            return true;
         }
         else if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)){
             System.out.println("Select a new colour: (RED, BLUE, GREEN, YELLOW)");
             wildCard();
+            drawN(2,playerIndex);
+            return true;
         }
+        return false;
     }
 
     /**
