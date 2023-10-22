@@ -62,9 +62,8 @@ public class Uno {
             for (int i = 0; i < players.size(); i++){
                 Player player = players.get(i);
                 takeTurn(player);
-                checkActionCard();
                 checkWinner();
-                if (currentPlayer.getScore() >= 30){
+                if (currentPlayer.getScore() >= 500){
                     winner = currentPlayer;
                     System.out.println("The winner is: " + winner.getName());
                     finished = true;
@@ -196,6 +195,7 @@ public class Uno {
 
                 if (isValidChoice()) {
                     setTopCard();
+                    checkActionCard();
                     currentPlayer.removeCard(index-1);
                     if (playedCard.getCardType() == Card.CardType.SKIP) {
                         skip();
@@ -269,7 +269,7 @@ public class Uno {
             int score = 0;
             for (Player player: players){
                 for (Card card: player.getMyCards()){
-                    score += 10;
+                    score += card.getCardType().cardScore;
                 }
             }
             currentPlayer.setScore(score);
