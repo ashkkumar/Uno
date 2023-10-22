@@ -52,6 +52,10 @@ public class Uno {
         topCard = startingCard;
         currentColour = topCard.getColour();
         currentNumber = topCard.getCardType();
+        if (currentColour.equals(Card.Colour.WILD)){
+            currentColour = Card.Colour.RED;
+            System.out.println("Red has been chosen as default");
+        }
 
         while (!finished) {
 
