@@ -17,6 +17,7 @@ public class Uno {
 
     private Scanner choice;
 
+    private Player previousPlayer;
     private Player currentPlayer;
 
     private Card.CardType currentNumber;
@@ -119,9 +120,10 @@ public class Uno {
      * Reverses the order of play.
      */
     public void reverse() {
-        players.remove(currentPlayer);
+        previousPlayer = currentPlayer;
+        players.remove(previousPlayer);
         Collections.reverse(players);
-        players.add(currentPlayer);
+        players.add(previousPlayer);
     }
 
     /**
