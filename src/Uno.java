@@ -342,4 +342,10 @@ public class Uno {
 
     }
 
+    public static void main(String[] args) {
+        Uno uno = new Uno();
+        System.out.println("Running Uno.java");
+        uno.play();
+    }
+
 }
