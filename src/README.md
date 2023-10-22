@@ -37,14 +37,15 @@ The Uno game is implemented in Java and consists of several key components:
 - `Reverse`: Reverses the order of play.
 - `Skip`: Skips the next player's turn.
 - `Wild`: Allows the current player to choose a new color for the discard pile.
-- `Draw Two`: Forces the next player to draw two cards and skip their turn.
+- `Draw One`: Forces the next player to draw one card and skip their turn.
 - `Wild Draw Two`: Allows the current player to choose a new color for the discard pile and forces the next player to draw two cards and skip their turn.
 
 ## Card Types and Scoring
 Uno cards come in various types and colors, and they have different scoring values. The goal is to minimize your score.
 
 - Number cards (1-9): Score equal to the face value of the card.
-- Reverse, Skip, and Draw Two: Score 20 points.
+- Reverse, Skip: Score 20 points.
+- Draw One: Score 10 points.
 - Wild: Score 40 points.
 - Wild Draw Two: Score 50 points.
 
