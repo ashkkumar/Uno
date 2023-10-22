@@ -30,10 +30,16 @@ public class Player {
     }
 
     public void addCardsPlayed(Card cardPlayed){
+        if(cardsPlayed == null){
+            return;
+        }
         cardsPlayed.add(cardPlayed);
     }
 
     public void addToScore() {
+        if(cardsPlayed == null){
+            return;
+        }
         for( Card card: cardsPlayed){
             Card.CardType cardType = card.getCardType();
             score += cardType.cardScore;

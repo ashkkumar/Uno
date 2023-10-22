@@ -158,7 +158,10 @@ public class Uno {
                 if (isValidChoice()) {
                     setTopCard();
                     currentPlayer.removeCard(index-1);
-                    currentPlayer.addCardsPlayed(playedCard);
+                    if(playedCard != null){
+                        currentPlayer.addCardsPlayed(playedCard);
+                    }
+
                     if (playedCard.getCardType() == Card.CardType.SKIP) {
                         skip();
                     }
