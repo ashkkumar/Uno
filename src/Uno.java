@@ -120,7 +120,7 @@ public class Uno {
      */
     public void reverse() {
 
-        currentPlayer = (players.get((players.size() - players.indexOf(currentPlayer)) % players.size()));
+        i = ((players.size() - i) % players.size() - 1);
         Collections.reverse(players);
     }
 
@@ -240,7 +240,7 @@ public class Uno {
      */
     public void checkTopCard(){
         if (!topCard.equals(startingCard)) {
-            if (topCard.getCardType().equals(Card.CardType.DRAWONE)) {
+            if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)) {
                 currentPlayer.drawCard(deck);
             }
             if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)) {
