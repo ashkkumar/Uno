@@ -23,7 +23,7 @@ public class Uno {
 
     private Player winner;
 
-    int playerIndex;
+    private int playerIndex;
 
     private boolean finished;
 
@@ -51,10 +51,6 @@ public class Uno {
      */
     public int getDeckCards() {
         return deck.getNumDeckCards();
-    }
-
-    public Player getCurrentPlayer() {
-        return this.currentPlayer;
     }
 
     /**
