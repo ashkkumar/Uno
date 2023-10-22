@@ -23,7 +23,7 @@ public class Uno {
 
     private Player winner;
 
-    int playerIndex;
+    private int playerIndex;
 
     private boolean finished;
 
@@ -36,10 +36,20 @@ public class Uno {
         deck = new Deck();
     }
 
+    /**
+     * Returns an ArrayList of Players in the game
+     *
+     * @return an ArrayList of Players
+     */
     public ArrayList<Player> getPlayers() {
         return this.players;
     }
 
+    /**
+     * Returns the deck of cards
+     *
+     * @return Deck, the deck of cards used in the UNO game
+     */
     public Deck getDeck() {
         return this.deck;
     }
@@ -53,6 +63,11 @@ public class Uno {
         return deck.getNumDeckCards();
     }
 
+    /**
+     * Gets the current player of the game
+     *
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return this.currentPlayer;
     }
