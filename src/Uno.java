@@ -243,7 +243,7 @@ public class Uno {
     }
 
     /**
-     * Checks and handles action cards like "Reverse," "Wild," and "Skip" in the game.
+     * Checks and handles action cards like "Reverse", "Wild","Skip" and "WILD_DRAW_TWO" in the game.
      */
     public void checkActionCard(){
         if (topCard.getCardType().equals(Card.CardType.REVERSE)){
