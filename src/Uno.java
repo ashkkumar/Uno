@@ -17,7 +17,7 @@ public class Uno {
 
     private Scanner choice;
 
-    private Player previousPlayer;
+    private Player nextPlayer;
     private Player currentPlayer;
 
     private Card.CardType currentNumber;
@@ -141,7 +141,8 @@ public class Uno {
      * Reverses the order of play.
      */
     public void reverse() {
-        i = (players.size() - players.indexOf(currentPlayer)) % players.size() - 1;
+
+        i = ((players.size() - i) % players.size() - 1);
         Collections.reverse(players);
     }
 
@@ -165,6 +166,9 @@ public class Uno {
             return true;
         }
         if (playedCard.getCardType().equals(Card.CardType.WILD) || playedCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)){
+            return true;
+        }
+        if (startingCard.getColour().equals(Card.Colour.WILD)){
             return true;
         }
         return false;
@@ -210,28 +214,33 @@ public class Uno {
         printTurn();
 
         while (true) {
-            int index = choice.nextInt();
+            if (choice.hasNextInt()) {
+                int index = choice.nextInt();
 
-            if (index > 0 && index <= currentPlayer.getNumCards()) {
-                playedCard = currentPlayer.playCard(index - 1);
+                if (index > 0 && index <= currentPlayer.getNumCards()) {
+                    playedCard = currentPlayer.playCard(index - 1);
 
-                if (isValidChoice()) {
-                    setTopCard();
-                    currentPlayer.removeCard(index-1);
-                    if (playedCard.getCardType() == Card.CardType.SKIP) {
-                        skip();
+                    if (isValidChoice()) {
+                        setTopCard();
+                        currentPlayer.removeCard(index - 1);
+                        if (playedCard.getCardType() == Card.CardType.SKIP) {
+                            skip();
+                        }
+
+                        break;
+                    } else {
+                        System.out.println("Choose a valid card");
                     }
-
+                } else if (index == 0) {
+                    player.drawCard(deck);
                     break;
                 } else {
-                    System.out.println("Choose a valid card");
+                    System.out.println("Invalid card index. Please choose a valid card or press 0 to draw a card.");
+                    choice.nextLine(); // Consume the invalid input
                 }
-            } else if (index == 0) {
-                player.drawCard(deck);
-                break;
             } else {
-                System.out.println("Invalid card index. Please choose a valid card or press 0 to draw a card.");
-                choice.nextLine();
+                System.out.println("Invalid input. Please enter a valid number.");
+                choice.next(); // Consume the non-integer input
             }
         }
     }
