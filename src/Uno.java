@@ -50,8 +50,8 @@ public class Uno {
         System.out.println("Starting card:" + startingCard.toString());
 
         topCard = startingCard;
-        currentColour = topCard.getColour();
-        currentNumber = topCard.getCardType();
+        currentColour = startingCard.getColour();
+        currentNumber = startingCard.getCardType();
         if (currentColour.equals(Card.Colour.WILD)){
             currentColour = Card.Colour.RED;
             System.out.println("Red has been chosen as default");
@@ -231,12 +231,14 @@ public class Uno {
      * Checks if the top card requires a player to draw an additional card.
      */
     public void checkTopCard(){
-        if (topCard.getCardType().equals(Card.CardType.DRAWONE)){
-            currentPlayer.drawCard(deck);
-        }
-        if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)){
-            currentPlayer.drawCard(deck);
-            currentPlayer.drawCard(deck);
+        if (!topCard.equals(startingCard)) {
+            if (topCard.getCardType().equals(Card.CardType.DRAWONE)) {
+                currentPlayer.drawCard(deck);
+            }
+            if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)) {
+                currentPlayer.drawCard(deck);
+                currentPlayer.drawCard(deck);
+            }
         }
     }
 
