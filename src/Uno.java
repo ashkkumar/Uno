@@ -119,7 +119,9 @@ public class Uno {
      * Reverses the order of play.
      */
     public void reverse() {
+        players.remove(currentPlayer);
         Collections.reverse(players);
+        players.add(currentPlayer);
     }
 
     /**
