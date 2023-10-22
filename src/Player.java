@@ -50,9 +50,6 @@ public class Player {
         numCards++;
     }
 
-    public ArrayList<Card> getCards(){
-        return myCards;
-    }
 
     public String getName() {
         return name;
