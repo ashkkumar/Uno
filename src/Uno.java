@@ -27,7 +27,9 @@ public class Uno {
 
     private boolean finished;
 
-
+    /**
+     * Constructs a new Uno game by initializing player and card-related attributes.
+     */
     public Uno() {
 
         players = new ArrayList<Player>();
@@ -36,6 +38,9 @@ public class Uno {
 
     }
 
+    /**
+     * Begins and manages the Uno game, including player turns, card actions, and determining the winner.
+     */
     public void play() {
 
         System.out.print("Enter number of players (2-4):");
@@ -67,6 +72,9 @@ public class Uno {
 
     }
 
+    /**
+     * Populates each player's hand with Uno cards from the deck.
+     */
     public void giveCards() {
         for (int i = 0; i < 7; i++) {
             for (Player player : players) {
@@ -75,6 +83,9 @@ public class Uno {
         }
     }
 
+    /**
+     * Handles the selection of a new color for a wild card played by the current player.
+     */
     public void wildCard() {
 
         choice.nextLine();
@@ -101,10 +112,16 @@ public class Uno {
 
     }
 
+    /**
+     * Reverses the order of play.
+     */
     public void reverse() {
         Collections.reverse(players);
     }
 
+    /**
+     * Skips the next player's turn in the game.
+     */
     public void skip() {
         int currentPlayerIndex = players.indexOf(currentPlayer);
 
@@ -113,6 +130,11 @@ public class Uno {
         currentPlayer = players.get(skipPlayerIndex);
     }
 
+    /**
+     * Checks if the player's choice of card to play is valid based on the current top card.
+     *
+     * @return True if the choice is valid, false otherwise.
+     */
     public boolean isValidChoice() {
         if ((currentColour == playedCard.getColour()) || (currentNumber == playedCard.getCardType())) {
             return true;
@@ -123,6 +145,9 @@ public class Uno {
         return false;
     }
 
+    /**
+     * Creates a specified number of players for the Uno game.
+     */
     public void createPlayers() {
         while (players.size() < 2) {
             choice = new Scanner(System.in);
@@ -140,10 +165,20 @@ public class Uno {
         }
     }
 
+    /**
+     * Gets the number of cards remaining in the Uno deck.
+     *
+     * @return The count of cards in the Uno deck.
+     */
     public int getDeckCards() {
         return deck.getNumDeckCards();
     }
 
+    /**
+     * Manages a player's turn, including card selection, drawing cards, and card actions.
+     *
+     * @param player The current player taking their turn.
+     */
     public void takeTurn(Player player) {
         currentPlayer = player;
         checkTopCard();
@@ -176,6 +211,9 @@ public class Uno {
         }
     }
 
+    /**
+     * Displays the current player's turn information, including their cards and the top card.
+     */
     public void printTurn(){
         System.out.println(currentPlayer.getName() + "'s Turn.");
         System.out.println("Current Side: Light");
@@ -185,12 +223,18 @@ public class Uno {
         System.out.println("Enter card index to play or 0 to draw card:");
     }
 
+    /**
+     * Checks if the top card requires a player to draw an additional card.
+     */
     public void checkTopCard(){
         if (topCard.getCardType().equals(Card.CardType.DRAWONE)){
             currentPlayer.drawCard(deck);
         }
     }
 
+    /**
+     * Checks and handles action cards like "Reverse," "Wild," and "Skip" in the game.
+     */
     public void checkActionCard(){
         if (topCard.getCardType().equals(Card.CardType.REVERSE)){
             reverse();
@@ -204,12 +248,18 @@ public class Uno {
         }
     }
 
+    /**
+     * Sets the current top card to the card played by the current player.
+     */
     public void setTopCard(){
         topCard = playedCard;
         currentNumber = topCard.getCardType();
         currentColour = topCard.getColour();
     }
 
+    /**
+     * Checks if a player has won the game by emptying their hand and calculates their score.
+     */
     public void checkWinner(){
         if (currentPlayer.getNumCards() == 0){
             int score = 0;
@@ -222,6 +272,9 @@ public class Uno {
         }
     }
 
+    /**
+     * Sets the names of players who have not provided their names yet.
+     */
     public void setPlayerNames(){
         for (Player player : players) {
             if (player.getName() == null) {
