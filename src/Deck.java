@@ -34,10 +34,22 @@ public class Deck {
         return numDeckCards;
     }
 
+    /**
+     * Gets a specific card from the deck at index i
+     *
+     * @param i, the index of the card
+     * @return the Card from the deck
+     */
     public Card getCard(int i) {
         return deck.get(i);
     }
 
+
+    /**
+     * Returns the all the cards in the deck as an ArrayList
+     *
+     * @return an ArrayList of Cards
+     */
     public ArrayList<Card> getCards() {
         return deck;
     }

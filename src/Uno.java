@@ -36,10 +36,20 @@ public class Uno {
         deck = new Deck();
     }
 
+    /**
+     * Returns an ArrayList of Players in the game
+     *
+     * @return an ArrayList of Players
+     */
     public ArrayList<Player> getPlayers() {
         return this.players;
     }
 
+    /**
+     * Returns the deck of cards
+     *
+     * @return Deck, the deck of cards used in the UNO game
+     */
     public Deck getDeck() {
         return this.deck;
     }
