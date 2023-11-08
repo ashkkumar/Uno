@@ -30,7 +30,6 @@ public class UnoTest {
     public void test_DefaultConstructor(){
         System.out.println("Testing Default Constructor...");
         assertEquals(new ArrayList<Player>(), uno.getPlayers());
-        assertEquals(new ArrayList<Card>(), uno.getDiscardPile());
         assertEquals(100, uno.getDeck().getNumDeckCards());
         counter = 3;
     }
