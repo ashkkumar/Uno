@@ -20,7 +20,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
         // Create and configure components (buttons, labels, etc.)
         playerHandPane = new JPanel();
-        ImageIcon icon = new ImageIcon("src/images/BLUE_REVERSE.jpg");
+        String startCard = model.getStartingCard().toString();
+        String imagePath = "src/images/" + startCard +".jpg";
+        ImageIcon icon = new ImageIcon(imagePath);
         topCard = new JButton(icon);
         nextButton = new JButton("Next Player");
         drawButton = new JButton("Draw Card");

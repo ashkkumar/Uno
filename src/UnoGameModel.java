@@ -35,6 +35,10 @@ public class UnoGameModel {
         return currentPlayer;
     }
 
+    public Card getStartingCard(){
+        return this.startingCard;
+    }
+
     public void skip() {
         this.playerIndex = (playerIndex + 2) % players.size();
     }
