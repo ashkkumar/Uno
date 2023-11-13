@@ -4,10 +4,9 @@ import java.awt.event.ActionListener;
 public class UnoGameController implements ActionListener {
 
     UnoGameModel model;
-    UnoGameView view;
-    public UnoGameController(UnoGameModel model, UnoGameView view){
+
+    public UnoGameController(UnoGameModel model){
         this.model = model;
-        this.view = view;
     }
 
     @Override

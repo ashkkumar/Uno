@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class UnoGameView extends JFrame {
+public class UnoGameView extends JFrame implements UnoViewHandler{
     private UnoGameModel model;
     private JPanel playerHandPane;
     private JLabel topCardLabel;
@@ -37,14 +37,12 @@ public class UnoGameView extends JFrame {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                handlePlayButtonClick();
             }
         });
 
         drawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                handleDrawButtonClick();
             }
         });
 
@@ -80,13 +78,24 @@ public class UnoGameView extends JFrame {
     public void displayMessage(String message) {
     }
 
-    private void handlePlayButtonClick() {
-        updateView();
-    }
 
-    private void handleDrawButtonClick() {
+    @Override
+    public void handleDrawCard(UnoGameEvent e) {
 
     }
 
+    @Override
+    public void handlePlay(UnoGameEvent e) {
+
+    }
+
+    @Override
+    public void handleUnoCall(UnoGameEvent e) {
+
+    }
+    @Override
+    public void handleNextTurn(UnoGameEvent e){
+
+    }
 }
 
