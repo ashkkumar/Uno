@@ -64,6 +64,15 @@ public class Uno {
     }
 
     /**
+     * Gets the current player of the game
+     *
+     * @return the current player
+     */
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
+    /**
      * Sets the current top card to the card played by the current player.
      */
     public void setTopCard() {
@@ -341,11 +350,4 @@ public class Uno {
         }
 
     }
-
-    public static void main(String[] args) {
-        Uno uno = new Uno();
-        System.out.println("Running Uno.java");
-        uno.play();
-    }
-
 }
