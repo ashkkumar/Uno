@@ -4,15 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class UnoGameView extends JFrame implements UnoViewHandler{
+public class UnoGameView extends JFrame implements UnoViewHandler {
     private UnoGameModel model;
     private JPanel playerHandPane;
-    private JLabel topCardLabel;
+    private JButton topCard;
     private JButton nextButton;
     private JButton drawButton;
 
-    public UnoGameView() {
-        this.model = new UnoGameModel();
+    public UnoGameView(UnoGameModel model) {
+        this.model = model;
 
         setTitle("Uno Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -20,14 +20,16 @@ public class UnoGameView extends JFrame implements UnoViewHandler{
 
         // Create and configure components (buttons, labels, etc.)
         playerHandPane = new JPanel();
-        topCardLabel = new JLabel("Top card");
+        ImageIcon icon = new ImageIcon("src/images/BLUE_REVERSE.jpg");
+        topCard = new JButton(icon);
         nextButton = new JButton("Next Player");
         drawButton = new JButton("Draw Card");
+        drawButton.setActionCommand("nextPlayer");
 
         // Add components to the frame and layout configuration
         this.setLayout(new BorderLayout());
         this.add(playerHandPane, BorderLayout.SOUTH);
-        this.add(topCardLabel, BorderLayout.CENTER);
+        this.add(topCard, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(nextButton);
@@ -37,12 +39,17 @@ public class UnoGameView extends JFrame implements UnoViewHandler{
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                UnoGameEvent unoEvent = new UnoGameEvent(model);
+                handleNextTurn(unoEvent);
+                updateView();
             }
         });
 
         drawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                UnoGameEvent unoEvent = new UnoGameEvent(model);
+                handleDrawCard(unoEvent);
             }
         });
 
@@ -50,15 +57,18 @@ public class UnoGameView extends JFrame implements UnoViewHandler{
     }
 
     public void updateView() {
-        // change  player's hand, top card, and other components
+        // change player's hand, top card, and other components
 
         playerHandPane.removeAll();
 
         ArrayList<Card> playerHand = model.getCurrentPlayer().getMyCards();
 
-        for (Card card : playerHand) {
-
-            JButton cardButton = new JButton(card.toString());
+        for (Card card: playerHand) {
+            String cardName = card.toString();
+            String imagePath = "src/images/" +cardName +".jpg";
+            ImageIcon icon = new ImageIcon(imagePath);
+            JButton cardButton = new JButton(icon);
+            //cardButton.setMargin(new Insets(0, 0, 0, 0));
             cardButton.setVisible(true);
             playerHandPane.add(cardButton);
         }
@@ -76,26 +86,27 @@ public class UnoGameView extends JFrame implements UnoViewHandler{
     }
 
     public void displayMessage(String message) {
+        // Implement how you want to display messages to the user
+        JOptionPane.showMessageDialog(this, message);
     }
-
 
     @Override
     public void handleDrawCard(UnoGameEvent e) {
-
+        //updateView();
     }
 
     @Override
     public void handlePlay(UnoGameEvent e) {
-
+        // Notify the controller about the play event
     }
 
     @Override
     public void handleUnoCall(UnoGameEvent e) {
-
+        // Notify the controller about the Uno call event
     }
-    @Override
-    public void handleNextTurn(UnoGameEvent e){
 
+    @Override
+    public void handleNextTurn(UnoGameEvent e) {
+        // Notify the controller about the next turn event
     }
 }
-

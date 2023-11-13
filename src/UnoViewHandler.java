@@ -5,5 +5,4 @@ public interface UnoViewHandler {
     void handlePlay(UnoGameEvent e);
 
     void handleUnoCall(UnoGameEvent e);
-
 }

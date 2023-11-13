@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class UnoGameModel {
     private Deck deck;
@@ -13,9 +14,15 @@ public class UnoGameModel {
     private int playerIndex = 0;
     private boolean finished;
 
-    public UnoGameModel(){
+    private final List<UnoViewHandler> views;
 
-        createPlayer(4);
+    public UnoGameModel() {
+        initializeGame();
+        views = new ArrayList<>();
+    }
+
+    private void initializeGame() {
+        createPlayers(4);
         this.deck = new Deck();
         this.startingCard = deck.draw();
         this.topCard = startingCard;
@@ -27,30 +34,21 @@ public class UnoGameModel {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
     public void skip() {
-
         this.playerIndex = (playerIndex + 2) % players.size();
-
     }
 
-    /**
-     * Handles the selection of a new color for a wild card played by the current player.
-     */
-    public void wildCard() {
-
+    public void wildCard(Card.Colour chosenColor) {
+        // Handle the selection of a new color for a wild card
+        //playedCard.setColour(chosenColor);
     }
 
-    /**
-     * Reverses the order of play.
-     */
     public void reverse() {
         playerIndex = ((players.size() - playerIndex) % players.size());
         Collections.reverse(players);
     }
 
-    /**
-     * Draws N amount of cards for the next player
-     */
     public void drawN(int numCards, int playerIndex) {
         for (int i = 0; i < numCards; i++) {
             players.get((playerIndex + 1) % players.size()).drawCard(deck);
@@ -58,17 +56,13 @@ public class UnoGameModel {
         skip();
     }
 
-    /**
-     * Checks and handles action cards like "Reverse", "Wild","Skip" and "WILD_DRAW_TWO" in the game.
-     */
     public boolean checkActionCard() {
         if (topCard.getCardType().equals(Card.CardType.REVERSE)) {
             reverse();
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.WILD)) {
-            //System.out.println("Select a new colour: (RED, BLUE, GREEN, YELLOW)");
-            wildCard();
-            playerIndex++;
+            //UnoViewHandler.notifyAllViews(new UnoGameEvent(this)); // Notify views about the Wild card
+            // Handle wildCard logic in the view and update the playedCard accordingly
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.SKIP)) {
             skip();
@@ -77,23 +71,24 @@ public class UnoGameModel {
             drawN(1, playerIndex);
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)) {
-            //System.out.println("Select a new colour: (RED, BLUE, GREEN, YELLOW)");
-            wildCard();
+            //UnoViewHandler.notifyAllViews(new UnoGameEvent(this)); // Notify views about the Wild card
+            // Handle wildCard logic in the view and update the playedCard accordingly
             drawN(2, playerIndex);
             return true;
         }
         return false;
     }
 
-    public void createPlayer(int n){
-        this.players = new ArrayList<Player>();
-        while (n > 0){
+    public void createPlayers(int n) {
+        this.players = new ArrayList<>();
+        while (n > 0) {
             Player player = new Player();
             players.add(player);
             n--;
         }
     }
-    public void dealCards(){
+
+    public void dealCards() {
         for (int i = 0; i < 7; i++) {
             for (Player player : players) {
                 player.drawCard(deck);
@@ -101,30 +96,56 @@ public class UnoGameModel {
         }
     }
 
-    public void selectCard(Card card){
+    public void selectCard(Card card) {
         playedCard = card;
-        if (isValidChoice()){
+        if (isValidChoice()) {
             topCard = playedCard;
         }
     }
 
-    public boolean isValidChoice(){
-        if ((topCard.getColour() == playedCard.getColour()) || (topCard.getCardType() == playedCard.getCardType())) {
+    public boolean isValidChoice() {
+        if (playedCard == null || topCard == null) {
+            return false;
+        }
+
+        Card.Colour playedColor = playedCard.getColour();
+        Card.CardType playedType = playedCard.getCardType();
+        Card.Colour topColor = topCard.getColour();
+        Card.CardType topType = topCard.getCardType();
+
+        if ((topColor == playedColor || topType == playedType) && (playedColor != null || playedType != null)) {
             return true;
         }
-        if (playedCard.getCardType().equals(Card.CardType.WILD) || playedCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)) {
-            return true;
-            }
-        if (startingCard.getColour().equals(Card.Colour.WILD)) {
+
+        if (playedType == Card.CardType.WILD || playedType == Card.CardType.WILD_DRAW_TWO) {
             return true;
         }
+
+        if (startingCard.getColour() == Card.Colour.WILD) {
+            return true;
+        }
+
         return false;
     }
 
-    public void nextPlayer(){
+    public void nextPlayer() {
         playerIndex++;
-        if (playerIndex == players.size()){
+        if (playerIndex == players.size()) {
             playerIndex = 0;
+        }
+    }
+
+    public void addView(UnoViewHandler view) {
+        views.add(view);
+    }
+
+    public void removeView(UnoViewHandler view) {
+        views.remove(view);
+    }
+
+    private void notifyViews(UnoGameEvent event) {
+        for (UnoViewHandler view : views) {
+            view.handleNextTurn(event);
         }
     }
 }

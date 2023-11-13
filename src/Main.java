@@ -1,10 +1,10 @@
 public class Main {
     public static void main(String[] args) {
 
-        Uno uno = new Uno();
+        UnoGameModel uno = new UnoGameModel();
         //uno.play();
 
-        UnoGameView view = new UnoGameView();
+        UnoGameView view = new UnoGameView(uno);
 
     }
 }

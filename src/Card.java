@@ -60,6 +60,7 @@ public class Card {
         return this.COLOUR;
     }
 
+
     /**
      * Returns a string representation of the card, including its color and type.
      *
@@ -67,6 +68,6 @@ public class Card {
      */
     @Override
     public String toString() {
-        return " " + COLOUR + " " + TYPE;
+        return COLOUR + "_" + TYPE;
     }
 }
