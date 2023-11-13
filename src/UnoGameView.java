@@ -53,6 +53,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             }
         });
 
+        askNumberOfPlayers();
         setVisible(true);
     }
 
@@ -77,6 +78,29 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playerHandPane.repaint();
     }
 
+
+    private int askNumberOfPlayers() {
+        Integer[] playerOptions = { 2, 3, 4 };
+        JComboBox<Integer> playerDropdown = new JComboBox<>(playerOptions);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Select number of players:"));
+        panel.add(playerDropdown);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            int numberOfPlayers = (int) playerDropdown.getSelectedItem();
+            model = new UnoGameModel();
+        }
+        else {
+            // Handle if the user cancels the selection
+            // For example, close the program or take appropriate action
+        }
+
+        return result;
+    }
+
     public void setPlayButtonEnabled(boolean enabled) {
         nextButton.setEnabled(enabled);
     }
@@ -93,11 +117,33 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     @Override
     public void handleDrawCard(UnoGameEvent e) {
         //updateView();
+
     }
 
     @Override
     public void handlePlay(UnoGameEvent e) {
         // Notify the controller about the play event
+        /*
+        Card selectedCard = e.getCard(); // Assuming UnoGameEvent provides the card to be played
+
+        // Check if the selected card can be played
+        if (model.isCardPlayable(selectedCard)) {
+            model.playCard(selectedCard); // Update the game model, remove the card from player's hand, etc.
+
+            // Implement further actions based on the played card (if required)
+            if (model.isGameOver()) {
+                // Check if the game is over after this play
+                displayMessage("Game Over! Some player has won.");
+                // Implement further actions for end of game
+            } else {
+                handleNextTurn(new UnoGameEvent(model)); // Move to the next player's turn
+                updateView(); // Update the view after the play
+            }
+        } else {
+            displayMessage("Cannot play this card!"); // Inform the player that the selected card is not playable
+        }
+         */
+
     }
 
     @Override
