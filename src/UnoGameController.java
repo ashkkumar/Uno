@@ -22,6 +22,18 @@ public class UnoGameController implements ActionListener {
         /// Add more conditions for other actions as needed
     }
 
+    public boolean playCard(Card card){
+        if(model.selectCard(card)){
+            model.getCurrentPlayer().getMyCards().remove(card);
+            return true;
+        }
+        return false;
+    }
+
+    public void createPlayers(int n){
+        model.createPlayers(n);
+    }
+
     public Player getCurrentPlayer(){
         return model.getCurrentPlayer();
     }

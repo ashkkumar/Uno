@@ -4,7 +4,7 @@ public interface UnoViewHandler {
 
     void handleNextTurn(ActionEvent e);
     void handleDrawCard(ActionEvent e);
-    void handlePlay(UnoGameEvent e);
+    void handlePlay(ActionEvent e);
 
     void handleUnoCall(UnoGameEvent e);
 }
