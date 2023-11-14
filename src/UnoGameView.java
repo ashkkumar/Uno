@@ -23,7 +23,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private int selectedPlayers;
 
     public UnoGameView() {
-        this.model = new UnoGameModel();
+        this.model = new UnoGameModel(askNumberOfPlayers());
         this.controller = new UnoGameController(model);
         setTitle("Uno Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,7 +42,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         drawButton = new JButton("Draw Card");
         nextButton.setActionCommand("nextPlayer");
         drawButton.setActionCommand("draw");
-        currentPlayerLabel = new JLabel("Player " + (model.getCurrentPlayerIndex() + 1) + "'s turn");
+        currentPlayerLabel = new JLabel("Player " + (model.getCurrentPlayer().getName()) + "'s turn");
 
         playStatus = new JLabel("Please select a card");
 
@@ -86,8 +86,29 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         setVisible(true);
     }
 
+    private int askNumberOfPlayers() {
+        Integer[] playerOptions = { 2, 3, 4 };
+        JComboBox<Integer> playerDropdown = new JComboBox<>(playerOptions);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Select number of players:"));
+        panel.add(playerDropdown);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            return (int) playerDropdown.getSelectedItem();
+        }
+        else {
+            return 2;
+            // Handle if the user cancels the selection
+            // For example, close the program or take appropriate action
+        }
+
+    }
+
     public void updatePlayerTurnLabel(){
-        currentPlayerLabel.setText("Player "+ (model.getCurrentPlayerIndex()+1) + "'s turn");
+        currentPlayerLabel.setText("Player "+ (model.getCurrentPlayer().getName())  + "'s turn");
     }
 
     public void updatePlayStatus(String status){
@@ -155,7 +176,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         }
         else{
             updatePlayStatus("Invalid Move");
-            //System.out.println("Invalid move");
         }
 
     }

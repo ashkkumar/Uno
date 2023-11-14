@@ -16,13 +16,13 @@ public class UnoGameModel {
 
     private final List<UnoViewHandler> views;
 
-    public UnoGameModel() {
-        initializeGame();
+    public UnoGameModel(int playerCount) {
+        initializeGame(playerCount);
         views = new ArrayList<>();
     }
 
-    private void initializeGame() {
-        createPlayers(4);
+    private void initializeGame(int playerCount) {
+        createPlayers(playerCount);
         this.deck = new Deck();
         this.startingCard = deck.draw();
         this.topCard = startingCard;
@@ -38,6 +38,7 @@ public class UnoGameModel {
     public Card getStartingCard(){
         return this.startingCard;
     }
+
 
     public void skip() {
         this.playerIndex = (playerIndex + 2) % players.size();
@@ -95,10 +96,10 @@ public class UnoGameModel {
 
     public void createPlayers(int n) {
         this.players = new ArrayList<>();
-        while (n > 0) {
+        for (int i = 0; i < n; i++) {
             Player player = new Player();
+            player.setName(Integer.toString(i+1));
             players.add(player);
-            n--;
         }
     }
 
