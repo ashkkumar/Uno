@@ -16,6 +16,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private UnoGameController controller;
 
+    private int selectedPlayers;
+
     public UnoGameView() {
         this.model = new UnoGameModel();
         this.controller = new UnoGameController(model);
@@ -35,7 +37,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         drawButton = new JButton("Draw Card");
         nextButton.setActionCommand("nextPlayer");
         drawButton.setActionCommand("draw");
-        currentPlayerLabel = new JLabel("Player " + (model.getCurrentPlayerIndex() + 1) + "'s turn");
+        currentPlayerLabel = new JLabel();
 
         // Add components to the frame and layout configuration
         this.setLayout(new BorderLayout());
@@ -49,6 +51,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         buttonPanel.add(drawButton);
         this.add(buttonPanel, BorderLayout.NORTH);
 
+        //next and draw buttons
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +67,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 handleDrawCard(e);
             }
         });
-
+        updateView();
         setVisible(true);
     }
 
@@ -85,7 +88,14 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             ImageIcon icon = new ImageIcon(card.getImageFilePath());
             JButton cardButton = new JButton(icon);
             cardButton.putClientProperty("card", card);
-            //cardButton.setMargin(new Insets(0, 0, 0, 0));
+            cardButton.setActionCommand("play");
+            cardButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    handlePlay(e);
+                }
+            });
+
             cardButton.setVisible(true);
             playerHandPane.add(cardButton);
         }
@@ -114,8 +124,18 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     }
 
     @Override
-    public void handlePlay(UnoGameEvent e) {
-        // Notify the controller about the play event
+    public void handlePlay(ActionEvent e) {
+        JButton button = (JButton) e.getSource();
+        Card card = (Card) button.getClientProperty("card");
+        if (controller.playCard(card)) {
+            ImageIcon icon = new ImageIcon(card.getImageFilePath());
+            topCard.setIcon(icon);
+            updateView();
+        }
+        else{
+            System.out.println("Invalid move");
+        }
+
     }
 
     @Override

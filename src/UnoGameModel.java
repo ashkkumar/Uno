@@ -110,11 +110,13 @@ public class UnoGameModel {
         }
     }
 
-    public void selectCard(Card card) {
+    public boolean selectCard(Card card) {
         playedCard = card;
         if (isValidChoice()) {
             topCard = playedCard;
+            return true;
         }
+        return false;
     }
 
     public boolean isValidChoice() {
