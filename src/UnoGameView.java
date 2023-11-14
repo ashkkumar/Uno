@@ -17,6 +17,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private JLabel currentPlayerLabel;
 
     private JLabel playStatus;
+    private JLabel colourStatus;
 
     private UnoGameController controller;
 
@@ -32,6 +33,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playerHandPane = new JPanel();
         scrollPane = new JScrollPane(playerHandPane);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
         String startCard = model.getStartingCard().toString();
         String imagePath = "src/images/" + startCard +".jpg";
         ImageIcon icon = new ImageIcon(imagePath);
@@ -43,6 +45,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         currentPlayerLabel = new JLabel("Player " + (model.getCurrentPlayer().getName()) + "'s turn");
 
         playStatus = new JLabel("Please select a card");
+        colourStatus = new JLabel("Active Colour:" + model.getStartingCard().getColour().name());
 
         // Add components to the frame and layout configuration
         this.setLayout(new BorderLayout());
@@ -55,8 +58,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         statusPane.setLayout(new BoxLayout(statusPane,BoxLayout.Y_AXIS));
         currentPlayerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+        colourStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
         statusPane.add(currentPlayerLabel);
         statusPane.add(playStatus);
+        statusPane.add(colourStatus);
         this.add(statusPane,BorderLayout.WEST);
 
         JPanel buttonPanel = new JPanel();
@@ -97,12 +102,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         if (result == JOptionPane.OK_OPTION) {
             return (int) playerDropdown.getSelectedItem();
         }
-        else {
-            return 2;
-            // Handle if the user cancels the selection
-            // For example, close the program or take appropriate action
-        }
-
+        System.exit(0);
+        return 0;
     }
 
     private void askWildCard(Card card) {
@@ -112,6 +113,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         JPanel panel = new JPanel();
         panel.add(new JLabel("Select desired colour:"));
         panel.add(playerDropdown);
+
+        topCard.setIcon(new ImageIcon(card.getImageFilePath()));
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
 
@@ -132,6 +135,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void updatePlayStatus(String status){
         playStatus.setText(status);
     }
+
+    public void updateColourStatus(){
+        colourStatus.setText("Colour: " + model.getTopColour().name());
+    }
     public void updateView() {
         // change player's hand, top card, and other components
 
@@ -140,6 +147,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         ArrayList<Card> playerHand = controller.getCurrentPlayer().getMyCards();
         updatePlayerTurnLabel();
         updatePlayStatus("Please select a card");
+        updateColourStatus();
 
         if (!controller.hasDrawn()){
             drawButton.setEnabled(true);
