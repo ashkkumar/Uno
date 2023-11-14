@@ -32,6 +32,11 @@ public class UnoGameController implements ActionListener {
         return false;
     }
 
+    public void playWild(Card card, Card.Colour colour){
+        model.wildCard(colour);
+        model.getCurrentPlayer().getMyCards().remove(card);
+    }
+
     public void createPlayers(int n){
         model.createPlayers(n);
     }
@@ -41,7 +46,7 @@ public class UnoGameController implements ActionListener {
     }
 
     public boolean hasDrawn(){
-        return model.hasNotDrawn();
+        return model.hasDrawn();
     }
 
     public void setHasDrawn(){

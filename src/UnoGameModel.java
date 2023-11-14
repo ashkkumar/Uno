@@ -15,24 +15,24 @@ public class UnoGameModel {
     private boolean finished;
 
     private final List<UnoViewHandler> views;
-
-    private Card.Colour playedColor;
+    private Card.Colour playedColour;
     private Card.CardType playedType;
-    private Card.Colour topColor;
+    private Card.Colour topColour;
     private Card.CardType topType;
 
-    private Card.CardType currentType;
+    public UnoGameModel(int playerCount) {
+        initializeGame(playerCount);
 
-    public UnoGameModel() {
-        initializeGame();
         views = new ArrayList<>();
     }
 
-    private void initializeGame() {
-        createPlayers(4);
+    private void initializeGame(int playerCount) {
+        createPlayers(playerCount);
         this.deck = new Deck();
         this.startingCard = deck.draw();
         this.topCard = startingCard;
+        this.topColour = topCard.getColour();
+        this.topType = topCard.getCardType();
         this.finished = false;
         currentPlayer = players.get(playerIndex);
         dealCards();
@@ -54,9 +54,11 @@ public class UnoGameModel {
         this.playerIndex = (playerIndex + 1) % players.size();
     }
 
-    public void wildCard(Card.Colour chosenColor) {
-        // Handle the selection of a new color for a wild c
-        topColor = chosenColor;
+    public void wildCard(Card.Colour chosenColour) {
+        // Handle the selection of a new colour for a wild c
+        topColour = chosenColour;
+        currentPlayer.setCanPlay(false);
+
     }
 
     public void reverse() {
@@ -102,10 +104,10 @@ public class UnoGameModel {
 
     public void createPlayers(int n) {
         this.players = new ArrayList<>();
-        while (n > 0) {
+        for (int i = 0; i < n; i++) {
             Player player = new Player();
+            player.setName(Integer.toString(i+1));
             players.add(player);
-            n--;
         }
     }
 
@@ -121,6 +123,8 @@ public class UnoGameModel {
         playedCard = card;
         if (isValidChoice() && currentPlayer.canPlay()) {
             topCard = playedCard;
+            topColour = topCard.getColour();
+            topType = topCard.getCardType();
             currentPlayer.setCanPlay(false);
             return true;
         }
@@ -132,12 +136,10 @@ public class UnoGameModel {
             return false;
         }
 
-        playedColor = playedCard.getColour();
+        playedColour = playedCard.getColour();
         playedType = playedCard.getCardType();
-        topColor = topCard.getColour();
-        topType = topCard.getCardType();
 
-        if ((topColor == playedColor || topType == playedType) && (playedColor != null || playedType != null)) {
+        if ((topColour == playedColour || topType == playedType) && (playedColour != null || playedType != null)) {
             return true;
         }
 
@@ -152,7 +154,7 @@ public class UnoGameModel {
         return false;
     }
 
-    public boolean hasNotDrawn(){
+    public boolean hasDrawn(){
         return currentPlayer.getHasDrawn();
     }
 
