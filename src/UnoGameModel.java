@@ -42,14 +42,16 @@ public class UnoGameModel {
         return currentPlayer;
     }
 
-
+    public Card getPlayedCard(){
+        return this.playedCard;
+    }
 
     public Card getStartingCard(){
         return this.startingCard;
     }
 
     public void skip() {
-        this.playerIndex = (playerIndex + 2) % players.size();
+        this.playerIndex = (playerIndex + 1) % players.size();
     }
 
     public void wildCard(Card.Colour chosenColor) {
