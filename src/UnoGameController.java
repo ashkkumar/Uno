@@ -16,7 +16,7 @@ public class UnoGameController implements ActionListener {
 
         if (command.equals("draw")) {
             model.getCurrentPlayer().setHasDrawn(true);
-           model.drawOne();
+            model.drawOne();
         } else if (command.equals("nextPlayer")) {
             model.nextPlayer();
         }
