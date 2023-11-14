@@ -15,14 +15,44 @@ public class UnoGameController implements ActionListener {
         String command = e.getActionCommand();
 
         if (command.equals("draw")) {
-            // Handle button click event
-            UnoGameEvent unoEvent = new UnoGameEvent(model);
-            //model.handlePlay(unoEvent); // Update the model based on the play action
+            model.getCurrentPlayer().setHasDrawn(true);
+            model.drawOne();
         } else if (command.equals("nextPlayer")) {
-            // Handle another button click event
-            UnoGameEvent unoEvent = new UnoGameEvent(model);
-            //model.handleDrawCard(unoEvent); // Update the model based on the draw card action
+            model.nextPlayer();
         }
         /// Add more conditions for other actions as needed
+    }
+
+    public boolean playCard(Card card){
+        if(model.selectCard(card)){
+            model.getCurrentPlayer().getMyCards().remove(card);
+            model.checkActionCard();
+            return true;
+        }
+        return false;
+    }
+
+    public void createPlayers(int n){
+        model.createPlayers(n);
+    }
+
+    public Player getCurrentPlayer(){
+        return model.getCurrentPlayer();
+    }
+
+    public boolean hasDrawn(){
+        return model.hasNotDrawn();
+    }
+
+    public void setHasDrawn(){
+        model.getCurrentPlayer().setHasDrawn(true);
+    }
+
+    public void wildCard(Card.Colour colour){
+        model.wildCard(colour);
+    }
+
+    public int getIndex(){
+        return model.getCurrentPlayerIndex();
     }
 }

@@ -10,6 +10,10 @@ public class Player {
 
     private int numCards;
 
+    private boolean canPlay = true;
+
+    private boolean hasDrawn = false;
+
     /**
      * Constructs a new Uno player with an empty card list and a score of 0.
      */
@@ -28,6 +32,10 @@ public class Player {
         return score;
     }
 
+    public boolean canPlay(){
+        return canPlay;
+    }
+
     /**
      * Gets the number of cards in the player's hand.
      *
@@ -35,6 +43,10 @@ public class Player {
      */
     public int getNumCards() {
         return numCards;
+    }
+
+    public boolean getHasDrawn(){
+        return hasDrawn;
     }
 
     /**
@@ -71,6 +83,14 @@ public class Player {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCanPlay(Boolean bool){
+        this.canPlay = bool;
+    }
+
+    public void setHasDrawn(boolean hasDrawn) {
+        this.hasDrawn = hasDrawn;
     }
 
     /**
