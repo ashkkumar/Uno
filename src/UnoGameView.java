@@ -22,6 +22,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private int selectedPlayers;
 
+    private boolean canPlay = true;
+
     public UnoGameView() {
         this.model = new UnoGameModel();
         this.controller = new UnoGameController(model);
@@ -114,7 +116,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                     handlePlay(e);
                 }
             });
-
+            if (!controller.getCurrentPlayer().canPlay()){
+                cardButton.setEnabled(false);
+            }
             cardButton.setVisible(true);
             playerHandPane.add(cardButton);
         }

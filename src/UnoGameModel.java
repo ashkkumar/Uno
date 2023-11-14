@@ -14,6 +14,8 @@ public class UnoGameModel {
     private int playerIndex = 0;
     private boolean finished;
 
+    private boolean canPlay = true;
+
     private final List<UnoViewHandler> views;
 
     public UnoGameModel() {
@@ -112,8 +114,9 @@ public class UnoGameModel {
 
     public boolean selectCard(Card card) {
         playedCard = card;
-        if (isValidChoice()) {
+        if (isValidChoice() && currentPlayer.canPlay()) {
             topCard = playedCard;
+            currentPlayer.setCanPlay(false);
             return true;
         }
         return false;
@@ -145,6 +148,7 @@ public class UnoGameModel {
     }
 
     public void nextPlayer() {
+        currentPlayer.setCanPlay(true);
         playerIndex++;
         if (playerIndex == players.size()) {
             playerIndex = 0;
