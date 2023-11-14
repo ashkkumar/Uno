@@ -88,6 +88,14 @@ public class UnoGameModel {
     }
 
     public boolean checkActionCard() {
+        if (startingCard.getCardType().equals(Card.CardType.SKIP)){
+            playerIndex++;
+            return true;
+        }
+        if (startingCard.getCardType().equals(Card.CardType.DRAW_ONE)){
+            currentPlayer.drawCard(deck);
+            return true;
+        }
         if (topCard.getCardType().equals(Card.CardType.REVERSE)) {
             reverse();
             return true;
@@ -169,14 +177,6 @@ public class UnoGameModel {
             playerIndex = 0;
         }
         currentPlayer = players.get(playerIndex);
-    }
-
-    public void addView(UnoViewHandler view) {
-        views.add(view);
-    }
-
-    public void removeView(UnoViewHandler view) {
-        views.remove(view);
     }
 
 }
