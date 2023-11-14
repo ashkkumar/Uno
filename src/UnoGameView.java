@@ -226,12 +226,24 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         if (card.getColour() == Card.Colour.WILD){
             askWildCard(card);
             updateView();
-            updatePlayStatus("Colour has been changed!");
+            if (card.getCardType() == Card.CardType.WILD) {
+                updatePlayStatus("Colour has been changed!");
+            } else{
+                updatePlayStatus("Colour changed and next player draws 2/skips!");
+            }
         } else if (controller.playCard(card)) {
             ImageIcon icon = new ImageIcon(card.getImageFilePath());
             topCard.setIcon(icon);
             updateView();
-            updatePlayStatus("Good Move");
+            if (card.getCardType() == Card.CardType.SKIP) {
+                updatePlayStatus("Skipping Next Player's Turn!");
+            } else if (card.getCardType() == Card.CardType.DRAW_ONE){
+                updatePlayStatus("Next player draws and skips turn!");
+            } else if (card.getCardType() == Card.CardType.REVERSE){
+                updatePlayStatus("Order of players reversed!");
+            } else{
+                updatePlayStatus("Good move");
+            }
         }
         else {
             updatePlayStatus("Invalid Move");
