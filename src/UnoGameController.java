@@ -68,4 +68,8 @@ public class UnoGameController implements ActionListener {
     public int getIndex(){
         return model.getCurrentPlayerIndex();
     }
+
+    public boolean checkWinner(){
+        return model.checkWinner();
+    }
 }

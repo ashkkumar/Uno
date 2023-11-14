@@ -23,6 +23,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private Card startingCard;
 
+    private boolean firstRound;
+
     public UnoGameView() {
         this.model = new UnoGameModel(askNumberOfPlayers());
         this.controller = new UnoGameController(model);
@@ -37,6 +39,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
         startingCard = model.getStartingCard();
+        firstRound = true;
         String startCard = model.getStartingCard().toString();
         String imagePath = "src/images/" + startCard +".jpg";
         ImageIcon icon = new ImageIcon(imagePath);
@@ -142,9 +145,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         if (card.getCardType() == Card.CardType.DRAW_ONE){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
-        } else if (card.getCardType() == Card.CardType.REVERSE){
-            nextButton.setEnabled(true);
-            drawButton.setEnabled(false);
         } else if (card.getCardType() == Card.CardType.SKIP){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
@@ -200,6 +200,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             if (!controller.getCurrentPlayer().canPlay()){
                 cardButton.setEnabled(false);
             }
+            if (controller.getIndex() == 0 && startingCard.getCardType() == Card.CardType.DRAW_ONE && firstRound  ||
+                    controller.getIndex() == 0 && startingCard.getCardType() == Card.CardType.SKIP && firstRound){
+                cardButton.setEnabled(false);
+            }
             cardButton.setVisible(true);
             playerHandPane.add(cardButton);
         }
@@ -236,12 +240,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     }
 
     @Override
-    public void handleUnoCall(UnoGameEvent e) {
-        // Notify the controller about the Uno call event
-    }
-
-    @Override
     public void handleNextTurn(ActionEvent e) {
+        firstRound = false;
         controller.actionPerformed(e);
         updateView();
     }

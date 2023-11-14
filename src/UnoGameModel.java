@@ -179,4 +179,22 @@ public class UnoGameModel {
         currentPlayer = players.get(playerIndex);
     }
 
+    /**
+     * Checks if a player has won the game by emptying their hand and calculates their score.
+     */
+    public boolean checkWinner() {
+        if (currentPlayer.getNumCards() == 0) {
+            int score = 0;
+            for (Player player : players) {
+                for (Card card : player.getMyCards()) {
+                    score += card.getCardType().cardScore;
+                }
+            }
+            score += currentPlayer.getScore();
+            currentPlayer.setScore(score);
+            return true;
+        }
+        return false;
+    }
+
 }
