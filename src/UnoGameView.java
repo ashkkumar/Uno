@@ -139,20 +139,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playerHandPane.revalidate();
         playerHandPane.repaint();
     }
-
-    public void setPlayButtonEnabled(boolean enabled) {
-        nextButton.setEnabled(enabled);
-    }
-
-    public void setDrawButtonEnabled(boolean enabled) {
-        drawButton.setEnabled(enabled);
-    }
-
-    public void displayMessage(String message) {
-        // Implement how you want to display messages to the user
-        JOptionPane.showMessageDialog(this, message);
-    }
-
     @Override
     public void handleDrawCard(ActionEvent e) {
         controller.actionPerformed(e);

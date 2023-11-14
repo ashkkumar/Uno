@@ -3,7 +3,7 @@ import java.util.EventObject;
 
 public class UnoGameEvent extends EventObject {
 
-    Card card;
+    private Card card;
 
     public UnoGameEvent(UnoGameModel uno){
         super(uno);
