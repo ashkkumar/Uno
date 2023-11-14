@@ -34,12 +34,18 @@ public class UnoGameModel {
         this.startingCard = deck.draw();
         this.topCard = startingCard;
         this.finished = false;
+        this.topType = topCard.getCardType();
+        this.topColour = topCard.getColour();
         currentPlayer = players.get(playerIndex);
         dealCards();
     }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public Card.Colour getTopColour(){
+        return this.topColour;
     }
 
     public Card getPlayedCard(){
@@ -62,7 +68,7 @@ public class UnoGameModel {
     }
 
     public void reverse() {
-        playerIndex = ((players.size() - playerIndex) % players.size());
+        playerIndex = ((players.size() - playerIndex-1) % players.size());
         Collections.reverse(players);
     }
 

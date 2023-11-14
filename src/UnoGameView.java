@@ -17,6 +17,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private JLabel currentPlayerLabel;
 
     private JLabel playStatus;
+    private JLabel colourStatus;
 
     private UnoGameController controller;
 
@@ -47,6 +48,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         currentPlayerLabel = new JLabel("Player " + (model.getCurrentPlayer().getName()) + "'s turn");
 
         playStatus = new JLabel("Please select a card");
+        colourStatus = new JLabel("Active Colour:" + model.getStartingCard().getColour().name());
 
         // Add components to the frame and layout configuration
         this.setLayout(new BorderLayout());
@@ -59,8 +61,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         statusPane.setLayout(new BoxLayout(statusPane,BoxLayout.Y_AXIS));
         currentPlayerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+        colourStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
         statusPane.add(currentPlayerLabel);
         statusPane.add(playStatus);
+        statusPane.add(colourStatus);
         this.add(statusPane,BorderLayout.WEST);
 
         JPanel buttonPanel = new JPanel();
@@ -136,6 +140,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void updatePlayStatus(String status){
         playStatus.setText(status);
     }
+
+    public void updateColourStatus(){
+        colourStatus.setText("Colour: " + model.getTopColour().name());
+    }
     public void updateView() {
         // change player's hand, top card, and other components
 
@@ -144,6 +152,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         ArrayList<Card> playerHand = controller.getCurrentPlayer().getMyCards();
         updatePlayerTurnLabel();
         updatePlayStatus("Please select a card");
+        updateColourStatus();
 
         if (!controller.hasDrawn()){
             drawButton.setEnabled(true);
