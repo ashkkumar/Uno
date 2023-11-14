@@ -57,7 +57,7 @@ public class UnoGameModel {
     }
 
     public void skip() {
-        this.playerIndex = (playerIndex + 1) % players.size();
+        this.playerIndex = (playerIndex) % players.size();
     }
 
     public void wildCard(Card.Colour chosenColour) {
@@ -68,7 +68,9 @@ public class UnoGameModel {
     }
 
     public void reverse() {
-        playerIndex = ((players.size() - playerIndex-1) % players.size());
+        if (players.size() != 2){
+            playerIndex = ((players.size() - playerIndex) % players.size()) - 1;
+        }
         Collections.reverse(players);
     }
 
