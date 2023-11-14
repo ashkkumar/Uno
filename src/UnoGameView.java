@@ -50,6 +50,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         drawButton.setActionCommand("draw");
         currentPlayerLabel = new JLabel("Player " + (model.getCurrentPlayer().getName()) + "'s turn");
 
+        // Init status
         playStatus = new JLabel("Please select a card");
         colourStatus = new JLabel("Active Colour:" + model.getStartingCard().getColour().name());
 
