@@ -21,10 +21,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private UnoGameController controller;
 
-    private int selectedPlayers;
-
-    private boolean canPlay = true;
-
     public UnoGameView() {
         this.model = new UnoGameModel(askNumberOfPlayers());
         this.controller = new UnoGameController(model);
@@ -188,19 +184,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         // Repaint the player hand panel
         playerHandPane.revalidate();
         playerHandPane.repaint();
-    }
-
-    public void setPlayButtonEnabled(boolean enabled) {
-        nextButton.setEnabled(enabled);
-    }
-
-    public void setDrawButtonEnabled(boolean enabled) {
-        drawButton.setEnabled(enabled);
-    }
-
-    public void displayMessage(String message) {
-        // Implement how you want to display messages to the user
-        JOptionPane.showMessageDialog(this, message);
     }
 
     @Override

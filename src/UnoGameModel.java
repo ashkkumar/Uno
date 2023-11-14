@@ -20,8 +20,6 @@ public class UnoGameModel {
     private Card.Colour topColour;
     private Card.CardType topType;
 
-    private Card.CardType currentType;
-
     public UnoGameModel(int playerCount) {
         initializeGame(playerCount);
 
@@ -33,6 +31,8 @@ public class UnoGameModel {
         this.deck = new Deck();
         this.startingCard = deck.draw();
         this.topCard = startingCard;
+        this.topColour = topCard.getColour();
+        this.topType = topCard.getCardType();
         this.finished = false;
         this.topType = topCard.getCardType();
         this.topColour = topCard.getColour();
