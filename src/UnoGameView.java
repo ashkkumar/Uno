@@ -33,6 +33,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playerHandPane = new JPanel();
         scrollPane = new JScrollPane(playerHandPane);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
         String startCard = model.getStartingCard().toString();
         String imagePath = "src/images/" + startCard +".jpg";
         ImageIcon icon = new ImageIcon(imagePath);
@@ -101,12 +102,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         if (result == JOptionPane.OK_OPTION) {
             return (int) playerDropdown.getSelectedItem();
         }
-        else {
-            return 2;
-            // Handle if the user cancels the selection
-            // For example, close the program or take appropriate action
-        }
-
+        System.exit(0);
+        return 0;
     }
 
     private void askWildCard(Card card) {
@@ -116,6 +113,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         JPanel panel = new JPanel();
         panel.add(new JLabel("Select desired colour:"));
         panel.add(playerDropdown);
+
+        topCard.setIcon(new ImageIcon(card.getImageFilePath()));
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
 
