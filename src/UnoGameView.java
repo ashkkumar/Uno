@@ -21,6 +21,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private UnoGameController controller;
 
+    private Card startingCard;
+
     public UnoGameView() {
         this.model = new UnoGameModel(askNumberOfPlayers());
         this.controller = new UnoGameController(model);
@@ -34,10 +36,12 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         scrollPane = new JScrollPane(playerHandPane);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
+        startingCard = model.getStartingCard();
         String startCard = model.getStartingCard().toString();
         String imagePath = "src/images/" + startCard +".jpg";
         ImageIcon icon = new ImageIcon(imagePath);
         topCard = new JButton(icon);
+        topCard.putClientProperty("card", model.getStartingCard());
         nextButton = new JButton("Next Player");
         drawButton = new JButton("Draw Card");
         nextButton.setActionCommand("nextPlayer");
@@ -85,7 +89,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 handleDrawCard(e);
             }
         });
+        model.checkActionCard();
         updateView();
+        checkStartCard();
         setVisible(true);
     }
 
@@ -131,6 +137,20 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     }
 
+    public void checkStartCard(){
+        Card card = startingCard;
+        if (card.getCardType() == Card.CardType.DRAW_ONE){
+            nextButton.setEnabled(true);
+            drawButton.setEnabled(false);
+        } else if (card.getCardType() == Card.CardType.REVERSE){
+            nextButton.setEnabled(true);
+            drawButton.setEnabled(false);
+        } else if (card.getCardType() == Card.CardType.SKIP){
+            nextButton.setEnabled(true);
+            drawButton.setEnabled(false);
+        }
+    }
+
     public void updatePlayerTurnLabel(){
         currentPlayerLabel.setText("Player "+ (model.getCurrentPlayer().getName())  + "'s turn");
     }
@@ -142,9 +162,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void updateColourStatus(){
         colourStatus.setText("Colour: " + model.getTopColour().name());
     }
+
     public void updateView() {
         // change player's hand, top card, and other components
-
         playerHandPane.removeAll();
 
         ArrayList<Card> playerHand = controller.getCurrentPlayer().getMyCards();
