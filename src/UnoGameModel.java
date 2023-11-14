@@ -42,11 +42,11 @@ public class UnoGameModel {
         return currentPlayer;
     }
 
-    public Card getPlayedCard(){
+    public Card getPlayedCard() {
         return this.playedCard;
     }
 
-    public Card getStartingCard(){
+    public Card getStartingCard() {
         return this.startingCard;
     }
 
@@ -73,7 +73,7 @@ public class UnoGameModel {
         skip();
     }
 
-    public Card drawOne(){
+    public Card drawOne() {
         Card card = deck.draw();
         currentPlayer.addCard(card);
         return card;
@@ -98,7 +98,7 @@ public class UnoGameModel {
         return false;
     }
 
-    public int getCurrentPlayerIndex(){
+    public int getCurrentPlayerIndex() {
         return playerIndex;
     }
 
@@ -106,7 +106,7 @@ public class UnoGameModel {
         this.players = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             Player player = new Player();
-            player.setName(Integer.toString(i+1));
+            player.setName(Integer.toString(i + 1));
             players.add(player);
         }
     }
@@ -154,7 +154,7 @@ public class UnoGameModel {
         return false;
     }
 
-    public boolean hasDrawn(){
+    public boolean hasDrawn() {
         return currentPlayer.getHasDrawn();
     }
 
@@ -167,13 +167,4 @@ public class UnoGameModel {
         }
         currentPlayer = players.get(playerIndex);
     }
-
-    public void addView(UnoViewHandler view) {
-        views.add(view);
-    }
-
-    public void removeView(UnoViewHandler view) {
-        views.remove(view);
-    }
-
 }
