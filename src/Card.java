@@ -1,4 +1,6 @@
 public class Card {
+    private String imageFilePath;
+
     public enum CardType {
         ONE(1),
         TWO(2),
@@ -38,6 +40,23 @@ public class Card {
     public Card(CardType t, Colour c) {
         this.TYPE = t;
         this.COLOUR = c;
+    }
+
+    /**
+     * Sets the image file path of the Uno card.
+     *
+     */
+    public void setImageFilePath(){
+        this.imageFilePath = "src/images/" +this.toString() +".jpg";
+    }
+
+    /**
+     * Gets the image file path of the Uno card.
+     *
+     * @return the image file path
+     */
+    public String getImageFilePath(){
+        return this.imageFilePath;
     }
 
     /**

@@ -99,6 +99,9 @@ public class Deck {
                 }
 
             }
+            for (Card card: deck){
+                card.setImageFilePath();
+            }
         }
         Collections.shuffle(deck);
     }
