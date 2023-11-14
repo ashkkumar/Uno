@@ -151,6 +151,13 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             drawButton.setEnabled(false);
         }
 
+        if (controller.getCurrentPlayer().canPlay() && !controller.getCurrentPlayer().getHasDrawn()){
+            nextButton.setEnabled(false);
+        } else{
+            nextButton.setEnabled(true);
+            drawButton.setEnabled(false);
+        }
+
         for (Card card: playerHand) {
 
             ImageIcon icon = new ImageIcon(card.getImageFilePath());

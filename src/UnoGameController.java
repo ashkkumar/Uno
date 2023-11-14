@@ -53,6 +53,10 @@ public class UnoGameController implements ActionListener {
         model.getCurrentPlayer().setHasDrawn(true);
     }
 
+    public void wildCard(Card.Colour colour){
+        model.wildCard(colour);
+    }
+
     public int getIndex(){
         return model.getCurrentPlayerIndex();
     }
