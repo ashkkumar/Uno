@@ -104,6 +104,12 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         updatePlayerTurnLabel();
         updatePlayStatus("Please select a card");
 
+        if (!controller.hasDrawn()){
+            drawButton.setEnabled(true);
+        } else{
+            drawButton.setEnabled(false);
+        }
+
         for (Card card: playerHand) {
 
             ImageIcon icon = new ImageIcon(card.getImageFilePath());

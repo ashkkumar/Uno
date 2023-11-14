@@ -14,8 +14,6 @@ public class UnoGameModel {
     private int playerIndex = 0;
     private boolean finished;
 
-    private boolean canPlay = true;
-
     private final List<UnoViewHandler> views;
 
     public UnoGameModel() {
@@ -147,8 +145,13 @@ public class UnoGameModel {
         return false;
     }
 
+    public boolean hasNotDrawn(){
+        return currentPlayer.getHasDrawn();
+    }
+
     public void nextPlayer() {
         currentPlayer.setCanPlay(true);
+        currentPlayer.setHasDrawn(false);
         playerIndex++;
         if (playerIndex == players.size()) {
             playerIndex = 0;
@@ -163,10 +166,5 @@ public class UnoGameModel {
     public void removeView(UnoViewHandler view) {
         views.remove(view);
     }
-/*
-    private void notifyViews(UnoGameEvent event) {
-        for (UnoViewHandler view : views) {
-            view.handleNextTurn(event);
-        }
-    }*/
+
 }
