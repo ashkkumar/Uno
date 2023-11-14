@@ -10,6 +10,8 @@ public class Player {
 
     private int numCards;
 
+    private boolean canPlay = true;
+
     /**
      * Constructs a new Uno player with an empty card list and a score of 0.
      */
@@ -26,6 +28,10 @@ public class Player {
      */
     public int getScore() {
         return score;
+    }
+
+    public boolean canPlay(){
+        return canPlay;
     }
 
     /**
@@ -71,6 +77,10 @@ public class Player {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCanPlay(Boolean bool){
+        this.canPlay = bool;
     }
 
     /**
