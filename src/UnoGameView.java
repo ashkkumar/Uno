@@ -214,7 +214,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     @Override
     public void handleDrawCard(ActionEvent e) {
-        firstRound = false;
         controller.actionPerformed(e);
         updateView();
         updatePlayStatus("Drew One Card");
@@ -237,12 +236,12 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         else {
             updatePlayStatus("Invalid Move");
         }
-        firstRound = false;
 
     }
 
     @Override
     public void handleNextTurn(ActionEvent e) {
+        firstRound = false;
         controller.actionPerformed(e);
         updateView();
     }
