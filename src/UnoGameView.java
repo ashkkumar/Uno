@@ -102,11 +102,11 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             return (int) playerDropdown.getSelectedItem();
         }
         else {
-            return 2;
+            System.exit(0);
             // Handle if the user cancels the selection
             // For example, close the program or take appropriate action
         }
-
+        return 0;
     }
 
     private void askWildCard(Card card) {
@@ -123,8 +123,11 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
         }
         else {
-            // Handle if the user cancels the selection
-            // For example, close the program or take appropriate action
+            while (result != JOptionPane.OK_OPTION){
+                updatePlayStatus("Please select a valid colour!");
+                result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+            }
+            controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
         }
 
     }

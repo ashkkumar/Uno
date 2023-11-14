@@ -57,7 +57,7 @@ public class UnoGameModel {
     }
 
     public void skip() {
-        this.playerIndex = (playerIndex) % players.size();
+        this.playerIndex = (playerIndex+1) % players.size();
     }
 
     public void wildCard(Card.Colour chosenColour) {
@@ -96,11 +96,6 @@ public class UnoGameModel {
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)) {
             drawN(1, playerIndex);
-            return true;
-        } else if (topCard.getCardType().equals(Card.CardType.WILD_DRAW_TWO)) {
-            //UnoViewHandler.notifyAllViews(new UnoGameEvent(this)); // Notify views about the Wild card
-            // Handle wildCard logic in the view and update the playedCard accordingly
-            drawN(2, playerIndex);
             return true;
         }
         return false;

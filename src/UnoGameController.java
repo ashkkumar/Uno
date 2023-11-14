@@ -35,6 +35,11 @@ public class UnoGameController implements ActionListener {
     public void playWild(Card card, Card.Colour colour){
         model.wildCard(colour);
         model.getCurrentPlayer().getMyCards().remove(card);
+
+        if (card.getCardType() == Card.CardType.WILD_DRAW_TWO){
+            model.drawN(2,getIndex());
+        }
+
     }
 
     public void createPlayers(int n){
