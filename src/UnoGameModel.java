@@ -42,6 +42,7 @@ public class UnoGameModel {
     public void wildCard(Card.Colour chosenColor) {
         // Handle the selection of a new color for a wild card
         //playedCard.setColour(chosenColor);
+
     }
 
     public void reverse() {
