@@ -41,6 +41,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         this.setLayout(new BorderLayout());
         this.add(scrollPane, BorderLayout.SOUTH);
         this.add(topCard, BorderLayout.CENTER);
+        this.add(currentPlayerLabel, BorderLayout.WEST);
+
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(nextButton);
@@ -64,6 +66,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         });
 
         setVisible(true);
+    }
+
+    public void updatePlayerTurnLabel(){
+        currentPlayerLabel.setText("Player "+ (model.getCurrentPlayerIndex()+1) + "'s turn");
     }
 
     public void updateView() {

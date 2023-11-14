@@ -89,6 +89,10 @@ public class UnoGameModel {
         return false;
     }
 
+    public int getCurrentPlayerIndex(){
+        return playerIndex;
+    }
+
     public void createPlayers(int n) {
         this.players = new ArrayList<>();
         while (n > 0) {
