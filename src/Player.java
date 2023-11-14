@@ -110,8 +110,7 @@ public class Player {
      * @return The Uno card played.
      */
     public Card playCard(int index) {
-        Card card = myCards.get(index);
-        return card;
+        return myCards.get(index);
     }
 
     /**

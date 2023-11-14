@@ -12,13 +12,15 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private JButton topCard;
     private JButton nextButton;
     private JButton drawButton;
+
+    private JPanel statusPane;
     private JLabel currentPlayerLabel;
+
+    private JLabel playStatus;
 
     private UnoGameController controller;
 
     private int selectedPlayers;
-
-    private boolean canPlay = true;
 
     public UnoGameView() {
         this.model = new UnoGameModel();
@@ -28,6 +30,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         setSize(1000, 600);
 
         // Create and configure components (buttons, labels, etc.)
+
         playerHandPane = new JPanel();
         scrollPane = new JScrollPane(playerHandPane);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -39,14 +42,24 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         drawButton = new JButton("Draw Card");
         nextButton.setActionCommand("nextPlayer");
         drawButton.setActionCommand("draw");
-        currentPlayerLabel = new JLabel();
+        currentPlayerLabel = new JLabel("Player " + (model.getCurrentPlayerIndex() + 1) + "'s turn");
+
+        playStatus = new JLabel("Please select a card");
 
         // Add components to the frame and layout configuration
         this.setLayout(new BorderLayout());
         this.add(scrollPane, BorderLayout.SOUTH);
         this.add(topCard, BorderLayout.CENTER);
-        this.add(currentPlayerLabel, BorderLayout.WEST);
 
+
+        // Status Pane Components and Creation
+        statusPane = new JPanel();
+        statusPane.setLayout(new BoxLayout(statusPane,BoxLayout.Y_AXIS));
+        currentPlayerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+        statusPane.add(currentPlayerLabel);
+        statusPane.add(playStatus);
+        this.add(statusPane,BorderLayout.WEST);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(nextButton);
@@ -59,7 +72,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             public void actionPerformed(ActionEvent e) {
                 UnoGameEvent unoEvent = new UnoGameEvent(model);
                 handleNextTurn(e);
-                updatePlayerTurnLabel();
                 updateView();
             }
         });
@@ -70,21 +82,25 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 handleDrawCard(e);
             }
         });
-        updatePlayerTurnLabel();
         updateView();
         setVisible(true);
     }
 
     public void updatePlayerTurnLabel(){
-        currentPlayerLabel.setText("Player "+ (model.getCurrentPlayerIndex()) + "'s turn");
+        currentPlayerLabel.setText("Player "+ (model.getCurrentPlayerIndex()+1) + "'s turn");
     }
 
+    public void updatePlayStatus(String status){
+        playStatus.setText(status);
+    }
     public void updateView() {
         // change player's hand, top card, and other components
 
         playerHandPane.removeAll();
 
         ArrayList<Card> playerHand = controller.getCurrentPlayer().getMyCards();
+        updatePlayerTurnLabel();
+        updatePlayStatus("Please select a card");
 
         for (Card card: playerHand) {
 
@@ -124,6 +140,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void handleDrawCard(ActionEvent e) {
         controller.actionPerformed(e);
         updateView();
+        updatePlayStatus("Drew One Card");
     }
 
     @Override
@@ -134,9 +151,11 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             ImageIcon icon = new ImageIcon(card.getImageFilePath());
             topCard.setIcon(icon);
             updateView();
+            updatePlayStatus("Good Move");
         }
         else{
-            System.out.println("Invalid move");
+            updatePlayStatus("Invalid Move");
+            //System.out.println("Invalid move");
         }
 
     }

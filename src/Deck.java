@@ -8,6 +8,14 @@ public class Deck {
     private int numDeckCards;
 
     /**
+     * Constructs a new Uno deck by creating and populating it with Uno cards.
+     */
+    public Deck() {
+        deck = new ArrayList<Card>();
+        makeCards();
+    }
+
+    /**
      * Constructs a deck of Uno cards from the provided ArrayList of cards.
      *
      * @param cards An ArrayList of Uno cards to initialize the deck.
@@ -15,14 +23,6 @@ public class Deck {
     public Deck(ArrayList<Card> cards) {
         this.deck = cards;
         numDeckCards = cards.size();
-    }
-
-    /**
-     * Constructs a new Uno deck by creating and populating it with Uno cards.
-     */
-    public Deck() {
-        deck = new ArrayList<Card>();
-        makeCards();
     }
 
     /**
@@ -60,7 +60,6 @@ public class Deck {
      * @return The drawn Uno card.
      */
     public Card draw() {
-
         Card card = deck.remove(0);
         numDeckCards--;
         return card;
@@ -96,7 +95,7 @@ public class Deck {
                 for (int i = 4; i > 0; i--) {
                     deck.add(new Card(Card.CardType.WILD, Card.Colour.WILD));
                     deck.add(new Card(Card.CardType.WILD_DRAW_TWO, Card.Colour.WILD));
-                    numDeckCards++;
+                    numDeckCards += 2;
                 }
 
             }
