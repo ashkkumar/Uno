@@ -18,6 +18,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private int selectedPlayers;
 
+    private boolean canPlay = true;
+
     public UnoGameView() {
         this.model = new UnoGameModel();
         this.controller = new UnoGameController(model);
@@ -57,6 +59,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             public void actionPerformed(ActionEvent e) {
                 UnoGameEvent unoEvent = new UnoGameEvent(model);
                 handleNextTurn(e);
+                updatePlayerTurnLabel();
                 updateView();
             }
         });
@@ -67,12 +70,13 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 handleDrawCard(e);
             }
         });
+        updatePlayerTurnLabel();
         updateView();
         setVisible(true);
     }
 
     public void updatePlayerTurnLabel(){
-        currentPlayerLabel.setText("Player "+ (model.getCurrentPlayerIndex()+1) + "'s turn");
+        currentPlayerLabel.setText("Player "+ (model.getCurrentPlayerIndex()) + "'s turn");
     }
 
     public void updateView() {
@@ -81,7 +85,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playerHandPane.removeAll();
 
         ArrayList<Card> playerHand = controller.getCurrentPlayer().getMyCards();
-        updatePlayerTurnLabel();
 
         for (Card card: playerHand) {
 

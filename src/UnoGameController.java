@@ -25,6 +25,7 @@ public class UnoGameController implements ActionListener {
     public boolean playCard(Card card){
         if(model.selectCard(card)){
             model.getCurrentPlayer().getMyCards().remove(card);
+            model.checkActionCard();
             return true;
         }
         return false;
