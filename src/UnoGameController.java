@@ -32,12 +32,14 @@ public class UnoGameController implements ActionListener {
         return false;
     }
 
-    public void playWild(Card card, Card.Colour colour){
-        model.wildCard(colour);
-        model.getCurrentPlayer().getMyCards().remove(card);
-
-        if (card.getCardType() == Card.CardType.WILD_DRAW_TWO){
-            model.drawN(2,getIndex());
+    public boolean playWild(Card card, Card.Colour colour){
+        if (card.getCardType() == Card.CardType.WILD_DRAW_TWO) {
+            return model.checkIllegal();
+            //    model.drawN(2,getIndex());
+        } else {
+            model.wildCard(colour);
+            model.getCurrentPlayer().getMyCards().remove(card);
+            return false;
         }
 
     }

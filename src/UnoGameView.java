@@ -23,6 +23,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private Card startingCard;
 
+    private boolean illegalStatus;
+
     public UnoGameView() {
         this.model = new UnoGameModel(askNumberOfPlayers());
         this.controller = new UnoGameController(model);
@@ -122,10 +124,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
         topCard.setIcon(new ImageIcon(card.getImageFilePath()));
 
-        int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, panel, "Colours", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
-            controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
+            illegalStatus = controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
         }
         else {
             while (result != JOptionPane.OK_OPTION){
@@ -222,17 +224,60 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         if (card.getColour() == Card.Colour.WILD){
             askWildCard(card);
             updateView();
-            updatePlayStatus("Colour has been changed!");
+            if (card.getCardType() == Card.CardType.WILD) {
+                updatePlayStatus("Colour has been changed!");
+            } else{
+                updatePlayStatus("Colour changed and next player draws 2/skips!");
+            }
         } else if (controller.playCard(card)) {
             ImageIcon icon = new ImageIcon(card.getImageFilePath());
             topCard.setIcon(icon);
             updateView();
-            updatePlayStatus("Good Move");
+            if (card.getCardType() == Card.CardType.SKIP) {
+                updatePlayStatus("Skipping Next Player's Turn!");
+            } else if (card.getCardType() == Card.CardType.DRAW_ONE){
+                updatePlayStatus("Next player draws and skips turn!");
+            } else if (card.getCardType() == Card.CardType.REVERSE){
+                updatePlayStatus("Order of players reversed!");
+            } else{
+                updatePlayStatus("Good move");
+            }
         }
         else {
             updatePlayStatus("Invalid Move");
         }
 
+    }
+
+    private void askChallenge(Card card) {
+        String[] playerOptions = { "YES", "NO"};
+        JComboBox<String> playerDropdown = new JComboBox<>(playerOptions);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Would you like to challenge the previous player?"));
+        panel.add(playerDropdown);
+
+        topCard.setIcon(new ImageIcon(card.getImageFilePath()));
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Yes or No", JOptionPane.OK_CANCEL_OPTION);
+        while (result != JOptionPane.OK_OPTION){
+            updatePlayStatus("Please select a valid option!");
+            result = JOptionPane.showConfirmDialog(null, panel, "Yes or no", JOptionPane.OK_CANCEL_OPTION);
+        }
+        String challenge = (String) playerDropdown.getSelectedItem();
+        if (challenge == "YES" && illegalStatus){
+            model.drawN(2,model.getCurrentPlayerIndex()-1,0);
+            updatePlayStatus("Previous player receives 2 card penalty!");
+            updateView();
+        } else if (challenge == "YES" && !illegalStatus){
+            model.drawN(4,model.getCurrentPlayerIndex(),1);
+            updateView();
+            model.nextPlayer();
+        } else{
+            model.drawN(2,model.getCurrentPlayerIndex(),1);
+            updateView();
+            model.nextPlayer();
+        }
     }
 
     @Override
@@ -244,5 +289,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void handleNextTurn(ActionEvent e) {
         controller.actionPerformed(e);
         updateView();
+        if (illegalStatus){
+
+
+        }
     }
 }

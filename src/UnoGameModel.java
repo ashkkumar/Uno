@@ -12,6 +12,7 @@ public class UnoGameModel {
     private Player currentPlayer;
 
     private int playerIndex = 0;
+
     private boolean finished;
 
     private final List<UnoViewHandler> views;
@@ -56,8 +57,10 @@ public class UnoGameModel {
         return this.startingCard;
     }
 
-    public void skip() {
-        this.playerIndex = (playerIndex + 1) % players.size();
+    public void skip(int num) {
+        if (num > 0) {
+            this.playerIndex = (playerIndex + 1) % players.size();
+        }
     }
 
     public void wildCard(Card.Colour chosenColour) {
@@ -74,11 +77,11 @@ public class UnoGameModel {
         Collections.reverse(players);
     }
 
-    public void drawN(int numCards, int playerIndex) {
+    public void drawN(int numCards, int playerIndex,int skipNum) {
         for (int i = 0; i < numCards; i++) {
             players.get((playerIndex + 1) % players.size()).drawCard(deck);
         }
-        skip();
+        skip(skipNum);
     }
 
     public Card drawOne(){
@@ -100,10 +103,10 @@ public class UnoGameModel {
             reverse();
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.SKIP)) {
-            skip();
+            skip(1);
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)) {
-            drawN(1, playerIndex);
+            drawN(1, playerIndex,1);
             return true;
         }
         return false;
@@ -165,6 +168,14 @@ public class UnoGameModel {
         return false;
     }
 
+    public boolean checkIllegal(){
+        for (Card card: currentPlayer.getMyCards()){
+            if (topColour == card.getColour() || topType == card.getCardType()) {
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean hasDrawn(){
         return currentPlayer.getHasDrawn();
     }
