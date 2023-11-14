@@ -61,7 +61,7 @@ public class CardTest {
     public void test_toString() {
         System.out.println("Testing Method toString");
         card = new Card(Card.CardType.SEVEN, Card.Colour.RED);
-        assertEquals(" RED SEVEN", card.toString());
+        assertEquals("RED_SEVEN", card.toString());
         counter = 1;
     }
 }
