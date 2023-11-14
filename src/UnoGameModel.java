@@ -57,7 +57,7 @@ public class UnoGameModel {
     }
 
     public void skip() {
-        this.playerIndex = (playerIndex+1) % players.size();
+        this.playerIndex = (playerIndex + 1) % players.size();
     }
 
     public void wildCard(Card.Colour chosenColour) {
