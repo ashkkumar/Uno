@@ -60,6 +60,12 @@ public class UnoGameModel {
         skip();
     }
 
+    public Card drawOne(){
+        Card card = deck.draw();
+        currentPlayer.addCard(card);
+        return card;
+    }
+
     public boolean checkActionCard() {
         if (topCard.getCardType().equals(Card.CardType.REVERSE)) {
             reverse();
@@ -137,6 +143,7 @@ public class UnoGameModel {
         if (playerIndex == players.size()) {
             playerIndex = 0;
         }
+        currentPlayer = players.get(playerIndex);
     }
 
     public void addView(UnoViewHandler view) {
@@ -146,10 +153,10 @@ public class UnoGameModel {
     public void removeView(UnoViewHandler view) {
         views.remove(view);
     }
-
+/*
     private void notifyViews(UnoGameEvent event) {
         for (UnoViewHandler view : views) {
             view.handleNextTurn(event);
         }
-    }
+    }*/
 }
