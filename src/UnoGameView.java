@@ -109,7 +109,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     }
 
-    private void askWildCard() {
+    private void askWildCard(Card card) {
         String[] playerOptions = { "BLUE", "YELLOW","RED", "GREEN"};
         JComboBox<String> playerDropdown = new JComboBox<>(playerOptions);
 
@@ -120,7 +120,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
-            controller.playWild(Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
+            controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
         }
         else {
             // Handle if the user cancels the selection
@@ -199,8 +199,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         JButton button = (JButton) e.getSource();
         Card card = (Card) button.getClientProperty("card");
         if (card.getColour() == Card.Colour.WILD){
-            askWildCard();
-            updatePlayStatus("Colour is now" );
+            askWildCard(card);
+            updateView();
+            updatePlayStatus("Colour has been changed!");
         } else if (controller.playCard(card)) {
             ImageIcon icon = new ImageIcon(card.getImageFilePath());
             topCard.setIcon(icon);
