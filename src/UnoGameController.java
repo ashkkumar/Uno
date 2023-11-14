@@ -15,7 +15,8 @@ public class UnoGameController implements ActionListener {
         String command = e.getActionCommand();
 
         if (command.equals("draw")) {
-           model.drawOne();
+            model.getCurrentPlayer().setHasDrawn(true);
+            model.drawOne();
         } else if (command.equals("nextPlayer")) {
             model.nextPlayer();
         }
@@ -41,6 +42,14 @@ public class UnoGameController implements ActionListener {
 
     public Player getCurrentPlayer(){
         return model.getCurrentPlayer();
+    }
+
+    public boolean hasDrawn(){
+        return model.hasNotDrawn();
+    }
+
+    public void setHasDrawn(){
+        model.getCurrentPlayer().setHasDrawn(true);
     }
 
     public int getIndex(){

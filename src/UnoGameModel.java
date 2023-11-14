@@ -14,12 +14,17 @@ public class UnoGameModel {
     private int playerIndex = 0;
     private boolean finished;
 
-    private boolean canPlay = true;
-
     private final List<UnoViewHandler> views;
+    private Card.Colour playedColor;
+    private Card.CardType playedType;
+    private Card.Colour topColor;
+    private Card.CardType topType;
+
+    private Card.CardType currentType;
 
     public UnoGameModel(int playerCount) {
         initializeGame(playerCount);
+
         views = new ArrayList<>();
     }
 
@@ -41,14 +46,13 @@ public class UnoGameModel {
         return this.startingCard;
     }
 
-
     public void skip() {
         this.playerIndex = (playerIndex + 2) % players.size();
     }
 
     public void wildCard(Card.Colour chosenColor) {
-        // Handle the selection of a new color for a wild card
-        playedCard.setColour(chosenColor);
+        // Handle the selection of a new color for a wild c
+        topColor = chosenColor;
     }
 
     public void reverse() {
@@ -72,10 +76,6 @@ public class UnoGameModel {
     public boolean checkActionCard() {
         if (topCard.getCardType().equals(Card.CardType.REVERSE)) {
             reverse();
-            return true;
-        } else if (topCard.getCardType().equals(Card.CardType.WILD)) {
-            //UnoViewHandler.notifyAllViews(new UnoGameEvent(this)); // Notify views about the Wild card
-            // Handle wildCard logic in the view and update the playedCard accordingly
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.SKIP)) {
             skip();
@@ -128,10 +128,10 @@ public class UnoGameModel {
             return false;
         }
 
-        Card.Colour playedColor = playedCard.getColour();
-        Card.CardType playedType = playedCard.getCardType();
-        Card.Colour topColor = topCard.getColour();
-        Card.CardType topType = topCard.getCardType();
+        playedColor = playedCard.getColour();
+        playedType = playedCard.getCardType();
+        topColor = topCard.getColour();
+        topType = topCard.getCardType();
 
         if ((topColor == playedColor || topType == playedType) && (playedColor != null || playedType != null)) {
             return true;
@@ -148,8 +148,13 @@ public class UnoGameModel {
         return false;
     }
 
+    public boolean hasNotDrawn(){
+        return currentPlayer.getHasDrawn();
+    }
+
     public void nextPlayer() {
         currentPlayer.setCanPlay(true);
+        currentPlayer.setHasDrawn(false);
         playerIndex++;
         if (playerIndex == players.size()) {
             playerIndex = 0;
@@ -164,10 +169,5 @@ public class UnoGameModel {
     public void removeView(UnoViewHandler view) {
         views.remove(view);
     }
-/*
-    private void notifyViews(UnoGameEvent event) {
-        for (UnoViewHandler view : views) {
-            view.handleNextTurn(event);
-        }
-    }*/
+
 }
