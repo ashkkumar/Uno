@@ -109,6 +109,26 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     }
 
+    private void askWildCard() {
+        String[] playerOptions = { "BLUE", "YELLOW","RED", "GREEN"};
+        JComboBox<String> playerDropdown = new JComboBox<>(playerOptions);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Select desired colour:"));
+        panel.add(playerDropdown);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            controller.playWild(Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
+        }
+        else {
+            // Handle if the user cancels the selection
+            // For example, close the program or take appropriate action
+        }
+
+    }
+
     public void updatePlayerTurnLabel(){
         currentPlayerLabel.setText("Player "+ (model.getCurrentPlayer().getName())  + "'s turn");
     }
@@ -172,13 +192,16 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void handlePlay(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         Card card = (Card) button.getClientProperty("card");
-        if (controller.playCard(card)) {
+        if (card.getColour() == Card.Colour.WILD){
+            askWildCard();
+            updatePlayStatus("Colour is now" );
+        } else if (controller.playCard(card)) {
             ImageIcon icon = new ImageIcon(card.getImageFilePath());
             topCard.setIcon(icon);
             updateView();
             updatePlayStatus("Good Move");
         }
-        else{
+        else {
             updatePlayStatus("Invalid Move");
         }
 

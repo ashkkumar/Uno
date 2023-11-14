@@ -31,6 +31,10 @@ public class UnoGameController implements ActionListener {
         return false;
     }
 
+    public void playWild(Card.Colour colour){
+//model.
+    }
+
     public void createPlayers(int n){
         model.createPlayers(n);
     }
