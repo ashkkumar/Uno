@@ -4,7 +4,7 @@ public class Main {
         UnoGameModel uno = new UnoGameModel();
         //uno.play();
 
-        UnoGameView view = new UnoGameView(uno);
+        UnoGameView view = new UnoGameView();
 
     }
 }
