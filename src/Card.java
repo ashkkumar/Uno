@@ -47,7 +47,7 @@ public class Card {
      *
      */
     public void setImageFilePath(){
-        this.imageFilePath = "src/images/" +this.toString() +".jpg";
+        this.imageFilePath = "images/" +this.toString() +".jpg";
     }
 
     /**

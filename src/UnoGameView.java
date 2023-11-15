@@ -41,7 +41,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         startingCard = model.getStartingCard();
         firstRound = true;
         String startCard = model.getStartingCard().toString();
-        String imagePath = "src/images/" + startCard +".jpg";
+        String imagePath = "images/" + startCard +".jpg";
         ImageIcon icon = new ImageIcon(imagePath);
         topCard = new JButton(icon);
         topCard.putClientProperty("card", model.getStartingCard());
