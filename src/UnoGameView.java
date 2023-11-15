@@ -139,13 +139,20 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     }
 
     public void checkStartCard(){
-        Card card = startingCard;
-        if (card.getCardType() == Card.CardType.DRAW_ONE){
+        if (startingCard.getCardType() == Card.CardType.DRAW_ONE || startingCard.getCardType() == Card.CardType.SKIP){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
-        } else if (card.getCardType() == Card.CardType.SKIP){
+            controller.getCurrentPlayer().setCanPlay(false);
+            updatePlayStatus("Player 1 Started with action card!");
+            controller.playCard(startingCard);
+            updateView();
+        } else if (startingCard.getColour() == Card.Colour.WILD){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
+            controller.getCurrentPlayer().setCanPlay(false);
+            updatePlayStatus("Player 1 Started with wild card!");
+            askWildCard(startingCard);
+
         }
     }
 
@@ -196,10 +203,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 }
             });
             if (!controller.getCurrentPlayer().canPlay()){
-                cardButton.setEnabled(false);
-            }
-            if (controller.getIndex() == 0 && startingCard.getCardType() == Card.CardType.DRAW_ONE && firstRound  ||
-                    controller.getIndex() == 0 && startingCard.getCardType() == Card.CardType.SKIP && firstRound){
                 cardButton.setEnabled(false);
             }
             cardButton.setVisible(true);
