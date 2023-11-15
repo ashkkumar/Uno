@@ -241,8 +241,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     @Override
     public void handleNextTurn(ActionEvent e) {
-        firstRound = false;
         controller.actionPerformed(e);
         updateView();
+        firstRound = false;
     }
 }
