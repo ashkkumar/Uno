@@ -5,6 +5,7 @@ public class UnoGameController implements ActionListener {
 
     UnoGameModel model;
 
+
     public UnoGameController(UnoGameModel model) {
         this.model = model;
     }
@@ -23,13 +24,32 @@ public class UnoGameController implements ActionListener {
         /// Add more conditions for other actions as needed
     }
 
+
     public boolean playCard(Card card){
+        checkForWinner();
         if(model.selectCard(card)){
-            model.getCurrentPlayer().getMyCards().remove(card);
+            //model.getCurrentPlayer().getMyCards().remove(card);
+            model.getCurrentPlayer().removeCard(card);
             model.checkActionCard();
             return true;
         }
         return false;
+    }
+    public boolean checkForWinner() {
+        System.out.println("Points = " + model.getCurrentPlayer().getScore());
+        if (model.checkWinner() && model.getCurrentPlayer().getScore() >= 500) {
+            return true;
+        }
+        else return false;
+    }
+
+    public boolean keepPlaying(){
+        if (model.checkWinner() && model.getCurrentPlayer().getScore() < 500) {
+            model.notEnoughPoints();
+            System.out.println("not enough points. points = " + model.getCurrentPlayer().getScore());
+            return true;
+        }
+        else return false;
     }
 
     public void playWild(Card card, Card.Colour colour){
