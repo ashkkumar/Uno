@@ -200,6 +200,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             if (!controller.getCurrentPlayer().canPlay()){
                 cardButton.setEnabled(false);
             }
+            if (controller.getIndex() == 0 && startingCard.getCardType() == Card.CardType.DRAW_ONE && firstRound  ||
+                    controller.getIndex() == 0 && startingCard.getCardType() == Card.CardType.SKIP && firstRound){
+                cardButton.setEnabled(false);
+            }
             cardButton.setVisible(true);
             playerHandPane.add(cardButton);
         }
