@@ -159,10 +159,6 @@ public class UnoGameModel {
             return true;
         }
 
-        if (startingCard.getColour() == Card.Colour.WILD) {
-            return true;
-        }
-
         return false;
     }
 
