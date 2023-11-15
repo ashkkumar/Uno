@@ -24,7 +24,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private Card startingCard;
 
     private boolean firstRound;
-
+    /**
+     * Constructs the UnoGameView, initializes the UI components, and sets up event listeners.
+     */
     public UnoGameView() {
         this.model = new UnoGameModel(askNumberOfPlayers());
         this.controller = new UnoGameController(model);
@@ -97,7 +99,11 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         checkStartCard();
         setVisible(true);
     }
-
+    /**
+     * Asks the user to select the number of players before starting the game.
+     *
+     * @return The result of the user selection.
+     */
     private int askNumberOfPlayers() {
         Integer[] playerOptions = { 2, 3, 4 };
         JComboBox<Integer> playerDropdown = new JComboBox<>(playerOptions);
@@ -114,7 +120,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         System.exit(0);
         return 0;
     }
-
+    /**
+     * Asks the user to select the colour of the wild car they are playing
+     */
     private void askWildCard(Card card) {
         String[] playerOptions = { "BLUE", "YELLOW","RED", "GREEN"};
         JComboBox<String> playerDropdown = new JComboBox<>(playerOptions);
@@ -138,6 +146,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         }
     }
 
+    /**
+     * Checks the starting card at the beginning of the game
+     */
     public void checkStartCard(){
 
        if (startingCard.getColour() == Card.Colour.WILD){
@@ -164,30 +175,52 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
 
     }
+
+    /**
+     * Shows a popup that congratulates the winner of the game
+     */
     private void showWinnerPopup() {
         String message = "Congratulations, player " + model.getCurrentPlayer().getName() + "! You are the winner!";
         JOptionPane.showMessageDialog(null, message, "Winner!", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Shows a popup that tells the users to continue playing because winner requirements
+     * were not met
+     */
     private void showKeepPlayingPopup(){
         String message = "Not enough points scored! Keep playing!";
         JOptionPane.showMessageDialog(null, message, "Continue Game", JOptionPane.INFORMATION_MESSAGE);
 
     }
-
+    /**
+     * Updates the label displaying the current player's turn.
+     */
     public void updatePlayerTurnLabel(){
         currentPlayerLabel.setText("Player "+ (model.getCurrentPlayer().getName())  + "'s turn");
 
     }
-
+    /**
+     * Updates the label displaying the play status.
+     *
+     * @param status The status message to be displayed.
+     */
     public void updatePlayStatus(String status){
         playStatus.setText(status);
     }
-
+    /**
+     * Updates the label displaying the colour status.
+     *
+     */
     public void updateColourStatus(){
         colourStatus.setText("Colour: " + model.getTopColour().name());
     }
 
+    /**
+     * Updates the view of the Uno game. Refreshes the player's hand, top card, and other components
+     * based on the current state of the game. Enables or disables buttons as necessary and sets up
+     * action listeners for player card buttons. Repaints the player hand panel to reflect the changes.
+     */
     public void updateView() {
         // change player's hand, top card, and other components
         playerHandPane.removeAll();
@@ -233,6 +266,12 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playerHandPane.repaint();
     }
 
+    /**
+     * Handles the draw card action. Invokes the corresponding action in the controller,
+     * updates the view, and displays a message indicating that the player drew one card.
+     *
+     * @param e The ActionEvent associated with the draw card action.
+     */
     @Override
     public void handleDrawCard(ActionEvent e) {
         controller.actionPerformed(e);
@@ -240,7 +279,13 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         updatePlayStatus("Drew One Card");
     }
 
-
+    /**
+     * Handles the play card action. Retrieves the selected card from the button's client property,
+     * checks if it's a valid move using the controller, updates the top card and view accordingly.
+     * Displays a message indicating if the move was valid or invalid.
+     *
+     * @param e The ActionEvent associated with the play card action.
+     */
     @Override
     public void handlePlay(ActionEvent e) {
         JButton button = (JButton) e.getSource();
@@ -276,6 +321,12 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         }
     }
 
+    /**
+     * Handles the next turn action. Invokes the corresponding action in the controller,
+     * updates the view to reflect the new state of the game.
+     *
+     * @param e The ActionEvent associated with the next turn action.
+     */
     @Override
     public void handleNextTurn(ActionEvent e) {
         controller.actionPerformed(e);
