@@ -129,15 +129,14 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
         if (result == JOptionPane.OK_OPTION) {
             controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
-        }
-        else {
-            while (result != JOptionPane.OK_OPTION){
-                updatePlayStatus("Please select a valid colour!");
-                result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+            updateView();
+            if (card.getCardType() == Card.CardType.WILD) {
+                updatePlayStatus("Colour has been changed!");
+            } else{
+                updatePlayStatus("Colour changed and next player draws 2/skips!");
             }
-            controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
-        }
 
+        }
     }
 
     public void checkStartCard(){
@@ -225,12 +224,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         Card card = (Card) button.getClientProperty("card");
         if (card.getColour() == Card.Colour.WILD){
             askWildCard(card);
-            updateView();
-            if (card.getCardType() == Card.CardType.WILD) {
-                updatePlayStatus("Colour has been changed!");
-            } else{
-                updatePlayStatus("Colour changed and next player draws 2/skips!");
-            }
         } else if (controller.playCard(card)) {
             ImageIcon icon = new ImageIcon(card.getImageFilePath());
             topCard.setIcon(icon);
