@@ -27,6 +27,7 @@ public class UnoGameController implements ActionListener {
 
     public boolean playCard(Card card){
         checkForWinner();
+        keepPlaying();
         if(model.selectCard(card)){
             //model.getCurrentPlayer().getMyCards().remove(card);
             model.getCurrentPlayer().removeCard(card);
@@ -37,12 +38,21 @@ public class UnoGameController implements ActionListener {
     }
     public boolean checkForWinner() {
         System.out.println("Points = " + model.getCurrentPlayer().getScore());
+        if (model.checkWinner()) {
+            System.out.println("Winner found");
+            return true;
+        }
+        else
+            System.out.println("no winner found");
+            return false;
+    }
+
+    public boolean stopPlaying(){
         if (model.checkWinner() && model.getCurrentPlayer().getScore() >= 500) {
             return true;
         }
         else return false;
     }
-
     public boolean keepPlaying(){
         if (model.checkWinner() && model.getCurrentPlayer().getScore() < 500) {
             model.notEnoughPoints();

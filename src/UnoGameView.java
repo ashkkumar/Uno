@@ -211,7 +211,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void handlePlay(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         Card card = (Card) button.getClientProperty("card");
-        if (card.getColour() == Card.Colour.WILD){
+        if (card.getColour() == Card.Colour.WILD) {
             askWildCard(card);
             updateView();
             updatePlayStatus("Colour has been changed!");
@@ -220,21 +220,30 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             topCard.setIcon(icon);
             updateView();
             updatePlayStatus("Good Move");
-            }
 
-        if (controller.checkForWinner()) {
-            showWinnerPopup();
-            nextButton.setEnabled(false);
-            drawButton.setEnabled(false);
-        }
-        if (controller.keepPlaying()){
+        /*
+        else if (controller.keepPlaying()){
             showKeepPlayingPopup();
         }
 
-        else {
-            updatePlayStatus("Invalid Move");
-        }
+         */
 
+            if (controller.checkForWinner()) {
+                /*
+                if (controller.keepPlaying()) {
+                    showKeepPlayingPopup();
+
+                 */
+                showWinnerPopup();
+                nextButton.setEnabled(false);
+                drawButton.setEnabled(false);
+
+            }
+            else {
+                updatePlayStatus("Invalid Move");
+            }
+
+        }
     }
 
     @Override

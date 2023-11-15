@@ -160,7 +160,6 @@ public class UnoGameModel {
 
     public boolean checkWinner() {
         if (currentPlayer.getNumCards() == 0) {
-
             int score = 0;
             for (Player player : players) {
                 for (Card card : player.getMyCards()) {
