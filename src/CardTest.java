@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CardTest {
+public class    CardTest {
     private static Card card;
     private static int counter;
 

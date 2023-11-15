@@ -139,25 +139,45 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     }
 
     public void checkStartCard(){
-        if (startingCard.getCardType() == Card.CardType.DRAW_ONE || startingCard.getCardType() == Card.CardType.SKIP){
-            nextButton.setEnabled(true);
-            drawButton.setEnabled(false);
-            controller.getCurrentPlayer().setCanPlay(false);
-            updatePlayStatus("Player 1 Started with action card!");
-            controller.playCard(startingCard);
-            updateView();
-        } else if (startingCard.getColour() == Card.Colour.WILD){
+
+       if (startingCard.getColour() == Card.Colour.WILD){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
             controller.getCurrentPlayer().setCanPlay(false);
             updatePlayStatus("Player 1 Started with wild card!");
             askWildCard(startingCard);
-
         }
+       /*
+       else if (startingCard.getCardType() == Card.CardType.SKIP);
+            nextButton.setEnabled(true);
+            drawButton.setEnabled(false);
+            controller.getCurrentPlayer().setCanPlay(false);
+        }else if (startingCard.getCardType() == Card.CardType.DRAW_ONE){
+           //nextButton.setEnabled(false);
+           //drawButton.setEnabled(false);
+           controller.getCurrentPlayer().setCanPlay(false);
+           controller.setHasDrawn();
+           updatePlayStatus("Player 1 must draw a card!");
+           updateView();
+       }
+       */
+
+
+    }
+    private void showWinnerPopup() {
+        String message = "Congratulations, player " + model.getCurrentPlayer().getName() + "! You are the winner!";
+        JOptionPane.showMessageDialog(null, message, "Winner!", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showKeepPlayingPopup(){
+        String message = "Not enough points scored! Keep playing!";
+        JOptionPane.showMessageDialog(null, message, "Continue Game", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     public void updatePlayerTurnLabel(){
         currentPlayerLabel.setText("Player "+ (model.getCurrentPlayer().getName())  + "'s turn");
+
     }
 
     public void updatePlayStatus(String status){
@@ -220,6 +240,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         updatePlayStatus("Drew One Card");
     }
 
+
     @Override
     public void handlePlay(ActionEvent e) {
         JButton button = (JButton) e.getSource();
@@ -239,11 +260,20 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             } else{
                 updatePlayStatus("Good move");
             }
-        }
-        else {
+        } else {
             updatePlayStatus("Invalid Move");
         }
+        if (controller.checkForWinner()) {
+                /*
+                if (controller.keepPlaying()) {
+                    showKeepPlayingPopup();
 
+                 */
+            showWinnerPopup();
+            nextButton.setEnabled(false);
+            drawButton.setEnabled(false);
+
+        }
     }
 
     @Override

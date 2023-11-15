@@ -249,7 +249,7 @@ public class Uno {
 
                     if (isValidChoice()) {
                         setTopCard();
-                        currentPlayer.removeCard(index - 1);
+                        //currentPlayer.removeCard(index - 1);
                         if (!checkActionCard()) {
                             playerIndex++;
                         }
