@@ -123,11 +123,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         panel.add(new JLabel("Select desired colour:"));
         panel.add(playerDropdown);
 
-        topCard.setIcon(new ImageIcon(card.getImageFilePath()));
-
         int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
+            topCard.setIcon(new ImageIcon(card.getImageFilePath()));
             controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
             updateView();
             if (card.getCardType() == Card.CardType.WILD) {
