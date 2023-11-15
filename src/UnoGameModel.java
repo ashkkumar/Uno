@@ -90,7 +90,6 @@ public class UnoGameModel {
 
     public boolean checkActionCard() {
         if (startingCard.getCardType().equals(Card.CardType.SKIP)){
-            playerIndex++;
             return true;
         }
         if (startingCard.getCardType().equals(Card.CardType.DRAW_ONE)){
