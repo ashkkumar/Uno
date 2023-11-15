@@ -83,6 +83,7 @@ public class UnoGameModel {
     }
 
     public Card drawOne(){
+
         Card card = deck.draw();
         currentPlayer.addCard(card);
         return card;
@@ -160,6 +161,29 @@ public class UnoGameModel {
         }
 
         return false;
+    }
+
+    public boolean checkWinner() {
+        if (currentPlayer.getNumCards() == 0) {
+            int score = 0;
+            for (Player player : players) {
+                for (Card card : player.getMyCards()) {
+                    score += card.getCardType().cardScore;
+                }
+            }
+            score += currentPlayer.getScore();
+            currentPlayer.setScore(score);
+            return true;
+        }
+        return false;
+    }
+
+    public void notEnoughPoints(){
+        for (Player i : players) {
+            i.getMyCards().clear();
+        }
+        deck = new Deck();
+        dealCards();
     }
 
     public boolean hasDrawn(){
