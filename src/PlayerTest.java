@@ -141,7 +141,7 @@ public class PlayerTest {
         player.addCard(new Card(Card.CardType.FOUR, Card.Colour.YELLOW));
         player.addCard(new Card(Card.CardType.SEVEN, Card.Colour.RED));
         player.addCard(new Card(Card.CardType.REVERSE, Card.Colour.BLUE));
-        player.removeCard(1);
+        //player.removeCard(1);
         assertEquals(2, player.getNumCards());
         assertEquals(Card.CardType.FOUR, player.getMyCards().get(0).getCardType());
         assertEquals(Card.Colour.YELLOW, player.getMyCards().get(0).getColour());

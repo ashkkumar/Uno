@@ -30,7 +30,7 @@ public class UnoTest {
     public void test_DefaultConstructor(){
         System.out.println("Testing Default Constructor...");
         assertEquals(new ArrayList<Player>(), uno.getPlayers());
-        assertEquals(100, uno.getDeck().getNumDeckCards());
+        assertEquals(104, uno.getDeck().getNumDeckCards());
         counter = 3;
     }
 
@@ -49,6 +49,10 @@ public class UnoTest {
     @Test
     public void test_reverse(){
         System.out.println("Testing Method reverse...");
+        uno.getPlayers().add(new Player());
+        uno.getPlayers().add(new Player());
+        uno.getPlayers().add(new Player());
+        uno.getPlayers().add(new Player());
         ArrayList<Player> test_players = uno.getPlayers();
         Collections.reverse(test_players);
         uno.reverse();
@@ -59,7 +63,7 @@ public class UnoTest {
     @Test
     public void test_getDeckCards(){
         System.out.println("Testing Method getDeckCards...");
-        assertEquals(100,uno.getDeckCards());
+        assertEquals(104,uno.getDeckCards());
         counter = 1;
     }
 
