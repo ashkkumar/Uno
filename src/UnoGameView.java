@@ -123,31 +123,36 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         panel.add(new JLabel("Select desired colour:"));
         panel.add(playerDropdown);
 
-        topCard.setIcon(new ImageIcon(card.getImageFilePath()));
-
         int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
+            topCard.setIcon(new ImageIcon(card.getImageFilePath()));
             controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
-        }
-        else {
-            while (result != JOptionPane.OK_OPTION){
-                updatePlayStatus("Please select a valid colour!");
-                result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+            updateView();
+            if (card.getCardType() == Card.CardType.WILD) {
+                updatePlayStatus("Colour has been changed!");
+            } else{
+                updatePlayStatus("Colour changed and next player draws 2/skips!");
             }
-            controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
-        }
 
+        }
     }
 
     public void checkStartCard(){
-        Card card = startingCard;
-        if (card.getCardType() == Card.CardType.DRAW_ONE){
+        if (startingCard.getCardType() == Card.CardType.DRAW_ONE || startingCard.getCardType() == Card.CardType.SKIP){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
-        } else if (card.getCardType() == Card.CardType.SKIP){
+            controller.getCurrentPlayer().setCanPlay(false);
+            updatePlayStatus("Player 1 Started with action card!");
+            controller.playCard(startingCard);
+            updateView();
+        } else if (startingCard.getColour() == Card.Colour.WILD){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
+            controller.getCurrentPlayer().setCanPlay(false);
+            updatePlayStatus("Player 1 Started with wild card!");
+            askWildCard(startingCard);
+
         }
     }
 
@@ -200,10 +205,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             if (!controller.getCurrentPlayer().canPlay()){
                 cardButton.setEnabled(false);
             }
-            if (controller.getIndex() == 0 && startingCard.getCardType() == Card.CardType.DRAW_ONE && firstRound  ||
-                    controller.getIndex() == 0 && startingCard.getCardType() == Card.CardType.SKIP && firstRound){
-                cardButton.setEnabled(false);
-            }
             cardButton.setVisible(true);
             playerHandPane.add(cardButton);
         }
@@ -225,13 +226,19 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         Card card = (Card) button.getClientProperty("card");
         if (card.getColour() == Card.Colour.WILD){
             askWildCard(card);
-            updateView();
-            updatePlayStatus("Colour has been changed!");
         } else if (controller.playCard(card)) {
             ImageIcon icon = new ImageIcon(card.getImageFilePath());
             topCard.setIcon(icon);
             updateView();
-            updatePlayStatus("Good Move");
+            if (card.getCardType() == Card.CardType.SKIP) {
+                updatePlayStatus("Skipping Next Player's Turn!");
+            } else if (card.getCardType() == Card.CardType.DRAW_ONE){
+                updatePlayStatus("Next player draws and skips turn!");
+            } else if (card.getCardType() == Card.CardType.REVERSE){
+                updatePlayStatus("Order of players reversed!");
+            } else{
+                updatePlayStatus("Good move");
+            }
         }
         else {
             updatePlayStatus("Invalid Move");

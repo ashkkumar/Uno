@@ -63,6 +63,7 @@ public class UnoGameModel {
     public void wildCard(Card.Colour chosenColour) {
         // Handle the selection of a new colour for a wild c
         topColour = chosenColour;
+        topType = Card.CardType.WILD;
         currentPlayer.setCanPlay(false);
 
     }
@@ -169,7 +170,7 @@ public class UnoGameModel {
         currentPlayer.setCanPlay(true);
         currentPlayer.setHasDrawn(false);
         playerIndex++;
-        if (playerIndex == players.size()) {
+        if (playerIndex>= players.size()) {
             playerIndex = 0;
         }
         currentPlayer = players.get(playerIndex);

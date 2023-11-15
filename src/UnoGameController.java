@@ -3,7 +3,7 @@ import java.awt.event.ActionListener;
 
 public class UnoGameController implements ActionListener {
 
-    UnoGameModel model;
+    public UnoGameModel model;
 
     public UnoGameController(UnoGameModel model) {
         this.model = model;
