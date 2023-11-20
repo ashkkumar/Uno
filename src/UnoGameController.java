@@ -13,6 +13,7 @@ public class UnoGameController implements ActionListener {
     public UnoGameController(UnoGameModel model) {
         this.model = model;
     }
+
     /**
      * Handles action events triggered by user interactions.
      *

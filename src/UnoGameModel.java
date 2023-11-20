@@ -136,14 +136,6 @@ public class UnoGameModel {
      * @return True if the top card has an action associated with it; false otherwise.
      */
     public boolean checkActionCard() {
-        if (startingCard.getCardType().equals(Card.CardType.SKIP)){
-            playerIndex++;
-            return true;
-        }
-        if (startingCard.getCardType().equals(Card.CardType.DRAW_ONE)){
-            currentPlayer.drawCard(deck);
-            return true;
-        }
         if (topCard.getCardType().equals(Card.CardType.REVERSE)) {
             reverse();
             return true;
