@@ -151,30 +151,30 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
      */
     public void checkStartCard(){
 
-       if (startingCard.getColour() == Card.Colour.WILD){
+        if (startingCard.getColour() == Card.Colour.WILD){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
             controller.getCurrentPlayer().setCanPlay(false);
             updatePlayStatus("Player 1 Started with wild card!");
             askWildCard(startingCard);
-        }
-       /*
-       else if (startingCard.getCardType() == Card.CardType.SKIP);
+        } else if (startingCard.getCardType() == Card.CardType.SKIP){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
             controller.getCurrentPlayer().setCanPlay(false);
-        }else if (startingCard.getCardType() == Card.CardType.DRAW_ONE){
-           //nextButton.setEnabled(false);
-           //drawButton.setEnabled(false);
-           controller.getCurrentPlayer().setCanPlay(false);
-           controller.setHasDrawn();
-           updatePlayStatus("Player 1 must draw a card!");
-           updateView();
-       }
-       */
-
-
-    }
+            controller.setHasDrawn();
+            controller.model.skip();
+            updateView();
+            updatePlayStatus("Player 1 must be skipped!");
+        } else if (startingCard.getCardType() == Card.CardType.DRAW_ONE){
+            nextButton.setEnabled(true);
+            drawButton.setEnabled(false);
+            controller.getCurrentPlayer().setCanPlay(false);
+            controller.model.drawN(1,-1);
+            controller.setHasDrawn();
+            updatePlayStatus("Player 1 must draw a card!");
+            updateView();
+        }
+   }
 
     /**
      * Shows a popup that congratulates the winner of the game
