@@ -87,7 +87,7 @@ public class UnoGameModel {
     /**
      * Handles the selection of a new color for a wild card.
      *
-     * @param chosenColor The chosen color for the wild card.
+     * @param chosenColour The chosen color for the wild card.
      */
     public void wildCard(Card.Colour chosenColour) {
         // Handle the selection of a new colour for a wild c
