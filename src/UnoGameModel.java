@@ -40,8 +40,6 @@ public class UnoGameModel {
         this.topColour = topCard.getColour();
         this.topType = topCard.getCardType();
         this.finished = false;
-        this.topType = topCard.getCardType();
-        this.topColour = topCard.getColour();
         currentPlayer = players.get(playerIndex);
         dealCards();
     }

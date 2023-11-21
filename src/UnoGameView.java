@@ -94,7 +94,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 handleDrawCard(e);
             }
         });
-        model.checkActionCard();
         updateView();
         checkStartCard();
         setVisible(true);
@@ -163,16 +162,22 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             controller.getCurrentPlayer().setCanPlay(false);
             controller.setHasDrawn();
             controller.model.skip();
-            updateView();
             updatePlayStatus("Player 1 must be skipped!");
+            updateView();
+            model.checkActionCard();
         } else if (startingCard.getCardType() == Card.CardType.DRAW_ONE){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
             controller.getCurrentPlayer().setCanPlay(false);
             controller.model.drawN(1,-1);
+            controller.model.skip();
             controller.setHasDrawn();
             updatePlayStatus("Player 1 must draw a card!");
             updateView();
+        } else if (startingCard.getCardType() == Card.CardType.REVERSE){
+            updatePlayStatus("Order Reversed!");
+            updateView();
+            model.checkActionCard();
         }
    }
 
