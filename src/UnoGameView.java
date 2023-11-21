@@ -147,21 +147,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             updatePlayStatus("Player 1 Started with wild card!");
             askWildCard(startingCard);
         }
-       /*
-       else if (startingCard.getCardType() == Card.CardType.SKIP);
-            nextButton.setEnabled(true);
-            drawButton.setEnabled(false);
-            controller.getCurrentPlayer().setCanPlay(false);
-        }else if (startingCard.getCardType() == Card.CardType.DRAW_ONE){
-           //nextButton.setEnabled(false);
-           //drawButton.setEnabled(false);
-           controller.getCurrentPlayer().setCanPlay(false);
-           controller.setHasDrawn();
-           updatePlayStatus("Player 1 must draw a card!");
-           updateView();
-       }
-       */
-
 
     }
     private void showWinnerPopup() {
