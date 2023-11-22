@@ -101,6 +101,7 @@ public class Deck {
             }
             for (Card card: deck){
                 card.setImageFilePath();
+                card.setDarkFilePath();
             }
         }
         Collections.shuffle(deck);

@@ -249,8 +249,12 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         }
 
         for (Card card: playerHand) {
-
-            ImageIcon icon = new ImageIcon(card.getImageFilePath());
+            ImageIcon icon;
+            if (controller.checkDarkState()) {
+                icon = new ImageIcon(card.getDarkFilePath());
+            } else{
+                icon = new ImageIcon(card.getImageFilePath());
+            }
             JButton cardButton = new JButton(icon);
             cardButton.putClientProperty("card", card);
             cardButton.setActionCommand("play");
@@ -298,8 +302,15 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         if (card.getColour() == Card.Colour.WILD){
             askWildCard(card);
         } else if (controller.playCard(card)) {
-            ImageIcon icon = new ImageIcon(card.getImageFilePath());
-            topCard.setIcon(icon);
+            ImageIcon icon;
+            if (controller.checkDarkState()) {
+                icon = new ImageIcon(card.getDarkFilePath());
+                topCard.setIcon(icon);
+            }
+            else {
+                icon = new ImageIcon(card.getImageFilePath());
+                topCard.setIcon(icon);
+            }
             updateView();
             if (card.getCardType() == Card.CardType.SKIP) {
                 updatePlayStatus("Skipping Next Player's Turn!");
@@ -307,7 +318,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 updatePlayStatus("Next player draws and skips turn!");
             } else if (card.getCardType() == Card.CardType.REVERSE){
                 updatePlayStatus("Order of players reversed!");
-            } else{
+            } else if (card.getCardType() == Card.CardType.FLIP){
+                updatePlayStatus("The game has been flipped!");
+            }
+            else{
                 updatePlayStatus("Good move");
             }
         } else {

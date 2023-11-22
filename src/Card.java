@@ -1,6 +1,8 @@
 public class Card {
     private String imageFilePath;
 
+    private String darkFilePath;
+
     public enum CardType {
         ONE(1),
         TWO(2),
@@ -11,6 +13,7 @@ public class Card {
         SEVEN(7),
         EIGHT(8),
         NINE(9),
+        FLIP(20),
         REVERSE(20),
         DRAW_ONE(10),
         SKIP(20),
@@ -27,6 +30,8 @@ public class Card {
     }
 
     public enum Colour {RED, BLUE, GREEN, YELLOW, WILD}
+
+    public enum DarkColour {PINK,PURPLE,TEAL,ORANGE, WILD}
 
     private final CardType TYPE;
     private final Colour COLOUR;
@@ -49,6 +54,35 @@ public class Card {
     public void setImageFilePath(){
         this.imageFilePath = "images/" +this.toString() +".jpg";
     }
+    public void setDarkFilePath(){
+        String colour;
+        if (this.COLOUR == Colour.RED){
+            colour = "PINK";
+            darkFilePath = darkColour(colour);
+        } else if (this.COLOUR == Colour.BLUE){
+            colour = "PURPLE";
+            darkFilePath = darkColour(colour);
+        } else if (this.COLOUR == Colour.GREEN){
+            colour = "TEAL";
+            darkFilePath = darkColour(colour);
+        } else if (this.COLOUR == Colour.YELLOW){
+            colour = "ORANGE";
+            darkFilePath = darkColour(colour);
+        } else if (this.COLOUR == Colour.WILD){
+            colour = "WILD";
+            darkFilePath = darkColour(colour);
+        }
+    }
+
+    public String darkColour(String dark){
+        if (this.TYPE.equals(CardType.DRAW_ONE)){
+            return "Dark/" + dark + "_DRAW_FIVE.png";
+        } else if (this.TYPE.equals(CardType.WILD_DRAW_TWO)){
+            return "Dark/" + dark + "_WILD_DRAW_COLOUR.png";
+        } else {
+            return "Dark/" + dark + "_" + this.TYPE + ".png";
+        }
+    }
 
     /**
      * Gets the image file path of the Uno card.
@@ -57,6 +91,15 @@ public class Card {
      */
     public String getImageFilePath(){
         return this.imageFilePath;
+    }
+
+    /**
+     * Gets the dark image file path
+     *
+     * @return the image file path
+     */
+    public String getDarkFilePath(){
+        return this.darkFilePath;
     }
 
     /**

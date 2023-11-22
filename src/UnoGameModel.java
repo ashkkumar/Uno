@@ -3,6 +3,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class UnoGameModel {
+
+    private boolean darkSide = false;
     private Deck deck;
     private ArrayList<Player> players;
     private Card startingCard;
@@ -94,6 +96,17 @@ public class UnoGameModel {
         currentPlayer.setCanPlay(false);
 
     }
+
+    /**
+     * Flips the state of the game
+     */
+    public void flip(){
+        if (topCard.getCardType() ==  Card.CardType.FLIP){
+            darkSide = !darkSide;
+            currentPlayer.setCanPlay(false);
+        }
+    }
+
     /**
      * Reverses the order of players in the game.
      * This method updates the player index and reverses the list of players.
@@ -142,6 +155,9 @@ public class UnoGameModel {
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)) {
             drawN(1, playerIndex);
+            return true;
+        } else if (topCard.getCardType().equals(Card.CardType.FLIP)){
+            flip();
             return true;
         }
         return false;
@@ -232,6 +248,14 @@ public class UnoGameModel {
         deck = new Deck();
         dealCards();
     }
+    /**
+     * Checks if the game is on the dark or light side
+     */
+
+    public boolean isDarkSide(){
+        return darkSide;
+    }
+
     /**
      * Gets whether the current player has drawn a card.
      *

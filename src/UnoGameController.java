@@ -33,6 +33,14 @@ public class UnoGameController implements ActionListener {
     }
 
     /**
+     * Checks the current state of the game if it is dark or light
+     */
+
+    public boolean checkDarkState(){
+        return model.isDarkSide();
+    }
+
+    /**
      * Attempts to play the specified card. If successful, removes the card from the player's hand,
      * checks for action cards, and returns true; otherwise, returns false.
      *
