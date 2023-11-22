@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.lang.*;
 
 public class UnoGameView extends JFrame implements UnoViewHandler {
     private UnoGameModel model;
@@ -23,12 +24,25 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private Card startingCard;
 
+    private int numPlayers;
+
+    private int numAiPlayers;
+
     private boolean firstRound;
+
+    private ArrayList<Player> playersTest;
     /**
      * Constructs the UnoGameView, initializes the UI components, and sets up event listeners.
      */
     public UnoGameView() {
-        this.model = new UnoGameModel(askNumberOfPlayers());
+
+        numPlayers = askNumberOfPlayers();
+        numAiPlayers = askNumberOfAIPlayers();
+
+        this.model = new UnoGameModel(numPlayers, numAiPlayers);
+
+        playersTest = model.getPlayers();
+
         this.controller = new UnoGameController(model);
         setTitle("Uno Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,16 +65,17 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         drawButton = new JButton("Draw Card");
         nextButton.setActionCommand("nextPlayer");
         drawButton.setActionCommand("draw");
-        currentPlayerLabel = new JLabel("Player " + (model.getCurrentPlayer().getName()) + "'s turn");
+
+        currentPlayerLabel = new JLabel();
 
         playStatus = new JLabel("Please select a card");
+
         colourStatus = new JLabel("Active Colour:" + model.getStartingCard().getColour().name());
 
         // Add components to the frame and layout configuration
         this.setLayout(new BorderLayout());
         this.add(scrollPane, BorderLayout.SOUTH);
         this.add(topCard, BorderLayout.CENTER);
-
 
         // Status Pane Components and Creation
         statusPane = new JPanel();
@@ -94,32 +109,67 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 handleDrawCard(e);
             }
         });
+
         model.checkActionCard();
         updateView();
         checkStartCard();
         setVisible(true);
     }
+
+    /**
+     * Asks the user to select the number of AI players before starting the game.
+     *
+     * @return The result of the user selection.
+     */
+    private int askNumberOfAIPlayers() {
+        Integer[] playerOptions = { 0, 1, 2, 3, 4 };
+        JComboBox<Integer> playerDropdown = new JComboBox<>(playerOptions);
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Select number of AI players:"));
+        panel.add(playerDropdown);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Number of AI Players", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            int selectedAIPlayers = (int) playerDropdown.getSelectedItem();
+
+            if (selectedAIPlayers == 0 && numPlayers == 1) {
+                JOptionPane.showMessageDialog(panel, "Please Select more than one player",
+                        "Player Count Error", JOptionPane.ERROR_MESSAGE);
+                return askNumberOfAIPlayers(); // Ask again recursively
+            }
+
+            return selectedAIPlayers;
+        }
+
+        System.exit(0);
+        return 0;
+    }
+
     /**
      * Asks the user to select the number of players before starting the game.
      *
      * @return The result of the user selection.
      */
     private int askNumberOfPlayers() {
-        Integer[] playerOptions = { 2, 3, 4 };
+        Integer[] playerOptions = { 1, 2, 3, 4 };
         JComboBox<Integer> playerDropdown = new JComboBox<>(playerOptions);
 
         JPanel panel = new JPanel();
         panel.add(new JLabel("Select number of players:"));
         panel.add(playerDropdown);
 
-        int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, panel, "Number of Human Players", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
             return (int) playerDropdown.getSelectedItem();
         }
+
         System.exit(0);
         return 0;
     }
+
     /**
      * Asks the user to select the colour of the wild car they are playing
      */
@@ -193,13 +243,19 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         JOptionPane.showMessageDialog(null, message, "Continue Game", JOptionPane.INFORMATION_MESSAGE);
 
     }
+
     /**
      * Updates the label displaying the current player's turn.
      */
     public void updatePlayerTurnLabel(){
-        currentPlayerLabel.setText("Player "+ (model.getCurrentPlayer().getName())  + "'s turn");
+        if(model.getCurrentPlayer().isAI()){
+            currentPlayerLabel.setText("AI player " + (model.getCurrentPlayer().getName()) + "'s turn");
+        }else{
+            currentPlayerLabel.setText("Human player " + (model.getCurrentPlayer().getName()) + "'s turn");
+        }
 
     }
+
     /**
      * Updates the label displaying the play status.
      *
@@ -208,6 +264,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void updatePlayStatus(String status){
         playStatus.setText(status);
     }
+
     /**
      * Updates the label displaying the colour status.
      *
@@ -290,23 +347,52 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void handlePlay(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         Card card = (Card) button.getClientProperty("card");
-        if (card.getColour() == Card.Colour.WILD){
-            askWildCard(card);
-        } else if (controller.playCard(card)) {
-            ImageIcon icon = new ImageIcon(card.getImageFilePath());
-            topCard.setIcon(icon);
-            updateView();
-            if (card.getCardType() == Card.CardType.SKIP) {
-                updatePlayStatus("Skipping Next Player's Turn!");
-            } else if (card.getCardType() == Card.CardType.DRAW_ONE){
-                updatePlayStatus("Next player draws and skips turn!");
-            } else if (card.getCardType() == Card.CardType.REVERSE){
-                updatePlayStatus("Order of players reversed!");
-            } else{
-                updatePlayStatus("Good move");
+
+        if(model.getCurrentPlayer().isAI()){ //AI player
+            if (controller.playAICard()) {
+
+                System.out.println("Got to AI handlePlay if statement");
+
+                ImageIcon icon = new ImageIcon(card.getImageFilePath());
+                topCard.setIcon(icon);
+
+                System.out.println("New icon set");
+
+                updateView();
+
+                System.out.println("View updated");
+
+                if (card.getCardType() == Card.CardType.SKIP) {
+                    updatePlayStatus("Skipping Next Player's Turn!");
+                } else if (card.getCardType() == Card.CardType.DRAW_ONE){
+                    updatePlayStatus("Next player draws and skips turn!");
+                } else if (card.getCardType() == Card.CardType.REVERSE){
+                    updatePlayStatus("Order of players reversed!");
+                } else{
+                    updatePlayStatus("Good move");
+                }
+            } else {
+                updatePlayStatus("Invalid Move");
             }
-        } else {
-            updatePlayStatus("Invalid Move");
+        }else{ //human player
+            if (card.getColour() == Card.Colour.WILD){
+                askWildCard(card);
+            } else if (controller.playCard(card)) {
+                ImageIcon icon = new ImageIcon(card.getImageFilePath());
+                topCard.setIcon(icon);
+                updateView();
+                if (card.getCardType() == Card.CardType.SKIP) {
+                    updatePlayStatus("Skipping Next Player's Turn!");
+                } else if (card.getCardType() == Card.CardType.DRAW_ONE){
+                    updatePlayStatus("Next player draws and skips turn!");
+                } else if (card.getCardType() == Card.CardType.REVERSE){
+                    updatePlayStatus("Order of players reversed!");
+                } else{
+                    updatePlayStatus("Good move");
+                }
+            } else {
+                updatePlayStatus("Invalid Move");
+            }
         }
         if (controller.checkForWinner()) {
                 /*
@@ -333,4 +419,11 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         updateView();
         firstRound = false;
     }
+
+    public static void main(String[] args) {
+
+        UnoGameView view = new UnoGameView();
+
+    }
 }
+

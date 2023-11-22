@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Player {
 
@@ -13,6 +15,9 @@ public class Player {
     private boolean canPlay = true;
 
     private boolean hasDrawn = false;
+
+    private boolean isAI = false;
+
 
     /**
      * Constructs a new Uno player with an empty card list and a score of 0.
@@ -116,7 +121,7 @@ public class Player {
     /**
      * Removes a card from the player's hand by its index.
      *
-     * @param n The index of the card to remove from the player's hand.
+     * @param //and The index of the card to remove from the player's hand.
      */
     public void removeCard(Card card) {
         myCards.remove(card);
@@ -141,6 +146,42 @@ public class Player {
         for (int i = 0; i < myCards.size(); i++) {
             System.out.println(i + 1 + "." + myCards.get(i).toString());
         }
+    }
+
+    public boolean isAI(){
+        return isAI;
+    }
+
+    public void setAITrue(){
+        isAI = true;
+    }
+
+    public int getBestCardIndex(Card topCard) {
+        Card.Colour colour = topCard.getColour();
+
+        ArrayList<Card> sameColourCard = new ArrayList<>();
+
+        for (Card card : myCards) {
+            if (card.getColour() == colour) {
+                sameColourCard.add(card);
+            }
+        }
+
+        if (sameColourCard.isEmpty()) {
+            throw new RuntimeException("No valid cards available.");
+        }
+
+        if (!sameColourCard.isEmpty()) {
+            sameColourCard.sort(Comparator.comparingInt(Card::getScore).reversed());
+            Card bestCard = sameColourCard.get(0);
+            return myCards.indexOf(bestCard);
+        } else {
+            throw new RuntimeException("Unexpected error: No best card found.");
+        }
+    }
+
+    public Card getCard(int i){
+        return this.myCards.get(i);
     }
 
 }

@@ -52,6 +52,28 @@ public class UnoGameController implements ActionListener {
         return false;
     }
 
+    public boolean playAICard(){
+        checkForWinner();
+        keepPlaying();
+
+        int bestCardIndex = model.getCurrentPlayer().getBestCardIndex(model.getTopCard());
+
+        System.out.println("Playing AI Card...");
+
+        if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex))){
+
+            System.out.println("Select card worked...");
+
+            model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex));
+
+            System.out.println("card removed from Ai player...");
+
+            //model.checkActionCard();
+            return true;
+        }
+        return false;
+    }
+
     /**
      * checks if theres a winner
      * @return true if there's a winner
@@ -95,16 +117,14 @@ public class UnoGameController implements ActionListener {
 
     }
 
-
-
-    public void createPlayers(int n){
-        model.createPlayers(n);
+    public void createPlayers(int n, int numAI){
+        model.createPlayers(n, numAI);
     }
     /**
      * Creates the specified number of players in the UnoGameModel.
      *
-     * @param n The number of players to create.
-     */
+     * @param //the number of players to create.
+     **/
     public Player getCurrentPlayer(){
         return model.getCurrentPlayer();
     }

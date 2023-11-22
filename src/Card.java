@@ -27,7 +27,6 @@ public class Card {
     }
 
     public enum Colour {RED, BLUE, GREEN, YELLOW, WILD}
-
     private final CardType TYPE;
     private final Colour COLOUR;
 
@@ -77,6 +76,10 @@ public class Card {
     public Colour getColour() {
 
         return this.COLOUR;
+    }
+
+    public int getScore(){
+        return this.TYPE.cardScore;
     }
 
 
