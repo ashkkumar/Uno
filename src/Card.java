@@ -57,16 +57,16 @@ public class Card {
     public void setDarkFilePath(){
         String colour;
         if (this.COLOUR == Colour.RED){
-            colour = "PINK";
+            colour = "ORANGE";
             darkFilePath = darkColour(colour);
         } else if (this.COLOUR == Colour.BLUE){
-            colour = "PURPLE";
+            colour = "PINK";
             darkFilePath = darkColour(colour);
         } else if (this.COLOUR == Colour.GREEN){
             colour = "TEAL";
             darkFilePath = darkColour(colour);
         } else if (this.COLOUR == Colour.YELLOW){
-            colour = "ORANGE";
+            colour = "PURPLE";
             darkFilePath = darkColour(colour);
         } else if (this.COLOUR == Colour.WILD){
             colour = "WILD";
