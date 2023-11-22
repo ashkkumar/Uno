@@ -13,6 +13,7 @@ public class UnoGameController implements ActionListener {
     public UnoGameController(UnoGameModel model) {
         this.model = model;
     }
+
     /**
      * Handles action events triggered by user interactions.
      *
@@ -35,7 +36,6 @@ public class UnoGameController implements ActionListener {
     /**
      * Checks the current state of the game if it is dark or light
      */
-
     public boolean checkDarkState(){
         return model.isDarkSide();
     }
@@ -51,7 +51,6 @@ public class UnoGameController implements ActionListener {
         checkForWinner();
         keepPlaying();
         if(model.selectCard(card)){
-            //model.getCurrentPlayer().getMyCards().remove(card);
             model.getCurrentPlayer().removeCard(card);
             model.checkActionCard();
             return true;
@@ -60,7 +59,7 @@ public class UnoGameController implements ActionListener {
     }
 
     /**
-     * checks if theres a winner
+     * Checks if there's a winner
      * @return true if there's a winner
      */
     public boolean checkForWinner() {
@@ -71,7 +70,7 @@ public class UnoGameController implements ActionListener {
         }
         else
             System.out.println("no winner found");
-            return false;
+        return false;
     }
 
     /**
@@ -114,17 +113,24 @@ public class UnoGameController implements ActionListener {
         return 0;
     }
 
-    public void createPlayers(int n){
-        model.createPlayers(n);
-    }
     /**
      * Creates the specified number of players in the UnoGameModel.
      *
      * @param n The number of players to create.
      */
+    public void createPlayers(int n){
+        model.createPlayers(n);
+    }
+
+    /**
+     * Gets the current player of the game
+     *
+     * @return Player, the current player of the game
+     */
     public Player getCurrentPlayer(){
         return model.getCurrentPlayer();
     }
+
     /**
      * Checks if the current player has drawn a card.
      *
@@ -133,12 +139,14 @@ public class UnoGameController implements ActionListener {
     public boolean hasDrawn(){
         return model.hasDrawn();
     }
+
     /**
      * Sets the current player's "has drawn" status to true.
      */
     public void setHasDrawn(){
         model.getCurrentPlayer().setHasDrawn(true);
     }
+
     /**
      * Performs a wild card action with the specified color.
      *
@@ -154,6 +162,7 @@ public class UnoGameController implements ActionListener {
     public void checkActionCard(){
         model.checkActionCard();
     }
+
     /**
      * Retrieves the index of the current player in the UnoGameModel.
      *

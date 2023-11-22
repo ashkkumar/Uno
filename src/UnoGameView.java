@@ -24,6 +24,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private Card startingCard;
 
     private boolean firstRound;
+
     /**
      * Constructs the UnoGameView, initializes the UI components, and sets up event listeners.
      */
@@ -98,6 +99,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         checkStartCard();
         setVisible(true);
     }
+
     /**
      * Asks the user to select the number of players before starting the game.
      *
@@ -119,6 +121,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         System.exit(0);
         return 0;
     }
+
     /**
      * Asks the user to select the colour of the wild car they are playing
      */
@@ -137,7 +140,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         panel.add(new JLabel("Select desired colour:"));
         panel.add(playerDropdown);
 
-        int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(null, panel, "Select Colour", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
             if (controller.checkDarkState()){
@@ -224,6 +227,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         JOptionPane.showMessageDialog(null, message, "Continue Game", JOptionPane.INFORMATION_MESSAGE);
 
     }
+
     /**
      * Updates the label displaying the current player's turn.
      */
@@ -231,6 +235,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         currentPlayerLabel.setText("Player "+ (model.getCurrentPlayer().getName())  + "'s turn");
 
     }
+
     /**
      * Updates the label displaying the play status.
      *
@@ -239,6 +244,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void updatePlayStatus(String status){
         playStatus.setText(status);
     }
+
     /**
      * Updates the label displaying the colour status.
      *

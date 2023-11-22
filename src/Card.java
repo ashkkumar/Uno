@@ -49,11 +49,14 @@ public class Card {
 
     /**
      * Sets the image file path of the Uno card.
-     *
      */
     public void setImageFilePath(){
         this.imageFilePath = "images/" +this.toString() +".jpg";
     }
+
+    /**
+     * Sets the dark image file path of the Uno card
+     */
     public void setDarkFilePath(){
         String colour;
         if (this.COLOUR == Colour.RED){
@@ -74,6 +77,12 @@ public class Card {
         }
     }
 
+    /**
+     * Creates the file path for the dark image
+     *
+     * @param dark, The colour of the dark card as a string
+     * @return String a representation of the dark image file path
+     */
     public String darkColour(String dark){
         if (this.TYPE.equals(CardType.DRAW_ONE)){
             return "Dark/" + dark + "_DRAW_FIVE.png";
@@ -98,7 +107,7 @@ public class Card {
     /**
      * Gets the dark image file path
      *
-     * @return the image file path
+     * @return the dark image file path
      */
     public String getDarkFilePath(){
         return this.darkFilePath;
@@ -123,7 +132,6 @@ public class Card {
 
         return this.COLOUR;
     }
-
 
     /**
      * Returns a string representation of the card, including its color and type.

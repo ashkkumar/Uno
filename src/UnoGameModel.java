@@ -30,6 +30,7 @@ public class UnoGameModel {
 
         views = new ArrayList<>();
     }
+
     /**
      * Initializes the Uno game by creating players, initializing the deck, and dealing the initial set of cards.
      * This method sets up the starting card, current player, and other game-related attributes.
@@ -45,6 +46,7 @@ public class UnoGameModel {
         currentPlayer = players.get(playerIndex);
         dealCards();
     }
+
     /**
      * Gets the current player in the game.
      *
@@ -61,6 +63,7 @@ public class UnoGameModel {
     public Card.Colour getTopColour(){
         return this.topColour;
     }
+
     /**
      * Gets the card that has been played.
      *
@@ -69,6 +72,7 @@ public class UnoGameModel {
     public Card getPlayedCard(){
         return this.playedCard;
     }
+
     /**
      * Gets the starting card of the game.
      *
@@ -77,6 +81,7 @@ public class UnoGameModel {
     public Card getStartingCard(){
         return this.startingCard;
     }
+
     /**
      * Advances the game to the next player in a circular manner.
      * This method updates the player index to the next player in the list.
@@ -84,6 +89,7 @@ public class UnoGameModel {
     public void skip() {
         this.playerIndex = (playerIndex + 1) % players.size();
     }
+
     /**
      * Handles the selection of a new color for a wild card.
      *
@@ -117,12 +123,15 @@ public class UnoGameModel {
         }
         Collections.reverse(players);
     }
+
     /**
      * Draws a specified number of cards for the next player in the game.
      *
      * @param numCards     The number of cards to draw.
      * @param playerIndex  The index of the player drawing the cards.
+     * @return Card the card that was drawn
      */
+
     public Card drawN(int numCards, int playerIndex) {
         if (numCards == 1){
             return players.get((playerIndex + 1) % players.size()).drawCard(deck);
@@ -132,8 +141,8 @@ public class UnoGameModel {
             }
             return null;
         }
-        //skip();
     }
+
     /**
      * Draws one card from the deck and adds it to the current player's hand.
      *
@@ -145,6 +154,7 @@ public class UnoGameModel {
         currentPlayer.addCard(card);
         return card;
     }
+
     /**
      * Checks if the top card played has any action associated with it (e.g., reverse, skip, draw two).
      * This method handles the logic for action cards and updates the game state accordingly.
@@ -178,6 +188,7 @@ public class UnoGameModel {
         }
         return false;
     }
+
     /**
      * Gets the index of the current player in the game.
      *
@@ -186,6 +197,7 @@ public class UnoGameModel {
     public int getCurrentPlayerIndex(){
         return playerIndex;
     }
+
     /**
      * Creates a specified number of players in the game.
      *
@@ -199,6 +211,7 @@ public class UnoGameModel {
             players.add(player);
         }
     }
+
     /**
      * Deals the initial set of cards to each player in the game.
      * This method is called at the beginning of the game to distribute cards to players.
@@ -210,6 +223,7 @@ public class UnoGameModel {
             }
         }
     }
+
     /**
      * Selects a card to play in the game.
      *
@@ -227,6 +241,7 @@ public class UnoGameModel {
         }
         return false;
     }
+
     /**
      * Checks whether the played card is a valid choice to be played on the current top card.
      * This method evaluates the color and type of the played card against the color and type of the top card
@@ -264,10 +279,12 @@ public class UnoGameModel {
         deck = new Deck();
         dealCards();
     }
+
     /**
      * Checks if the game is on the dark or light side
+     *
+     * @return True if the dark is on the dark side false otherwise
      */
-
     public boolean isDarkSide(){
         return darkSide;
     }
@@ -280,6 +297,7 @@ public class UnoGameModel {
     public boolean hasDrawn(){
         return currentPlayer.getHasDrawn();
     }
+
     /**
      * Moves to the next layer in the game.
      * Resets the playability and draw status of the current player.
@@ -296,6 +314,8 @@ public class UnoGameModel {
 
     /**
      * Checks if a player has won the game by emptying their hand and calculates their score.
+     *
+     * @return True if there is a winner and false otherwise
      */
     public boolean checkWinner() {
         if (currentPlayer.getNumCards() == 0) {
