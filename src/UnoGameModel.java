@@ -151,10 +151,19 @@ public class UnoGameModel {
             reverse();
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.SKIP)) {
-            skip();
+            if (isDarkSide()){
+                this.playerIndex = (playerIndex + players.size() -1 ) % players.size();
+            } else {
+                skip();
+            }
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)) {
-            drawN(1, playerIndex);
+            if (isDarkSide()){
+                drawN(5, playerIndex);
+                return true;
+            } else {
+                drawN(1, playerIndex);
+            }
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.FLIP)){
             flip();

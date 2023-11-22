@@ -102,8 +102,6 @@ public class UnoGameController implements ActionListener {
 
     }
 
-
-
     public void createPlayers(int n){
         model.createPlayers(n);
     }

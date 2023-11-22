@@ -77,7 +77,9 @@ public class Card {
     public String darkColour(String dark){
         if (this.TYPE.equals(CardType.DRAW_ONE)){
             return "Dark/" + dark + "_DRAW_FIVE.png";
-        } else if (this.TYPE.equals(CardType.WILD_DRAW_TWO)){
+        } else if (this.TYPE.equals(CardType.SKIP)){
+            return "Dark/" + dark + "_SKIP_EVERYONE.png";
+        }else if (this.TYPE.equals(CardType.WILD_DRAW_TWO)){
             return "Dark/" + dark + "_WILD_DRAW_COLOUR.png";
         } else {
             return "Dark/" + dark + "_" + this.TYPE + ".png";
