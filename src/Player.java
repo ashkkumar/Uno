@@ -108,9 +108,11 @@ public class Player {
      *
      * @param deck The Uno deck from which to draw a card.
      */
-    public void drawCard(Deck deck) {
-        myCards.add(deck.draw());
+    public Card drawCard(Deck deck) {
+        Card drawnCard = deck.draw();
+        myCards.add(drawnCard);
         numCards++;
+        return drawnCard;
     }
 
     /**

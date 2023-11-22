@@ -92,14 +92,26 @@ public class UnoGameController implements ActionListener {
      * @param card
      * @param colour
      */
-    public void playWild(Card card, Card.Colour colour){
+    public int playWild(Card card, Card.Colour colour){
         model.wildCard(colour);
         model.getCurrentPlayer().getMyCards().remove(card);
 
         if (card.getCardType() == Card.CardType.WILD_DRAW_TWO){
-            model.drawN(2,getIndex());
+            if (checkDarkState()){
+                int drawnCards = 0;
+                while (model.drawN(1,getIndex()).getColour() != model.getTopColour()){
+                    drawnCards ++;
+                }
+                drawnCards++;
+                model.skip();
+                return drawnCards;
+            } else {
+                model.drawN(2, getIndex());
+                model.skip();
+                return 2;
+            }
         }
-
+        return 0;
     }
 
     public void createPlayers(int n){

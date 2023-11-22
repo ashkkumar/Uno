@@ -123,8 +123,15 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
      * Asks the user to select the colour of the wild car they are playing
      */
     private void askWildCard(Card card) {
-        String[] playerOptions = { "BLUE", "YELLOW","RED", "GREEN"};
-        JComboBox<String> playerDropdown = new JComboBox<>(playerOptions);
+        JComboBox<String> playerDropdown;
+        int drawnCards = 0;
+        if (controller.checkDarkState()){
+            String[] playerOptions = { "PINK", "PURPLE","ORANGE", "TEAL"};
+            playerDropdown = new JComboBox<>(playerOptions);
+        } else {
+            String[] playerOptions = {"BLUE", "YELLOW", "RED", "GREEN"};
+            playerDropdown = new JComboBox<>(playerOptions);
+        }
 
         JPanel panel = new JPanel();
         panel.add(new JLabel("Select desired colour:"));
@@ -133,13 +140,31 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         int result = JOptionPane.showConfirmDialog(null, panel, "Number of Players", JOptionPane.OK_CANCEL_OPTION);
 
         if (result == JOptionPane.OK_OPTION) {
-            topCard.setIcon(new ImageIcon(card.getImageFilePath()));
-            controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
+            if (controller.checkDarkState()){
+                topCard.setIcon(new ImageIcon(card.getDarkFilePath()));
+                if (playerDropdown.getSelectedItem() == "PINK"){
+                    drawnCards = controller.playWild(card, Card.Colour.BLUE);
+                } else if (playerDropdown.getSelectedItem() == "PURPLE"){
+                    drawnCards = controller.playWild(card, Card.Colour.YELLOW);
+                } else if (playerDropdown.getSelectedItem() == "ORANGE"){
+                    drawnCards = controller.playWild(card,Card.Colour.RED);
+                } else{
+                    drawnCards = controller.playWild(card,Card.Colour.GREEN);
+                }
+            } else {
+                topCard.setIcon(new ImageIcon(card.getImageFilePath()));
+                drawnCards = controller.playWild(card, Card.Colour.valueOf((String) playerDropdown.getSelectedItem()));
+            }
             updateView();
             if (card.getCardType() == Card.CardType.WILD) {
                 updatePlayStatus("Colour has been changed!");
             } else{
-                updatePlayStatus("Colour changed and next player draws 2/skips!");
+                if (controller.checkDarkState()){
+                    updatePlayStatus("Colour changed and next player drew " + drawnCards + " cards!");
+                } else{
+                    updatePlayStatus("Colour changed and next player draws 2/skips!");
+
+                }
             }
 
         }
@@ -170,6 +195,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             drawButton.setEnabled(false);
             controller.getCurrentPlayer().setCanPlay(false);
             controller.model.drawN(1,-1);
+            //controller.model.skip();
             controller.model.skip();
             controller.setHasDrawn();
             updatePlayStatus("Player 1 must draw a card!");
@@ -218,7 +244,19 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
      *
      */
     public void updateColourStatus(){
-        colourStatus.setText("Colour: " + model.getTopColour().name());
+        if (controller.checkDarkState()){
+            if (model.getTopColour() == Card.Colour.RED){
+                colourStatus.setText("Colour: ORANGE");
+            } else if (model.getTopColour() == Card.Colour.YELLOW){
+                colourStatus.setText("Colour: PURPLE");
+            } else if (model.getTopColour() == Card.Colour.BLUE){
+                colourStatus.setText("Colour: PINK");
+            } else{
+                colourStatus.setText("Colour: TEAL");
+            }
+        } else {
+            colourStatus.setText("Colour: " + model.getTopColour().name());
+        }
     }
 
     /**
@@ -313,9 +351,17 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             }
             updateView();
             if (card.getCardType() == Card.CardType.SKIP) {
-                updatePlayStatus("Skipping Next Player's Turn!");
+                if (controller.checkDarkState()){
+                    updatePlayStatus("Skipping all players!");
+                } else {
+                    updatePlayStatus("Skipping Next Player's Turn!");
+                }
             } else if (card.getCardType() == Card.CardType.DRAW_ONE){
-                updatePlayStatus("Next player draws and skips turn!");
+                if (controller.checkDarkState()){
+                    updatePlayStatus("Next player draws 5 and skips turn!");
+                } else {
+                    updatePlayStatus("Next player draws and skips turn!");
+                }
             } else if (card.getCardType() == Card.CardType.REVERSE){
                 updatePlayStatus("Order of players reversed!");
             } else if (card.getCardType() == Card.CardType.FLIP){

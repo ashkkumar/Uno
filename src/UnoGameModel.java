@@ -123,11 +123,16 @@ public class UnoGameModel {
      * @param numCards     The number of cards to draw.
      * @param playerIndex  The index of the player drawing the cards.
      */
-    public void drawN(int numCards, int playerIndex) {
-        for (int i = 0; i < numCards; i++) {
-            players.get((playerIndex + 1) % players.size()).drawCard(deck);
+    public Card drawN(int numCards, int playerIndex) {
+        if (numCards == 1){
+            return players.get((playerIndex + 1) % players.size()).drawCard(deck);
+        } else {
+            for (int i = 0; i < numCards; i++) {
+                players.get((playerIndex + 1) % players.size()).drawCard(deck);
+            }
+            return null;
         }
-        skip();
+        //skip();
     }
     /**
      * Draws one card from the deck and adds it to the current player's hand.
@@ -160,9 +165,11 @@ public class UnoGameModel {
         } else if (topCard.getCardType().equals(Card.CardType.DRAW_ONE)) {
             if (isDarkSide()){
                 drawN(5, playerIndex);
+                skip();
                 return true;
             } else {
                 drawN(1, playerIndex);
+                skip();
             }
             return true;
         } else if (topCard.getCardType().equals(Card.CardType.FLIP)){
