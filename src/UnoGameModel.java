@@ -136,15 +136,15 @@ public class UnoGameModel {
      */
 
     public Card drawN(int numCards, int playerIndex) {
-        if (this.deck.isEmpty()){
-            deck = discardPile;
-            System.out.println("discard pile used as normal deck");
-        }
         if (numCards == 1){
             return players.get((playerIndex + 1) % players.size()).drawCard(deck);
         } else {
             for (int i = 0; i < numCards; i++) {
                 players.get((playerIndex + 1) % players.size()).drawCard(deck);
+                if (this.deck.isEmpty()){ // ex draw 5 and only 2 cards left will check if empty after every draw
+                    deck = discardPile;
+                    discardPile = new Deck(); // clear discard pile after
+                }
             }
             return null;
         }
@@ -158,7 +158,7 @@ public class UnoGameModel {
     public Card drawOne(){
         if (this.deck.isEmpty()){
             deck = discardPile;
-            System.out.println("discard pile used as normal deck");
+            discardPile = new Deck(); // clear discard pile after
         }
         Card card = deck.draw();
         currentPlayer.addCard(card);
