@@ -6,6 +6,8 @@ public class UnoGameModel {
 
     private boolean darkSide = false;
     private Deck deck;
+
+    private Deck discardPile;
     private ArrayList<Player> players;
     private Card startingCard;
     private Card topCard;
@@ -38,6 +40,7 @@ public class UnoGameModel {
     private void initializeGame(int playerCount) {
         createPlayers(playerCount);
         this.deck = new Deck();
+        this.discardPile = new Deck();
         this.startingCard = deck.draw();
         this.topCard = startingCard;
         this.topColour = topCard.getColour();
@@ -133,6 +136,10 @@ public class UnoGameModel {
      */
 
     public Card drawN(int numCards, int playerIndex) {
+        if (this.deck.isEmpty()){
+            deck = discardPile;
+            System.out.println("discard pile used as normal deck");
+        }
         if (numCards == 1){
             return players.get((playerIndex + 1) % players.size()).drawCard(deck);
         } else {
@@ -149,7 +156,10 @@ public class UnoGameModel {
      * @return The card drawn from the deck.
      */
     public Card drawOne(){
-
+        if (this.deck.isEmpty()){
+            deck = discardPile;
+            System.out.println("discard pile used as normal deck");
+        }
         Card card = deck.draw();
         currentPlayer.addCard(card);
         return card;
@@ -236,6 +246,7 @@ public class UnoGameModel {
             topCard = playedCard;
             topColour = topCard.getColour();
             topType = topCard.getCardType();
+            discardPile.addCard(topCard);
             currentPlayer.setCanPlay(false);
             return true;
         }

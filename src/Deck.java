@@ -78,6 +78,13 @@ public class Deck {
     }
 
     /**
+     * Adds a card to the deck
+     */
+    public void addCard(Card card){
+        this.deck.add(card);
+    }
+
+    /**
      * Adds a full deck of Uno cards and shuffles the deck.
      */
     public void makeCards() {

@@ -118,7 +118,7 @@ public class Player {
     /**
      * Removes a card from the player's hand by its index.
      *
-     * @param n The index of the card to remove from the player's hand.
+     * @param card The index of the card to remove from the player's hand.
      */
     public void removeCard(Card card) {
         myCards.remove(card);

@@ -43,9 +43,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
         startingCard = model.getStartingCard();
         firstRound = true;
-        String startCard = model.getStartingCard().toString();
-        String imagePath = "images/" + startCard +".jpg";
-        ImageIcon icon = new ImageIcon(imagePath);
+        String startCard = model.getStartingCard().getImageFilePath();
+
+        ImageIcon icon = new ImageIcon(startCard);
         topCard = new JButton(icon);
         topCard.putClientProperty("card", model.getStartingCard());
         nextButton = new JButton("Next Player");
@@ -189,24 +189,26 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             drawButton.setEnabled(false);
             controller.getCurrentPlayer().setCanPlay(false);
             controller.setHasDrawn();
-            controller.model.skip();
             updatePlayStatus("Player 1 must be skipped!");
             updateView();
-            model.checkActionCard();
         } else if (startingCard.getCardType() == Card.CardType.DRAW_ONE){
             nextButton.setEnabled(true);
             drawButton.setEnabled(false);
             controller.getCurrentPlayer().setCanPlay(false);
             controller.model.drawN(1,-1);
-            //controller.model.skip();
-            controller.model.skip();
             controller.setHasDrawn();
             updatePlayStatus("Player 1 must draw a card!");
             updateView();
         } else if (startingCard.getCardType() == Card.CardType.REVERSE){
             updatePlayStatus("Order Reversed!");
             updateView();
-            model.checkActionCard();
+            controller.checkActionCard();
+        } else if (startingCard.getCardType() == Card.CardType.FLIP){
+            updatePlayStatus("Game has been flipped!");
+            controller.flipGame();
+            updateView();
+            ImageIcon darkIcon = new ImageIcon(model.getStartingCard().getDarkFilePath());
+            topCard.setIcon(darkIcon);
         }
    }
 

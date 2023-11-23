@@ -172,4 +172,12 @@ public class UnoGameController implements ActionListener {
         return model.getCurrentPlayerIndex();
     }
 
+    /**
+     * Flips state of the game from light to dark and vise versa
+     */
+    public void flipGame(){
+        model.flip();
+        getCurrentPlayer().setCanPlay(true);
+    }
+
 }
