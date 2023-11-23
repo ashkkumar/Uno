@@ -137,14 +137,12 @@ public class UnoGameModel {
 
     public Card drawN(int numCards, int playerIndex) {
         if (numCards == 1){
+            reshuffleDeck();
             return players.get((playerIndex + 1) % players.size()).drawCard(deck);
         } else {
             for (int i = 0; i < numCards; i++) {
+                reshuffleDeck();
                 players.get((playerIndex + 1) % players.size()).drawCard(deck);
-                if (this.deck.isEmpty()){ // ex draw 5 and only 2 cards left will check if empty after every draw
-                    deck = discardPile;
-                    discardPile = new Deck(); // clear discard pile after
-                }
             }
             return null;
         }
@@ -156,10 +154,7 @@ public class UnoGameModel {
      * @return The card drawn from the deck.
      */
     public Card drawOne(){
-        if (this.deck.isEmpty()){
-            deck = discardPile;
-            discardPile = new Deck(); // clear discard pile after
-        }
+        reshuffleDeck();
         Card card = deck.draw();
         currentPlayer.addCard(card);
         return card;
@@ -321,6 +316,16 @@ public class UnoGameModel {
             playerIndex = 0;
         }
         currentPlayer = players.get(playerIndex);
+    }
+
+    /**
+     * When deck is empty use discard pile for new deck
+     */
+    public void reshuffleDeck(){
+        if (this.deck.isEmpty()){ // ex draw 5 and only 2 cards left will check if empty after every draw
+            deck = discardPile;
+            discardPile = new Deck(); // clear discard pile after
+        }
     }
 
     /**
