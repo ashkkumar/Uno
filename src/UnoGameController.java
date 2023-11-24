@@ -58,18 +58,48 @@ public class UnoGameController implements ActionListener {
 
         int bestCardIndex = model.getCurrentPlayer().getBestCardIndex(model.getTopCard());
 
-        System.out.println("Playing AI Card...");
+        if(bestCardIndex == -1){
+            model.drawOne();
+            System.out.println("AI Player" + model.getCurrentPlayer().toString() + " drew a card");
 
-        if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex))){
+            int bestCardIndex2 = model.getCurrentPlayer().getBestCardIndex(model.getTopCard());
 
-            System.out.println("Select card worked...");
+            if(bestCardIndex2 == -1){ //if the AI still can't play a card
+                System.out.println("AI Player" + model.getCurrentPlayer().toString() + " drew a card");
 
-            model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex));
+                return false;
+            }
 
-            System.out.println("card removed from Ai player...");
+            if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex2))){
 
-            //model.checkActionCard();
-            return true;
+                System.out.println("Select card worked...");
+
+                model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex2));
+
+                System.out.println("card removed from Ai player...");
+                model.checkActionCard();
+
+                return true;
+            }
+
+            return false;
+
+        } else{
+
+            System.out.println("Playing AI Card...");
+
+            if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex))){
+
+                System.out.println("Select card worked...");
+
+                model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex));
+
+                System.out.println("card removed from Ai player...");
+
+                model.checkActionCard();
+                return true;
+            }
+            System.out.println("Failed to playAICard");
         }
         return false;
     }

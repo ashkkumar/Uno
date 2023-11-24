@@ -28,7 +28,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     private int numAiPlayers;
 
-    private boolean firstRound;
 
     private ArrayList<Player> playersTest;
     /**
@@ -55,7 +54,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
         startingCard = model.getStartingCard();
-        firstRound = true;
         String startCard = model.getStartingCard().toString();
         String imagePath = "images/" + startCard +".jpg";
         ImageIcon icon = new ImageIcon(imagePath);
@@ -346,36 +344,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     @Override
     public void handlePlay(ActionEvent e) {
         JButton button = (JButton) e.getSource();
+
         Card card = (Card) button.getClientProperty("card");
 
-        if(model.getCurrentPlayer().isAI()){ //AI player
-            if (controller.playAICard()) {
-
-                System.out.println("Got to AI handlePlay if statement");
-
-                ImageIcon icon = new ImageIcon(card.getImageFilePath());
-                topCard.setIcon(icon);
-
-                System.out.println("New icon set");
-
-                updateView();
-
-                System.out.println("View updated");
-
-                if (card.getCardType() == Card.CardType.SKIP) {
-                    updatePlayStatus("Skipping Next Player's Turn!");
-                } else if (card.getCardType() == Card.CardType.DRAW_ONE){
-                    updatePlayStatus("Next player draws and skips turn!");
-                } else if (card.getCardType() == Card.CardType.REVERSE){
-                    updatePlayStatus("Order of players reversed!");
-                } else{
-                    updatePlayStatus("Good move");
-                }
-            } else {
-                updatePlayStatus("Invalid Move");
-            }
-        }else{ //human player
-            if (card.getColour() == Card.Colour.WILD){
+       if (card.getColour() == Card.Colour.WILD){
                 askWildCard(card);
             } else if (controller.playCard(card)) {
                 ImageIcon icon = new ImageIcon(card.getImageFilePath());
@@ -393,13 +365,9 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             } else {
                 updatePlayStatus("Invalid Move");
             }
-        }
-        if (controller.checkForWinner()) {
-                /*
-                if (controller.keepPlaying()) {
-                    showKeepPlayingPopup();
 
-                 */
+        if (controller.checkForWinner()) {
+
             showWinnerPopup();
             nextButton.setEnabled(false);
             drawButton.setEnabled(false);
@@ -417,7 +385,25 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void handleNextTurn(ActionEvent e) {
         controller.actionPerformed(e);
         updateView();
-        firstRound = false;
+
+        // Handle AI Turn
+        if (controller.getCurrentPlayer().isAI()) {
+            controller.playAICard(); //plays a card if possible, else draws a card
+            topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
+            updateView();
+//            if (card.getCardType() == Card.CardType.SKIP) {
+//                updatePlayStatus("Skipping Next Player's Turn!");
+//            } else if (card.getCardType() == Card.CardType.DRAW_ONE){
+//                updatePlayStatus("Next player draws and skips turn!");
+//            } else if (card.getCardType() == Card.CardType.REVERSE){
+//                updatePlayStatus("Order of players reversed!");
+//            } else{
+//                updatePlayStatus("Good move");
+//            }
+//        } else {
+//            updatePlayStatus("Invalid Move");
+//        }
+        }
     }
 
     public static void main(String[] args) {

@@ -199,6 +199,8 @@ public class UnoGameModel {
      */
     public boolean selectCard(Card card) {
         playedCard = card;
+        System.out.println(isValidChoice());
+        System.out.println(currentPlayer.canPlay());
         if (isValidChoice() && currentPlayer.canPlay()) {
             topCard = playedCard;
             topColour = topCard.getColour();
@@ -273,6 +275,12 @@ public class UnoGameModel {
             playerIndex = 0;
         }
         currentPlayer = players.get(playerIndex);
+
+        // Check if next player is AI, Block buttons off so that humans can't interfere with AI turn.
+        if (currentPlayer.isAI()){
+            //currentPlayer.setCanPlay(true);
+            currentPlayer.setHasDrawn(true);
+        }
     }
 
     /**
@@ -296,6 +304,18 @@ public class UnoGameModel {
 
     public ArrayList<Player> getPlayers(){
         return players;
+    }
+
+    public void playBestCard(){
+        int bestCardIndex = this.currentPlayer.getBestCardIndex(this.topCard);
+
+        if (bestCardIndex != -1){
+            Card bestCard = currentPlayer.getCard(bestCardIndex);
+            selectCard(bestCard);
+        }
+        else{
+            this.drawOne();
+        }
     }
 
     public static void main(String[] args) {

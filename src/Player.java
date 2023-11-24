@@ -3,7 +3,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Player {
-
     private String name;
 
     private ArrayList<Card> myCards;
@@ -156,33 +155,73 @@ public class Player {
         isAI = true;
     }
 
-    public int getBestCardIndex(Card topCard) {
-        Card.Colour colour = topCard.getColour();
+    public void printMyCards() {
+        System.out.println("My Cards:");
+        for (Card card : myCards) {
+            System.out.println(card.toString());
+        }
+    }
 
-        ArrayList<Card> sameColourCard = new ArrayList<>();
+    public int getBestCardIndex(Card topCard) {
+        //Card.CardType.WILD
+
+        ArrayList<Card> playableCards = new ArrayList<>();
 
         for (Card card : myCards) {
-            if (card.getColour() == colour) {
-                sameColourCard.add(card);
+            if (card.getColour() == topCard.getColour() || card.getCardType() == topCard.getCardType()) {
+                playableCards.add(card);
             }
         }
 
-        if (sameColourCard.isEmpty()) {
-            throw new RuntimeException("No valid cards available.");
+        if (playableCards.isEmpty()) {
+            //draw a card, there is nothing you can play
+
+//            model.drawOne();
+//            System.out.println("AI Player" + model.getCurrentPlayer() + " drew a card");
+
+            return -1; //return -1 to indicate that the AI player drew a card
         }
 
-        if (!sameColourCard.isEmpty()) {
-            sameColourCard.sort(Comparator.comparingInt(Card::getScore).reversed());
-            Card bestCard = sameColourCard.get(0);
+        if (!playableCards.isEmpty()) {
+            playableCards.sort(Comparator.comparingInt(Card::getScore).reversed());
+            Card bestCard = playableCards.get(0);
+
+            System.out.println("Best Card Index from the Player class: " + myCards.indexOf(bestCard));
+
             return myCards.indexOf(bestCard);
         } else {
             throw new RuntimeException("Unexpected error: No best card found.");
         }
+
     }
 
     public Card getCard(int i){
         return this.myCards.get(i);
     }
+
+    public static void main(String[] args) {
+
+        UnoGameModel model = new UnoGameModel(3, 0);
+
+        Player player = model.getCurrentPlayer();
+
+        System.out.println("Top card: " + model.getTopCard().toString());
+
+        int index = player.getBestCardIndex(model.getTopCard());
+
+        Card bestCard = player.getCard(index);
+
+        player.printMyCards();
+
+        if( index != -1){
+            System.out.println("Best card: " + bestCard.toString());
+        } else {
+            System.out.println("Best card: " + "null");
+        }
+
+    }
+
+
 
 }
 
