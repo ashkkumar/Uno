@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class UnoGameController implements ActionListener {
 
@@ -62,13 +63,15 @@ public class UnoGameController implements ActionListener {
         checkForWinner();
         keepPlaying();
 
-        int bestCardIndex = model.getCurrentPlayer().getBestCardIndex(model.getTopCard());
+        System.out.println(model.getTopCard().getColour().name());
+
+        int bestCardIndex = model.getCurrentPlayer().getBestCardIndex(model.getTopType(), model.getTopColour());
 
         if(bestCardIndex == -1){
             model.drawOne();
             System.out.println("AI Player" + model.getCurrentPlayer().toString() + " drew a card");
 
-            int bestCardIndex2 = model.getCurrentPlayer().getBestCardIndex(model.getTopCard());
+            int bestCardIndex2 = model.getCurrentPlayer().getBestCardIndex(model.getTopType(), model.getTopColour());
 
             if(bestCardIndex2 == -1){ //if the AI still can't play a card
 
@@ -79,10 +82,18 @@ public class UnoGameController implements ActionListener {
 
                 System.out.println("Select card worked...");
 
+                Card card = model.getCurrentPlayer().getCard(bestCardIndex2);
+
                 model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex2));
 
                 System.out.println("card removed from Ai player...");
                 model.checkActionCard();
+                if (model.getTopColour() == Card.Colour.WILD){
+                    String[] colours = {"BLUE", "RED", "YELLOW", "GREEN"};
+                    Random randNum = new Random();
+                    playWild(card,Card.Colour.valueOf(colours[randNum.nextInt(4)]));
+                    //model.wildCard(Card.Colour.valueOf(colours[randNum.nextInt(4)]));
+                }
 
                 return true;
             }
@@ -97,11 +108,19 @@ public class UnoGameController implements ActionListener {
 
                 System.out.println("Select card worked...");
 
+                Card card = model.getCurrentPlayer().getCard(bestCardIndex);
+
                 model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex));
 
                 System.out.println("card removed from Ai player...");
 
                 model.checkActionCard();
+                if (model.getTopColour() == Card.Colour.WILD){
+                    String[] colours = {"BLUE", "RED", "YELLOW", "GREEN"};
+                    Random randNum = new Random();
+                    playWild(card,Card.Colour.valueOf(colours[randNum.nextInt(4)]));
+                    //model.wildCard(Card.Colour.valueOf(colours[randNum.nextInt(4)]));
+                }
                 return true;
             }
             System.out.println("Failed to playAICard");

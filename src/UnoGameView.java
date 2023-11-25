@@ -481,11 +481,5 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 //        }
         }
     }
-
-    public static void main(String[] args) {
-
-        UnoGameView view = new UnoGameView();
-
-    }
 }
 

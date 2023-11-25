@@ -165,13 +165,13 @@ public class Player {
         }
     }
 
-    public int getBestCardIndex(Card topCard) {
+    public int getBestCardIndex(Card.CardType type, Card.Colour colour) {
         //Card.CardType.WILD
 
         ArrayList<Card> playableCards = new ArrayList<>();
 
         for (Card card : myCards) {
-            if (card.getColour() == topCard.getColour() || card.getCardType() == topCard.getCardType()) {
+            if (card.getColour() == colour || card.getCardType() == type || card.getColour() == Card.Colour.WILD) {
                 playableCards.add(card);
             }
         }
@@ -201,29 +201,6 @@ public class Player {
     public Card getCard(int i){
         return this.myCards.get(i);
     }
-
-    public static void main(String[] args) {
-
-        UnoGameModel model = new UnoGameModel(3, 0);
-
-        Player player = model.getCurrentPlayer();
-
-        System.out.println("Top card: " + model.getTopCard().toString());
-
-        int index = player.getBestCardIndex(model.getTopCard());
-
-        Card bestCard = player.getCard(index);
-
-        player.printMyCards();
-
-        if( index != -1){
-            System.out.println("Best card: " + bestCard.toString());
-        } else {
-            System.out.println("Best card: " + "null");
-        }
-
-    }
-
 
 
 }
