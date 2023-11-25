@@ -157,6 +157,9 @@ public class UnoGameModel {
         reshuffleDeck();
         Card card = deck.draw();
         currentPlayer.addCard(card);
+        if (currentPlayer.isAI()){
+            currentPlayer.setCanPlay(false);
+        }
         return card;
     }
 
@@ -331,7 +334,7 @@ public class UnoGameModel {
 
         // Check if next player is AI, Block buttons off so that humans can't interfere with AI turn.
         if (currentPlayer.isAI()){
-            //currentPlayer.setCanPlay(true);
+            //currentPlayer.setCanPlay(false);
             currentPlayer.setHasDrawn(true);
         }
     }

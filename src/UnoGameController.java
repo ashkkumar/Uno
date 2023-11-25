@@ -71,7 +71,6 @@ public class UnoGameController implements ActionListener {
             int bestCardIndex2 = model.getCurrentPlayer().getBestCardIndex(model.getTopCard());
 
             if(bestCardIndex2 == -1){ //if the AI still can't play a card
-                System.out.println("AI Player" + model.getCurrentPlayer().toString() + " drew a card");
 
                 return false;
             }
