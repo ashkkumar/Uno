@@ -58,7 +58,7 @@ public class UnoGameController implements ActionListener {
         return false;
     }
 
-    public boolean playAICard(){
+    public Card playAICard(){
         checkForWinner();
         keepPlaying();
 
@@ -72,7 +72,7 @@ public class UnoGameController implements ActionListener {
 
             if(bestCardIndex2 == -1){ //if the AI still can't play a card
 
-                return false;
+                return null;
             }
 
             if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex2))){
@@ -84,10 +84,10 @@ public class UnoGameController implements ActionListener {
                 System.out.println("card removed from Ai player...");
                 model.checkActionCard();
 
-                return true;
+                return getCurrentPlayer().getCard(bestCardIndex2);
             }
 
-            return false;
+            return null;
 
         } else{
 
@@ -102,11 +102,11 @@ public class UnoGameController implements ActionListener {
                 System.out.println("card removed from Ai player...");
 
                 model.checkActionCard();
-                return true;
+                return getCurrentPlayer().getCard(bestCardIndex);
             }
             System.out.println("Failed to playAICard");
         }
-        return false;
+        return null;
     }
 
     /**

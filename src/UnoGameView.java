@@ -461,24 +461,13 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         // Handle AI Turn
         if (controller.getCurrentPlayer().isAI()) {
             controller.playAICard(); //plays a card if possible, else draws a card
-            if (controller.checkDarkState()){
+            if (controller.checkDarkState()) {
                 topCard.setIcon(new ImageIcon(model.getTopCard().getDarkFilePath()));
             } else {
                 topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
             }
+
             updateView();
-//            if (card.getCardType() == Card.CardType.SKIP) {
-//                updatePlayStatus("Skipping Next Player's Turn!");
-//            } else if (card.getCardType() == Card.CardType.DRAW_ONE){
-//                updatePlayStatus("Next player draws and skips turn!");
-//            } else if (card.getCardType() == Card.CardType.REVERSE){
-//                updatePlayStatus("Order of players reversed!");
-//            } else{
-//                updatePlayStatus("Good move");
-//            }
-//        } else {
-//            updatePlayStatus("Invalid Move");
-//        }
         }
     }
 
