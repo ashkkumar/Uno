@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Player {
 
@@ -13,6 +15,9 @@ public class Player {
     private boolean canPlay = true;
 
     private boolean hasDrawn = false;
+
+    private boolean isAI = false;
+
 
     /**
      * Constructs a new Uno player with an empty card list and a score of 0.
@@ -144,6 +149,82 @@ public class Player {
             System.out.println(i + 1 + "." + myCards.get(i).toString());
         }
     }
+
+    public boolean isAI(){
+        return isAI;
+    }
+
+    public void setAITrue(){
+        isAI = true;
+    }
+
+    public void printMyCards() {
+        System.out.println("My Cards:");
+        for (Card card : myCards) {
+            System.out.println(card.toString());
+        }
+    }
+
+    public int getBestCardIndex(Card topCard) {
+        //Card.CardType.WILD
+
+        ArrayList<Card> playableCards = new ArrayList<>();
+
+        for (Card card : myCards) {
+            if (card.getColour() == topCard.getColour() || card.getCardType() == topCard.getCardType()) {
+                playableCards.add(card);
+            }
+        }
+
+        if (playableCards.isEmpty()) {
+            //draw a card, there is nothing you can play
+
+//            model.drawOne();
+//            System.out.println("AI Player" + model.getCurrentPlayer() + " drew a card");
+
+            return -1; //return -1 to indicate that the AI player drew a card
+        }
+
+        if (!playableCards.isEmpty()) {
+            playableCards.sort(Comparator.comparingInt(Card::getScore).reversed());
+            Card bestCard = playableCards.get(0);
+
+            System.out.println("Best Card Index from the Player class: " + myCards.indexOf(bestCard));
+
+            return myCards.indexOf(bestCard);
+        } else {
+            throw new RuntimeException("Unexpected error: No best card found.");
+        }
+
+    }
+
+    public Card getCard(int i){
+        return this.myCards.get(i);
+    }
+
+    public static void main(String[] args) {
+
+        UnoGameModel model = new UnoGameModel(3, 0);
+
+        Player player = model.getCurrentPlayer();
+
+        System.out.println("Top card: " + model.getTopCard().toString());
+
+        int index = player.getBestCardIndex(model.getTopCard());
+
+        Card bestCard = player.getCard(index);
+
+        player.printMyCards();
+
+        if( index != -1){
+            System.out.println("Best card: " + bestCard.toString());
+        } else {
+            System.out.println("Best card: " + "null");
+        }
+
+    }
+
+
 
 }
 

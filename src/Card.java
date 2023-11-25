@@ -133,6 +133,11 @@ public class Card {
         return this.COLOUR;
     }
 
+    public int getScore(){
+        return this.TYPE.cardScore;
+    }
+
+
     /**
      * Returns a string representation of the card, including its color and type.
      *

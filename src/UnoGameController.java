@@ -58,6 +58,58 @@ public class UnoGameController implements ActionListener {
         return false;
     }
 
+    public boolean playAICard(){
+        checkForWinner();
+        keepPlaying();
+
+        int bestCardIndex = model.getCurrentPlayer().getBestCardIndex(model.getTopCard());
+
+        if(bestCardIndex == -1){
+            model.drawOne();
+            System.out.println("AI Player" + model.getCurrentPlayer().toString() + " drew a card");
+
+            int bestCardIndex2 = model.getCurrentPlayer().getBestCardIndex(model.getTopCard());
+
+            if(bestCardIndex2 == -1){ //if the AI still can't play a card
+                System.out.println("AI Player" + model.getCurrentPlayer().toString() + " drew a card");
+
+                return false;
+            }
+
+            if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex2))){
+
+                System.out.println("Select card worked...");
+
+                model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex2));
+
+                System.out.println("card removed from Ai player...");
+                model.checkActionCard();
+
+                return true;
+            }
+
+            return false;
+
+        } else{
+
+            System.out.println("Playing AI Card...");
+
+            if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex))){
+
+                System.out.println("Select card worked...");
+
+                model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex));
+
+                System.out.println("card removed from Ai player...");
+
+                model.checkActionCard();
+                return true;
+            }
+            System.out.println("Failed to playAICard");
+        }
+        return false;
+    }
+
     /**
      * Checks if there's a winner
      * @return true if there's a winner
@@ -118,8 +170,8 @@ public class UnoGameController implements ActionListener {
      *
      * @param n The number of players to create.
      */
-    public void createPlayers(int n){
-        model.createPlayers(n);
+    public void createPlayers(int n, int numAI){
+        model.createPlayers(n, numAI);
     }
 
     /**

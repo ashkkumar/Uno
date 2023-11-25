@@ -12,12 +12,9 @@ public class UnoGameModel {
     private Card startingCard;
     private Card topCard;
     private Card playedCard;
-
     private Player currentPlayer;
-
     private int playerIndex = 0;
     private boolean finished;
-
     private final List<UnoViewHandler> views;
     private Card.Colour playedColour;
     private Card.CardType playedType;
@@ -27,8 +24,8 @@ public class UnoGameModel {
     /**
      * Initializes the UnoGameModel, creating players, deck, and starting card, and deals the initial set of cards.
      */
-    public UnoGameModel(int playerCount) {
-        initializeGame(playerCount);
+    public UnoGameModel(int playerCount, int aiPlayerCount) {
+        initializeGame(playerCount, aiPlayerCount);
 
         views = new ArrayList<>();
     }
@@ -37,8 +34,10 @@ public class UnoGameModel {
      * Initializes the Uno game by creating players, initializing the deck, and dealing the initial set of cards.
      * This method sets up the starting card, current player, and other game-related attributes.
      */
-    private void initializeGame(int playerCount) {
-        createPlayers(playerCount);
+    private void initializeGame(int playerCount, int aiPlayers) {
+
+        createPlayers(playerCount, aiPlayers);
+
         this.deck = new Deck();
         this.discardPile = new Deck();
         this.startingCard = deck.draw();
@@ -47,6 +46,7 @@ public class UnoGameModel {
         this.topType = topCard.getCardType();
         this.finished = false;
         currentPlayer = players.get(playerIndex);
+
         dealCards();
     }
 
@@ -208,12 +208,19 @@ public class UnoGameModel {
      *
      * @param n The number of players to create.
      */
-    public void createPlayers(int n) {
+
+    public void createPlayers(int n, int numAI) {
         this.players = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
+
+        for (int i = 0; i < n + numAI; i++) {
             Player player = new Player();
-            player.setName(Integer.toString(i+1));
+            player.setName(Integer.toString(i + 1));
             players.add(player);
+            }
+
+        for (int i = players.size() - numAI; i < players.size(); i++) {
+            players.get(i).setAITrue(); // set the AI field for the AI players to true
+            System.out.println(players.get(i).getName());
         }
     }
 
@@ -248,6 +255,10 @@ public class UnoGameModel {
         return false;
     }
 
+    public Card getTopCard(){
+        return topCard;
+    }
+
     /**
      * Checks whether the played card is a valid choice to be played on the current top card.
      * This method evaluates the color and type of the played card against the color and type of the top card
@@ -255,6 +266,7 @@ public class UnoGameModel {
      *
      * @return True if the played card is a valid choice; false otherwise.
      */
+
     public boolean isValidChoice() {
         if (playedCard == null || topCard == null) {
             return false;
@@ -305,7 +317,7 @@ public class UnoGameModel {
     }
 
     /**
-     * Moves to the next layer in the game.
+     * Moves to the next player in the game.
      * Resets the playability and draw status of the current player.
      */
     public void nextPlayer() {
@@ -316,6 +328,12 @@ public class UnoGameModel {
             playerIndex = 0;
         }
         currentPlayer = players.get(playerIndex);
+
+        // Check if next player is AI, Block buttons off so that humans can't interfere with AI turn.
+        if (currentPlayer.isAI()){
+            //currentPlayer.setCanPlay(true);
+            currentPlayer.setHasDrawn(true);
+        }
     }
 
     /**
@@ -346,6 +364,28 @@ public class UnoGameModel {
             return true;
         }
         return false;
+
+    }
+
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+
+    public void playBestCard(){
+        int bestCardIndex = this.currentPlayer.getBestCardIndex(this.topCard);
+
+        if (bestCardIndex != -1){
+            Card bestCard = currentPlayer.getCard(bestCardIndex);
+            selectCard(bestCard);
+        }
+        else{
+            this.drawOne();
+        }
+    }
+
+    public static void main(String[] args) {
+        UnoGameModel model = new UnoGameModel(1, 4);
+
     }
 
 }
