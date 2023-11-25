@@ -368,7 +368,13 @@ public class UnoGameModel {
             int score = 0;
             for (Player player : players) {
                 for (Card card : player.getMyCards()) {
-                    score += card.getCardType().cardScore;
+                    if (isDarkSide()){
+                        if (card.getCardType() == Card.CardType.SKIP || card.getCardType() == Card.CardType.DRAW_ONE
+                        || card.getCardType() == Card.CardType.WILD_DRAW_TWO){
+                            score += card.getScore() + 10;
+                        }
+                    }
+                    score += card.getScore();
                 }
             }
             score += currentPlayer.getScore();

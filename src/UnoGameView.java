@@ -111,7 +111,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             }
         });
 
-        model.checkActionCard();
         updateView();
         checkStartCard();
         setVisible(true);
