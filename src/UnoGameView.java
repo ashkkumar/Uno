@@ -100,7 +100,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             public void actionPerformed(ActionEvent e) {
                 UnoGameEvent unoEvent = new UnoGameEvent(model);
                 handleNextTurn(e);
-                updateView();
+                //updateView();
             }
         });
 
@@ -111,7 +111,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             }
         });
 
-        model.checkActionCard();
         updateView();
         checkStartCard();
         setVisible(true);
@@ -411,28 +410,28 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 topCard.setIcon(icon);
             }
             updateView();
-//            if (card.getCardType() == Card.CardType.SKIP) {
-//                if (controller.checkDarkState()){
-//                    updatePlayStatus("Skipping all players!");
-//                } else {
-//                    updatePlayStatus("Skipping Next Player's Turn!");
-//                }
-//            } else if (card.getCardType() == Card.CardType.DRAW_ONE){
-//                if (controller.checkDarkState()){
-//                    updatePlayStatus("Next player draws 5 and skips turn!");
-//                } else {
-//                    updatePlayStatus("Next player draws and skips turn!");
-//                }
-//            } else if (card.getCardType() == Card.CardType.REVERSE){
-//                updatePlayStatus("Order of players reversed!");
-//            } else if (card.getCardType() == Card.CardType.FLIP){
-//                updatePlayStatus("The game has been flipped!");
-//            }
-//            else{
-//                updatePlayStatus("Good move");
-//            }
-//        } else {
-//            updatePlayStatus("Invalid Move");
+            if (card.getCardType() == Card.CardType.SKIP) {
+                if (controller.checkDarkState()){
+                    updatePlayStatus("Skipping all players!");
+                } else {
+                    updatePlayStatus("Skipping Next Player's Turn!");
+                }
+            } else if (card.getCardType() == Card.CardType.DRAW_ONE){
+                if (controller.checkDarkState()){
+                    updatePlayStatus("Next player draws 5 and skips turn!");
+                } else {
+                    updatePlayStatus("Next player draws and skips turn!");
+                }
+            } else if (card.getCardType() == Card.CardType.REVERSE){
+                updatePlayStatus("Order of players reversed!");
+            } else if (card.getCardType() == Card.CardType.FLIP){
+                updatePlayStatus("The game has been flipped!");
+            }
+            else{
+                updatePlayStatus("Good move");
+            }
+        } else {
+            updatePlayStatus("Invalid Move");
         }
         if (controller.checkForWinner()) {
                 /*
@@ -460,23 +459,19 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
         // Handle AI Turn
         if (controller.getCurrentPlayer().isAI()) {
-            controller.playAICard(); //plays a card if possible, else draws a card
-
-            if (controller.checkDarkState()) {
+            boolean playedCard = controller.playAICard(); //plays a card if possible, else draws a card
+            if (controller.checkDarkState()){
                 topCard.setIcon(new ImageIcon(model.getTopCard().getDarkFilePath()));
             } else {
                 topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
             }
-
             updateView();
-
+            if (playedCard) {
+                updatePlayStatus("Ai Played a card!");
+            } else{
+                updatePlayStatus("Ai Drew a card!");
+            }
         }
-    }
-
-    public static void main(String[] args) {
-
-        UnoGameView view = new UnoGameView();
-
     }
 }
 

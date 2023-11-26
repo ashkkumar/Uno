@@ -68,6 +68,13 @@ public class UnoGameModel {
     }
 
     /**
+     * Gets the type of the top card
+     * @return top Type
+     */
+
+    public Card.CardType getTopType(){return this.topType;}
+
+    /**
      * Gets the card that has been played.
      *
      * @return The played card.
@@ -247,6 +254,8 @@ public class UnoGameModel {
      */
     public boolean selectCard(Card card) {
         playedCard = card;
+        System.out.println("Valid: " + isValidChoice());
+        System.out.println("Canplay " + currentPlayer.canPlay());
         if (isValidChoice() && currentPlayer.canPlay()) {
             topCard = playedCard;
             topColour = topCard.getColour();
@@ -359,7 +368,13 @@ public class UnoGameModel {
             int score = 0;
             for (Player player : players) {
                 for (Card card : player.getMyCards()) {
-                    score += card.getCardType().cardScore;
+                    if (isDarkSide()){
+                        if (card.getCardType() == Card.CardType.SKIP || card.getCardType() == Card.CardType.DRAW_ONE
+                        || card.getCardType() == Card.CardType.WILD_DRAW_TWO){
+                            score += card.getScore() + 10;
+                        }
+                    }
+                    score += card.getScore();
                 }
             }
             score += currentPlayer.getScore();
@@ -374,6 +389,7 @@ public class UnoGameModel {
         return players;
     }
 
+    /*
     public void playBestCard(){
         int bestCardIndex = this.currentPlayer.getBestCardIndex(this.topCard);
 
@@ -386,9 +402,6 @@ public class UnoGameModel {
         }
     }
 
-    public static void main(String[] args) {
-        UnoGameModel model = new UnoGameModel(1, 4);
-
-    }
+     */
 
 }
