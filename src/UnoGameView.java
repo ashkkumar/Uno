@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.lang.*;
 
+
+/**
+ * The main view class for the Uno game. This class extends JFrame and implements
+ * the UnoViewHandler interface to handle UI components and events.
+ */
 public class UnoGameView extends JFrame implements UnoViewHandler {
     private UnoGameModel model;
     private JPanel playerHandPane;

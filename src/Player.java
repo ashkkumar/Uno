@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * Represents a player in the Uno game, with attributes such as name, score, and a hand of cards.
+ */
 public class Player {
 
     private String name;
@@ -38,8 +41,9 @@ public class Player {
     }
 
     /**
-     * Checks the canPlay variable
-     * @return if the current player is able to play or not
+     * Gets whether the player can play in the current turn.
+     *
+     * @return True if the player can play; false otherwise.
      */
     public boolean canPlay(){
         return canPlay;
@@ -53,7 +57,7 @@ public class Player {
     public int getNumCards() {
         return numCards;
     }
-
+    
     /**
      * Sets the number of cards in the player's hand.
      * @param num the number of cards to set.
@@ -63,8 +67,9 @@ public class Player {
     }
 
     /**
-     * Gets the hasDrawn variable and returns it to let the system know if the current player has drawn
-     * @return the hasDrawn variable
+     * Gets whether the player has drawn a card in the current turn.
+     *
+     * @return True if the player has drawn; false otherwise.
      */
     public boolean getHasDrawn(){
         return hasDrawn;
@@ -107,16 +112,18 @@ public class Player {
     }
 
     /**
-     * Sets the canPlay variable to true or false
-     * @param bool the value that sets canPlay
+     * Sets whether the player can play in the current turn.
+     *
+     * @param bool True if the player can play; false otherwise.
      */
     public void setCanPlay(Boolean bool){
         this.canPlay = bool;
     }
 
     /**
-     * Sets the hasDrawn variable to true or false
-     * @param hasDrawn the value to set hasDrawn to
+     * Sets whether the player has drawn a card in the current turn.
+     *
+     * @param hasDrawn True if the player has drawn; false otherwise.
      */
     public void setHasDrawn(boolean hasDrawn) {
         this.hasDrawn = hasDrawn;
@@ -175,15 +182,16 @@ public class Player {
     }
 
     /**
-     * Checks if the current player is AI or human
-     * @return true for ai false for human
+     * Gets whether the player is controlled by AI.
+     *
+     * @return True if the player is AI; false otherwise.
      */
     public boolean isAI(){
         return isAI;
     }
 
     /**
-     * Sets the isAI variable to true
+     * Sets the player to be controlled by AI.
      */
     public void setAITrue(){
         isAI = true;
@@ -200,10 +208,11 @@ public class Player {
     }
 
     /**
-     * Gets the best playable card for the current ai player
-     * @param type the type of the top card
-     * @param colour the colour of the top card
-     * @return the chosen index for the best card
+     * Gets the index of the best card to play from the player's hand.
+     *
+     * @param type   The type of the top card on the discard pile.
+     * @param colour The colour of the top card on the discard pile.
+     * @return The index of the best card to play from the player's hand.
      */
     public int getBestCardIndex(Card.CardType type, Card.Colour colour) {
 
@@ -234,9 +243,11 @@ public class Player {
     }
 
     /**
-     * gets the specified card based off of index
-     * @param i the index of the card to be returned
-     * @return the card at index i
+     * Gets the index of the best card to play from the player's hand.
+     *
+     * @param /type The type of the top card on the discard pile.
+     * @param /colour The colour of the top card on the discard pile.
+     * @return The index of the best card to play from the player's hand.
      */
     public Card getCard(int i){
         return this.myCards.get(i);
