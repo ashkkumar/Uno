@@ -37,6 +37,10 @@ public class Player {
         return score;
     }
 
+    /**
+     * Checks the canPlay variable
+     * @return if the current player is able to play or not
+     */
     public boolean canPlay(){
         return canPlay;
     }
@@ -58,6 +62,10 @@ public class Player {
         this.numCards = num;
     }
 
+    /**
+     * Gets the hasDrawn variable and returns it to let the system know if the current player has drawn
+     * @return the hasDrawn variable
+     */
     public boolean getHasDrawn(){
         return hasDrawn;
     }
@@ -98,10 +106,18 @@ public class Player {
         this.name = name;
     }
 
+    /**
+     * Sets the canPlay variable to true or false
+     * @param bool the value that sets canPlay
+     */
     public void setCanPlay(Boolean bool){
         this.canPlay = bool;
     }
 
+    /**
+     * Sets the hasDrawn variable to true or false
+     * @param hasDrawn the value to set hasDrawn to
+     */
     public void setHasDrawn(boolean hasDrawn) {
         this.hasDrawn = hasDrawn;
     }
@@ -158,14 +174,24 @@ public class Player {
         }
     }
 
+    /**
+     * Checks if the current player is AI or human
+     * @return true for ai false for human
+     */
     public boolean isAI(){
         return isAI;
     }
 
+    /**
+     * Sets the isAI variable to true
+     */
     public void setAITrue(){
         isAI = true;
     }
 
+    /**
+     * Prints the list of cards of the current player
+     */
     public void printMyCards() {
         System.out.println("My Cards:");
         for (Card card : myCards) {
@@ -173,8 +199,13 @@ public class Player {
         }
     }
 
+    /**
+     * Gets the best playable card for the current ai player
+     * @param type the type of the top card
+     * @param colour the colour of the top card
+     * @return the chosen index for the best card
+     */
     public int getBestCardIndex(Card.CardType type, Card.Colour colour) {
-        //Card.CardType.WILD
 
         ArrayList<Card> playableCards = new ArrayList<>();
 
@@ -202,6 +233,11 @@ public class Player {
 
     }
 
+    /**
+     * gets the specified card based off of index
+     * @param i the index of the card to be returned
+     * @return the card at index i
+     */
     public Card getCard(int i){
         return this.myCards.get(i);
     }

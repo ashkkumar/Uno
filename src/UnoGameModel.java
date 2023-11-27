@@ -341,7 +341,6 @@ public class UnoGameModel {
 
         // Check if next player is AI, Block buttons off so that humans can't interfere with AI turn.
         if (currentPlayer.isAI()){
-            //currentPlayer.setCanPlay(false);
             currentPlayer.setHasDrawn(true);
         }
     }
@@ -383,23 +382,12 @@ public class UnoGameModel {
 
     }
 
+    /**
+     * Gets the list of players from the uno game model
+     * @return an arraylist of player objects
+     */
     public ArrayList<Player> getPlayers(){
         return players;
     }
-
-    /*
-    public void playBestCard(){
-        int bestCardIndex = this.currentPlayer.getBestCardIndex(this.topCard);
-
-        if (bestCardIndex != -1){
-            Card bestCard = currentPlayer.getCard(bestCardIndex);
-            selectCard(bestCard);
-        }
-        else{
-            this.drawOne();
-        }
-    }
-
-     */
 
 }

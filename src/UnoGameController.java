@@ -57,6 +57,12 @@ public class UnoGameController implements ActionListener {
         return false;
     }
 
+    /***
+     * Selects and Plays for an AI Player based on the number of points each card is worth
+     * Checks for action card and does appropriate action
+     * Removes card from hand and continues
+     * @return true if played, false if drawn
+     */
     public boolean playAICard(){
 
         int bestCardIndex = model.getCurrentPlayer().getBestCardIndex(model.getTopType(), model.getTopColour());
