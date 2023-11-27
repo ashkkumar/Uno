@@ -214,9 +214,10 @@ public class UnoGameModel {
     }
 
     /**
-     * Creates a specified number of players in the game.
+     * Creates a specified number of players in the game, including AI players.
      *
-     * @param n The number of players to create.
+     * @param n     The number of human players to create.
+     * @param numAI The number of AI players to create.
      */
 
     public void createPlayers(int n, int numAI) {
@@ -267,6 +268,10 @@ public class UnoGameModel {
         return false;
     }
 
+    /**
+     * Gets the top card in the game.
+     * @return The top card.
+     */
     public Card getTopCard(){
         return topCard;
     }
@@ -385,23 +390,14 @@ public class UnoGameModel {
 
     }
 
+    /**
+     * Gets the list of players in the game.
+     * @return The list of players.
+     */
+
     public ArrayList<Player> getPlayers(){
         return players;
     }
 
-    /*
-    public void playBestCard(){
-        int bestCardIndex = this.currentPlayer.getBestCardIndex(this.topCard);
-
-        if (bestCardIndex != -1){
-            Card bestCard = currentPlayer.getCard(bestCardIndex);
-            selectCard(bestCard);
-        }
-        else{
-            this.drawOne();
-        }
-    }
-
-     */
 
 }

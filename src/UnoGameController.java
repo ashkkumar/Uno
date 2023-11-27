@@ -2,6 +2,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+/**
+ * The controller class for the Uno game. This class implements ActionListener to handle
+ * user interactions and controls the game logic.
+ */
 public class UnoGameController implements ActionListener {
 
     public UnoGameModel model;
@@ -59,6 +63,12 @@ public class UnoGameController implements ActionListener {
         return false;
     }
 
+
+    /**
+     * Attempts to play an AI card. If successful, returns true; otherwise, returns false.
+     *
+     * @return True if the AI successfully played a card; false otherwise.
+     */
     public boolean playAICard(){
         checkForWinner();
         keepPlaying();

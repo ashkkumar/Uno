@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * Represents a player in the Uno game, with attributes such as name, score, and a hand of cards.
+ */
 public class Player {
 
     private String name;
@@ -37,6 +40,11 @@ public class Player {
         return score;
     }
 
+    /**
+     * Gets whether the player can play in the current turn.
+     *
+     * @return True if the player can play; false otherwise.
+     */
     public boolean canPlay(){
         return canPlay;
     }
@@ -50,6 +58,11 @@ public class Player {
         return numCards;
     }
 
+    /**
+     * Gets whether the player has drawn a card in the current turn.
+     *
+     * @return True if the player has drawn; false otherwise.
+     */
     public boolean getHasDrawn(){
         return hasDrawn;
     }
@@ -90,10 +103,20 @@ public class Player {
         this.name = name;
     }
 
+    /**
+     * Sets whether the player can play in the current turn.
+     *
+     * @param bool True if the player can play; false otherwise.
+     */
     public void setCanPlay(Boolean bool){
         this.canPlay = bool;
     }
 
+    /**
+     * Sets whether the player has drawn a card in the current turn.
+     *
+     * @param hasDrawn True if the player has drawn; false otherwise.
+     */
     public void setHasDrawn(boolean hasDrawn) {
         this.hasDrawn = hasDrawn;
     }
@@ -150,14 +173,25 @@ public class Player {
         }
     }
 
+    /**
+     * Gets whether the player is controlled by AI.
+     *
+     * @return True if the player is AI; false otherwise.
+     */
     public boolean isAI(){
         return isAI;
     }
 
+    /**
+     * Sets the player to be controlled by AI.
+     */
     public void setAITrue(){
         isAI = true;
     }
 
+    /**
+     * Sets the player to be controlled by a human.
+     */
     public void printMyCards() {
         System.out.println("My Cards:");
         for (Card card : myCards) {
@@ -165,6 +199,13 @@ public class Player {
         }
     }
 
+    /**
+     * Gets the index of the best card to play from the player's hand.
+     *
+     * @param type   The type of the top card on the discard pile.
+     * @param colour The colour of the top card on the discard pile.
+     * @return The index of the best card to play from the player's hand.
+     */
     public int getBestCardIndex(Card.CardType type, Card.Colour colour) {
         //Card.CardType.WILD
 
@@ -198,6 +239,13 @@ public class Player {
 
     }
 
+    /**
+     * Gets the index of the best card to play from the player's hand.
+     *
+     * @param /type The type of the top card on the discard pile.
+     * @param /colour The colour of the top card on the discard pile.
+     * @return The index of the best card to play from the player's hand.
+     */
     public Card getCard(int i){
         return this.myCards.get(i);
     }
