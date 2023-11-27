@@ -10,7 +10,7 @@ of your cards or accumulate the lowest score when the game ends.
 
 ## Game Components 
 The Uno game has been revamped using the
-Model-View-Controller (MVC) design pattern in Java. Here are the key
+Model-View-Controller (MVC) design pattern in Java, and Uno Flip is integrated. Here are the key
 components:
 
 1. `UnoGameModel` class: This serves as the model for the Uno game,
@@ -38,21 +38,25 @@ interface.
 1. Run the game by executing the `Main` class. This
 initializes the MVC components and starts the Uno game.
 
-2. The game will prompt you to enter the number of players from a drop-down menu (2 to 4 players are allowed).
+2. The game will prompt you to enter the number of human players from a drop-down menu (1 to 4 players are allowed).
 
-3. The graphical user interface provided by `UnoGameView` will guide
+3. The game will prompt you to enter the number of AI players from a drop-down menu. (0-4 are allowed). If one human player was selected, at least one AI player must be selected to play.
+
+4. The graphical user interface provided by `UnoGameView` will guide
 you through the game. Follow on-screen instructions to play your turns,
 draw cards, and strategically use special action cards.
 
-4. The game continues until one player has no cards left, and they are
+5. When a FLIP card is played, the deck is flipped over and everyone must play off the Dark side of the cards, until someone else plays another FLIP card, and the deck is flipped back over to the Light side.
+
+6. The game continues until one player has no cards left, and they are
 declared the winner. The game also considers scores based on the cards
-left in other players' hands.
+left in other players' hands. Points are scored based on which side (light or dark) the game ended on.
 
-5. The winner is the player with the lowest score (or no cards left)
-when the game ends.
+7. The winner is the player with the lowest score (or no cards left)
+when the game ends. 
 
-\## Special Actions Special action cards have unique effects in the
-game: 
+## Special Actions Special action cards have unique effects in the game: 
+
 - Reverse: Reverses the order of play. 
 - Skip: Skips the next player\'s turn. 
 - Wild: Allows the current player to choose a new colour for the discard pile. - \*\*Draw One\*\*: Forces
@@ -63,3 +67,6 @@ play.
 - Wild Draw Two: Allows the current player to choose a new
 colour for the discard pile and forces the next player to draw two cards
 and skip their turn.
+- Flip: The cards in the Discard Pile, Draw Pile, and everyone's hands, are flipped from the current (Dark or Light) side to the opposite. The game continues based on which side it is flipped on. This card may be played on a matching colour or another Flip card.
+- Draw Five: The next player must draw five cards and miss their turn. This card is played on Dark Side.
+- Skip Everyone: All players are "skipped" and the play goes back to whoever played the Skip Everyone card. This card is played on Dark Side.
