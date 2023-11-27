@@ -230,7 +230,6 @@ public class UnoGameModel {
 
         for (int i = players.size() - numAI; i < players.size(); i++) {
             players.get(i).setAITrue(); // set the AI field for the AI players to true
-            System.out.println(players.get(i).getName());
         }
     }
 
@@ -254,8 +253,6 @@ public class UnoGameModel {
      */
     public boolean selectCard(Card card) {
         playedCard = card;
-        System.out.println("Valid: " + isValidChoice());
-        System.out.println("Canplay " + currentPlayer.canPlay());
         if (isValidChoice() && currentPlayer.canPlay()) {
             topCard = playedCard;
             topColour = topCard.getColour();
@@ -305,6 +302,7 @@ public class UnoGameModel {
     public void notEnoughPoints(){
         for (Player i : players) {
             i.getMyCards().clear();
+            i.setNumCards(0);
         }
         deck = new Deck();
         dealCards();

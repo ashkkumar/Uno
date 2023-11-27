@@ -50,6 +50,14 @@ public class Player {
         return numCards;
     }
 
+    /**
+     * Sets the number of cards in the player's hand.
+     * @param num the number of cards to set.
+     */
+    public void setNumCards(int num){
+        this.numCards = num;
+    }
+
     public boolean getHasDrawn(){
         return hasDrawn;
     }
@@ -177,10 +185,6 @@ public class Player {
         }
 
         if (playableCards.isEmpty()) {
-            //draw a card, there is nothing you can play
-
-//            model.drawOne();
-//            System.out.println("AI Player" + model.getCurrentPlayer() + " drew a card");
 
             return -1; //return -1 to indicate that the AI player drew a card
         }

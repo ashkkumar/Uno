@@ -100,7 +100,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             public void actionPerformed(ActionEvent e) {
                 UnoGameEvent unoEvent = new UnoGameEvent(model);
                 handleNextTurn(e);
-                //updateView();
             }
         });
 
@@ -266,6 +265,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private void showWinnerPopup() {
         String message = "Congratulations, player " + model.getCurrentPlayer().getName() + "! You are the winner!";
         JOptionPane.showMessageDialog(null, message, "Winner!", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
     }
 
     /**
@@ -373,6 +373,16 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playerHandPane.repaint();
     }
 
+    public void checkWinner(){
+        if (controller.checkForWinner()) {
+            if (controller.keepPlaying()) {
+                showKeepPlayingPopup();
+            } else {
+                showWinnerPopup();
+            }
+        }
+    }
+
     /**
      * Handles the draw card action. Invokes the corresponding action in the controller,
      * updates the view, and displays a message indicating that the player drew one card.
@@ -433,17 +443,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         } else {
             updatePlayStatus("Invalid Move");
         }
-        if (controller.checkForWinner()) {
-                /*
-                if (controller.keepPlaying()) {
-                    showKeepPlayingPopup();
+        checkWinner();
 
-                 */
-            showWinnerPopup();
-            nextButton.setEnabled(false);
-            drawButton.setEnabled(false);
-
-        }
     }
 
     /**
@@ -472,6 +473,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 updatePlayStatus("Ai Drew a card!");
             }
         }
+        checkWinner();
     }
 }
 
