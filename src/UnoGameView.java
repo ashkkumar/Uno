@@ -20,6 +20,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private JButton drawButton;
     private JButton saveButton;
     private JButton loadButton;
+    private JButton redoButton;
+    private JButton undoButton;
     private JPanel statusPane;
     private JLabel currentPlayerLabel;
 
@@ -33,7 +35,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private int numPlayers;
 
     private int numAiPlayers;
-
 
     private ArrayList<Player> playersTest;
     private boolean firstRound;
@@ -72,10 +73,14 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         drawButton = new JButton("Draw Card");
         loadButton = new JButton("Load Game");
         saveButton = new JButton("Save Game");
+        redoButton = new JButton("Redo");
+        undoButton = new JButton("Undo");
         loadButton.setActionCommand("load");
         saveButton.setActionCommand("save");
         nextButton.setActionCommand("nextPlayer");
         drawButton.setActionCommand("draw");
+        undoButton.setActionCommand("undo");
+        redoButton.setActionCommand("redo");
 
         currentPlayerLabel = new JLabel();
 
@@ -104,6 +109,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         buttonPanel.add(drawButton);
         buttonPanel.add(loadButton);
         buttonPanel.add(saveButton);
+        buttonPanel.add(undoButton);
+        buttonPanel.add(redoButton);
         this.add(buttonPanel, BorderLayout.NORTH);
 
         //next and draw buttons
@@ -135,6 +142,24 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 handleSave(e);
             }
         });
+
+        redoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleRedo(e);
+            }
+        });
+
+        undoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleUndo(e);
+            }
+        });
+
+        //undoButton.setEnabled(false);
+        //redoButton.setEnabled(false);
+
         updateView();
         checkStartCard();
         setVisible(true);
@@ -371,6 +396,16 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             drawButton.setEnabled(false);
         }
 
+        if (controller.getCurrentPlayer().getCanRedo()){
+            redoButton.setEnabled(true);
+            undoButton.setEnabled(false);
+        }
+        if (controller.getCurrentPlayer().getCanUndo()){
+            redoButton.setEnabled(false);
+            undoButton.setEnabled(true);
+        }
+
+
         for (Card card: playerHand) {
             ImageIcon icon;
             if (controller.checkDarkState()) {
@@ -468,6 +503,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         } else {
             updatePlayStatus("Invalid Move");
         }
+
         checkWinner();
 
     }
@@ -498,6 +534,39 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     public void handleSave(ActionEvent e) {
         controller.actionPerformed(e);
         updateView();
+    }
+
+    /**
+     * Undos the action performed
+     *
+     * @param e The ActionEvent associated with the undo button
+     */
+    @Override
+    public void handleUndo(ActionEvent e) {
+        controller.actionPerformed(e);
+        if (controller.checkDarkState()){
+            topCard.setIcon(new ImageIcon(model.getTopCard().getDarkFilePath()));
+        } else {
+            topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
+        }
+        updateView();
+    }
+
+    /**
+     * Redos the action preformed
+     *
+     * @param e The ActionEvent associated with the redo button
+     */
+    @Override
+    public void handleRedo(ActionEvent e) {
+        controller.actionPerformed(e);
+        if (controller.checkDarkState()){
+            topCard.setIcon(new ImageIcon(model.getTopCard().getDarkFilePath()));
+        } else {
+            topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
+        }
+        updateView();
+
     }
 
     /**

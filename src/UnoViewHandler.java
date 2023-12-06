@@ -23,8 +23,35 @@ public interface UnoViewHandler {
      */
     void handlePlay(ActionEvent e);
 
+    /**
+     * Handles the event of loading the Uno game.
+     *
+     * @param e The ActionEvent associated with the play card action.
+     */
     void handleLoad(ActionEvent e);
 
+    /**
+     * Handles the event of saving the Uno game.
+     *
+     * @param e The ActionEvent associated with the play card action.
+     */
     void handleSave(ActionEvent e);
+
+    /**
+     * Handles the event of undo in the Uno game.
+     *
+     * @param e The ActionEvent associated with the play card action.
+     */
+    void handleUndo(ActionEvent e);
+
+    /**
+     * Handles the event of redo in the Uno game.
+     *
+     * @param e The ActionEvent associated with the play card action.
+     */
+    void handleRedo(ActionEvent e);
+
+
+
 
 }

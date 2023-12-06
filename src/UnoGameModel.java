@@ -50,8 +50,9 @@ public class UnoGameModel implements Serializable {
         this.finished = false;
         currentPlayer = players.get(playerIndex);
         this.save = new GameSaver(this);
-
         dealCards();
+        save.currentGame();
+        save.previousGame();
     }
 
     /**
@@ -503,6 +504,7 @@ public class UnoGameModel implements Serializable {
         if (currentPlayer.isAI()){
             currentPlayer.setHasDrawn(true);
         }
+
     }
 
     /**
