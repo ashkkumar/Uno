@@ -254,22 +254,5 @@ public class Player implements Serializable {
         return this.myCards.get(i);
     }
 
-    public String toXML(){
-        StringBuilder xmlBuilder = new StringBuilder();
-
-
-        xmlBuilder.append("\n<Player>\n");
-        xmlBuilder.append("\t<Cards>\n");
-        for (Card card: myCards){
-            xmlBuilder.append(card.toXML());
-        }
-        xmlBuilder.append("\t</Cards>\n");
-
-
-        xmlBuilder.append("</Player>");
-        return xmlBuilder.toString();
-    }
-
-
 }
 

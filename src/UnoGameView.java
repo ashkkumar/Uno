@@ -472,6 +472,12 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
     }
 
+    /**
+     * Loads up a previously played game of uno and also
+     * updates the view of the game
+     *
+     * @param e The ActionEvent associated with the load button
+     */
     @Override
     public void handleLoad(ActionEvent e) {
         controller.actionPerformed(e);
@@ -483,6 +489,11 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         updateView();
     }
 
+    /**
+     * Saves the current game of uno
+     *
+     * @param e The ActionEvent associated with the save button
+     */
     @Override
     public void handleSave(ActionEvent e) {
         controller.actionPerformed(e);

@@ -147,12 +147,4 @@ public class Card implements Serializable {
     public String toString() {
         return COLOUR + "_" + TYPE;
     }
-
-    public String toXML(){
-        return "\t\t<Card>\n\t\t" +
-                "\t<TYPE>" + this.TYPE + "</TYPE>\n\t\t" +
-                "\t<COLOUR>" + this.COLOUR + "</COLOUR>\n\t" +
-                "\t</Card>\n";
-
-    }
 }

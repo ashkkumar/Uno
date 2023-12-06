@@ -4,10 +4,18 @@ public class GameSaver {
 
     UnoGameModel model;
 
+    /**
+     * Initializes the GameSaver, creating an instance of the UnoGameModel
+     */
     public GameSaver(UnoGameModel model) {
         this.model = model;
     }
 
+    /**
+     * Saves the current game data to an external file
+     *
+     * @throws IOException if the game was unable to save its data
+     */
     public void save() throws IOException {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("save.txt")));
@@ -37,6 +45,11 @@ public class GameSaver {
 
     }
 
+    /**
+     * Loads a previously saved game into the game
+     *
+     * @throws ClassNotFoundException when the definition of the file class is not found
+     */
     public void load() throws ClassNotFoundException {
 
         try {
