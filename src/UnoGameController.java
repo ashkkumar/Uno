@@ -39,6 +39,7 @@ public class UnoGameController implements ActionListener {
         } else if (command.equals("nextPlayer")) {
             model.nextPlayer();
             model.save.previousGame();
+            model.save.currentGame();
         } else if (command.equals("load")) {
             try {
                 model.save.load();

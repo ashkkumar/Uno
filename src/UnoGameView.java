@@ -52,6 +52,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playersTest = model.getPlayers();
 
         this.controller = new UnoGameController(model);
+
         setTitle("Uno Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 600);

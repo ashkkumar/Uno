@@ -51,8 +51,7 @@ public class UnoGameModel implements Serializable {
         currentPlayer = players.get(playerIndex);
         this.save = new GameSaver(this);
         dealCards();
-        save.currentGame();
-        save.previousGame();
+
     }
 
     /**
