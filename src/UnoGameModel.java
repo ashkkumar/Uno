@@ -1,8 +1,9 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UnoGameModel {
+public class UnoGameModel implements Serializable {
 
     private boolean darkSide = false;
     private Deck deck;
@@ -20,6 +21,8 @@ public class UnoGameModel {
     private Card.CardType playedType;
     private Card.Colour topColour;
     private Card.CardType topType;
+
+    public GameSaver save;
 
     /**
      * Initializes the UnoGameModel, creating players, deck, and starting card, and deals the initial set of cards.
@@ -46,6 +49,7 @@ public class UnoGameModel {
         this.topType = topCard.getCardType();
         this.finished = false;
         currentPlayer = players.get(playerIndex);
+        this.save = new GameSaver(this);
 
         dealCards();
     }
@@ -396,4 +400,126 @@ public class UnoGameModel {
         return players;
     }
 
+    /**
+     * Saves the current game data
+     */
+    public void save() throws IOException {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("save.txt")));
+
+            GameData data = new GameData();
+
+            data.setDeck(this.deck);
+            data.setCurrentPlayer(this.currentPlayer);
+            data.setDarkSide(this.darkSide);
+            data.setDiscardPile(this.discardPile);
+            data.setFinished(this.finished);
+            data.setPlayedCard(this.playedCard);
+            data.setPlayedColour(this.playedColour);
+            data.setPlayedType(this.playedType);
+            data.setPlayerIndex(this.playerIndex);
+            data.setPlayers(this.players);
+            data.setStartingCard(this.startingCard);
+            data.setTopCard(this.topCard);
+
+            oos.writeObject(data);
+
+        } catch(Exception e){
+            System.out.println("could not save game");
+        }
+
+    }
+
+    public void load() throws ClassNotFoundException {
+
+        try{
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("save.txt")));
+
+            GameData data = (GameData) ois.readObject();
+
+            this.darkSide = data.isDarkSide();
+            this.discardPile = data.getDiscardPile();
+            this.topCard = data.getTopCard();
+            this.topType = data.getTopType();
+            this.topColour = data.getTopColour();
+            this.playerIndex = data.getPlayerIndex();
+            this.currentPlayer = data.getCurrentPlayer();
+            this.finished = data.isFinished();
+            this.players = data.getPlayers();
+            this.startingCard = data.getStartingCard();
+            this.deck = data.getDeck();
+            this.playedCard = data.getPlayedCard();
+
+        } catch (IOException e){
+            System.out.println("could not load game");
+        }
+    }
+
+    public Deck getDeck() {
+        return this.deck;
+    }
+
+    public Deck getDiscardPile() {
+        return this.discardPile;
+    }
+
+    public boolean isFinished() {
+        return this.finished;
+    }
+
+    public void setDarkSide(boolean darkSide) {
+        this.darkSide = darkSide;
+    }
+
+    public void setDiscardPile(Deck discardPile) {
+        this.discardPile = discardPile;
+    }
+
+    public void setTopCard(Card topCard) {
+        this.topCard = topCard;
+    }
+
+    public void setTopType(Card.CardType type) {
+        this.topType = type;
+    }
+
+    public void setTopColour(Card.Colour topColour) {
+        this.topColour = topColour;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    public void setPlayedColour(Card.Colour playedColour) {
+        this.playedColour = playedColour;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
+    public void setPlayedType(Card.CardType playedType) {
+        this.playedType = playedType;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void setPlayedCard(Card playedCard) {
+        this.playedCard = playedCard;
+    }
+
+    public void setStartingCard(Card startingCard) {
+        this.startingCard = startingCard;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 }

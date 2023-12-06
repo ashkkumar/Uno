@@ -18,7 +18,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private JButton topCard;
     private JButton nextButton;
     private JButton drawButton;
-
+    private JButton saveButton;
+    private JButton loadButton;
     private JPanel statusPane;
     private JLabel currentPlayerLabel;
 
@@ -69,6 +70,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         topCard.putClientProperty("card", model.getStartingCard());
         nextButton = new JButton("Next Player");
         drawButton = new JButton("Draw Card");
+        loadButton = new JButton("Load Game");
+        saveButton = new JButton("Save Game");
+        loadButton.setActionCommand("load");
+        saveButton.setActionCommand("save");
         nextButton.setActionCommand("nextPlayer");
         drawButton.setActionCommand("draw");
 
@@ -97,6 +102,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(nextButton);
         buttonPanel.add(drawButton);
+        buttonPanel.add(loadButton);
+        buttonPanel.add(saveButton);
         this.add(buttonPanel, BorderLayout.NORTH);
 
         //next and draw buttons
@@ -115,6 +122,19 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             }
         });
 
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleLoad(e);
+            }
+        });
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleSave(e);
+            }
+        });
         updateView();
         checkStartCard();
         setVisible(true);
@@ -450,6 +470,18 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         }
         checkWinner();
 
+    }
+
+    @Override
+    public void handleLoad(ActionEvent e) {
+        controller.actionPerformed(e);
+        updateView();
+    }
+
+    @Override
+    public void handleSave(ActionEvent e) {
+        controller.actionPerformed(e);
+        updateView();
     }
 
     /**

@@ -23,4 +23,8 @@ public interface UnoViewHandler {
      */
     void handlePlay(ActionEvent e);
 
+    void handleLoad(ActionEvent e);
+
+    void handleSave(ActionEvent e);
+
 }

@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -34,6 +35,18 @@ public class UnoGameController implements ActionListener {
             model.drawOne();
         } else if (command.equals("nextPlayer")) {
             model.nextPlayer();
+        } else if (command.equals("load")) {
+            try {
+                model.save.load();
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        } else if (command.equals("save")){
+            try {
+                model.save.save();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         /// Add more conditions for other actions as needed
     }

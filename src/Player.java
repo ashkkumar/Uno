@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -5,7 +6,7 @@ import java.util.Comparator;
 /**
  * Represents a player in the Uno game, with attributes such as name, score, and a hand of cards.
  */
-public class Player {
+public class Player implements Serializable {
 
     private String name;
 
@@ -251,6 +252,22 @@ public class Player {
      */
     public Card getCard(int i){
         return this.myCards.get(i);
+    }
+
+    public String toXML(){
+        StringBuilder xmlBuilder = new StringBuilder();
+
+
+        xmlBuilder.append("\n<Player>\n");
+        xmlBuilder.append("\t<Cards>\n");
+        for (Card card: myCards){
+            xmlBuilder.append(card.toXML());
+        }
+        xmlBuilder.append("\t</Cards>\n");
+
+
+        xmlBuilder.append("</Player>");
+        return xmlBuilder.toString();
     }
 
 
