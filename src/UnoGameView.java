@@ -475,6 +475,11 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     @Override
     public void handleLoad(ActionEvent e) {
         controller.actionPerformed(e);
+        if (controller.checkDarkState()){
+            topCard.setIcon(new ImageIcon(model.getTopCard().getDarkFilePath()));
+        } else {
+            topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
+        }
         updateView();
     }
 
