@@ -163,6 +163,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
 
         updateView();
         checkStartCard();
+
         setVisible(true);
     }
 
@@ -219,6 +220,20 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         System.exit(0);
         return 0;
     }
+
+    /**
+     * Restarts the game
+     */
+    private void replay(){
+        /**
+        String message = "Restart the game?";
+        int result = JOptionPane.showConfirmDialog(null, message, "Restart Game", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION){
+            controller.createPlayers(controller.getNumPlayers(), controller.getAIPlayers);
+        }*/
+    }
+
 
     /**
      * Asks the user to select the colour of the wild car they are playing
