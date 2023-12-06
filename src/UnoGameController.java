@@ -56,6 +56,9 @@ public class UnoGameController implements ActionListener {
             model.save.redo();
         } else if (command.equals("undo")){
             model.save.undo();
+            if (getCurrentPlayer().getHasDrawn()){
+                getCurrentPlayer().setHasDrawn(false);
+            }
         }
         /// Add more conditions for other actions as needed
     }
