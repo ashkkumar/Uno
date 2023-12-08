@@ -18,7 +18,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private JButton topCard;
     private JButton nextButton;
     private JButton drawButton;
-
+    private JButton saveButton;
+    private JButton loadButton;
+    private JButton redoButton;
+    private JButton undoButton;
     private JPanel statusPane;
     private JLabel currentPlayerLabel;
 
@@ -32,7 +35,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private int numPlayers;
 
     private int numAiPlayers;
-
 
     private ArrayList<Player> playersTest;
     private boolean firstRound;
@@ -50,6 +52,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playersTest = model.getPlayers();
 
         this.controller = new UnoGameController(model);
+
         setTitle("Uno Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 600);
@@ -69,8 +72,16 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         topCard.putClientProperty("card", model.getStartingCard());
         nextButton = new JButton("Next Player");
         drawButton = new JButton("Draw Card");
+        loadButton = new JButton("Load Game");
+        saveButton = new JButton("Save Game");
+        redoButton = new JButton("Redo");
+        undoButton = new JButton("Undo");
+        loadButton.setActionCommand("load");
+        saveButton.setActionCommand("save");
         nextButton.setActionCommand("nextPlayer");
         drawButton.setActionCommand("draw");
+        undoButton.setActionCommand("undo");
+        redoButton.setActionCommand("redo");
 
         currentPlayerLabel = new JLabel();
 
@@ -97,6 +108,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(nextButton);
         buttonPanel.add(drawButton);
+        buttonPanel.add(loadButton);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(undoButton);
+        buttonPanel.add(redoButton);
         this.add(buttonPanel, BorderLayout.NORTH);
 
         //next and draw buttons
@@ -105,7 +120,6 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             public void actionPerformed(ActionEvent e) {
                 UnoGameEvent unoEvent = new UnoGameEvent(model);
                 handleNextTurn(e);
-                //updateView();
             }
         });
 
@@ -116,8 +130,40 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             }
         });
 
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleLoad(e);
+            }
+        });
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleSave(e);
+            }
+        });
+
+        redoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleRedo(e);
+            }
+        });
+
+        undoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleUndo(e);
+            }
+        });
+
+        //undoButton.setEnabled(false);
+        //redoButton.setEnabled(false);
+
         updateView();
         checkStartCard();
+
         setVisible(true);
     }
 
@@ -174,6 +220,20 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         System.exit(0);
         return 0;
     }
+
+    /**
+     * Restarts the game
+     */
+    private void replay(){
+        /**
+        String message = "Restart the game?";
+        int result = JOptionPane.showConfirmDialog(null, message, "Restart Game", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION){
+            controller.createPlayers(controller.getNumPlayers(), controller.getAIPlayers);
+        }*/
+    }
+
 
     /**
      * Asks the user to select the colour of the wild car they are playing
@@ -271,6 +331,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private void showWinnerPopup() {
         String message = "Congratulations, player " + model.getCurrentPlayer().getName() + "! You are the winner!";
         JOptionPane.showMessageDialog(null, message, "Winner!", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
     }
 
     /**
@@ -351,6 +412,16 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             drawButton.setEnabled(false);
         }
 
+        if (controller.getCurrentPlayer().getCanRedo()){
+            redoButton.setEnabled(true);
+            undoButton.setEnabled(false);
+        }
+        if (controller.getCurrentPlayer().getCanUndo()){
+            redoButton.setEnabled(false);
+            undoButton.setEnabled(true);
+        }
+
+
         for (Card card: playerHand) {
             ImageIcon icon;
             if (controller.checkDarkState()) {
@@ -376,6 +447,16 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         // Repaint the player hand panel
         playerHandPane.revalidate();
         playerHandPane.repaint();
+    }
+
+    public void checkWinner(){
+        if (controller.checkForWinner()) {
+            if (controller.keepPlaying()) {
+                showKeepPlayingPopup();
+            } else {
+                showWinnerPopup();
+            }
+        }
     }
 
     /**
@@ -438,17 +519,70 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         } else {
             updatePlayStatus("Invalid Move");
         }
-        if (controller.checkForWinner()) {
-                /*
-                if (controller.keepPlaying()) {
-                    showKeepPlayingPopup();
 
-                 */
-            showWinnerPopup();
-            nextButton.setEnabled(false);
-            drawButton.setEnabled(false);
+        checkWinner();
 
+    }
+
+    /**
+     * Loads up a previously played game of uno and also
+     * updates the view of the game
+     *
+     * @param e The ActionEvent associated with the load button
+     */
+    @Override
+    public void handleLoad(ActionEvent e) {
+        controller.actionPerformed(e);
+        if (controller.checkDarkState()){
+            topCard.setIcon(new ImageIcon(model.getTopCard().getDarkFilePath()));
+        } else {
+            topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
         }
+        updateView();
+    }
+
+    /**
+     * Saves the current game of uno
+     *
+     * @param e The ActionEvent associated with the save button
+     */
+    @Override
+    public void handleSave(ActionEvent e) {
+        controller.actionPerformed(e);
+        updateView();
+    }
+
+    /**
+     * Undos the action performed
+     *
+     * @param e The ActionEvent associated with the undo button
+     */
+    @Override
+    public void handleUndo(ActionEvent e) {
+        controller.actionPerformed(e);
+        if (controller.checkDarkState()){
+            topCard.setIcon(new ImageIcon(model.getTopCard().getDarkFilePath()));
+        } else {
+            topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
+        }
+        updateView();
+    }
+
+    /**
+     * Redos the action preformed
+     *
+     * @param e The ActionEvent associated with the redo button
+     */
+    @Override
+    public void handleRedo(ActionEvent e) {
+        controller.actionPerformed(e);
+        if (controller.checkDarkState()){
+            topCard.setIcon(new ImageIcon(model.getTopCard().getDarkFilePath()));
+        } else {
+            topCard.setIcon(new ImageIcon(model.getTopCard().getImageFilePath()));
+        }
+        updateView();
+
     }
 
     /**
@@ -477,6 +611,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
                 updatePlayStatus("Ai Drew a card!");
             }
         }
+        checkWinner();
     }
 }
 

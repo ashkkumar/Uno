@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -5,7 +6,7 @@ import java.util.Comparator;
 /**
  * Represents a player in the Uno game, with attributes such as name, score, and a hand of cards.
  */
-public class Player {
+public class Player implements Serializable {
 
     private String name;
 
@@ -16,6 +17,10 @@ public class Player {
     private int numCards;
 
     private boolean canPlay = true;
+
+    private boolean canRedo = false;
+
+    private boolean canUndo = false;
 
     private boolean hasDrawn = false;
 
@@ -57,6 +62,14 @@ public class Player {
     public int getNumCards() {
         return numCards;
     }
+    
+    /**
+     * Sets the number of cards in the player's hand.
+     * @param num the number of cards to set.
+     */
+    public void setNumCards(int num){
+        this.numCards = num;
+    }
 
     /**
      * Gets whether the player has drawn a card in the current turn.
@@ -86,6 +99,20 @@ public class Player {
     }
 
     /**
+     * Gets if the player can redo
+     *
+     * @return if the player can redo
+     */
+    public boolean getCanRedo(){ return this.canRedo; }
+
+    /**
+     * Gets if the player can undo
+     *
+     * @return if the player can undo
+     */
+    public boolean getCanUndo(){ return this.canUndo; }
+
+    /**
      * Sets the player's score.
      *
      * @param score The score to set for the player.
@@ -110,6 +137,24 @@ public class Player {
      */
     public void setCanPlay(Boolean bool){
         this.canPlay = bool;
+    }
+
+    /**
+     * Sets whether the player can play in the current turn.
+     *
+     * @param canRedo True if the player can play; false otherwise.
+     */
+    public void setCanRedo(boolean canRedo) {
+        this.canRedo = canRedo;
+    }
+
+    /**
+     * Sets whether the player can play in the current turn.
+     *
+     * @param canUndo True if the player can play; false otherwise.
+     */
+    public void setCanUndo(boolean canUndo) {
+        this.canUndo = canUndo;
     }
 
     /**
@@ -190,7 +235,7 @@ public class Player {
     }
 
     /**
-     * Sets the player to be controlled by a human.
+     * Prints the list of cards of the current player
      */
     public void printMyCards() {
         System.out.println("My Cards:");
@@ -207,7 +252,6 @@ public class Player {
      * @return The index of the best card to play from the player's hand.
      */
     public int getBestCardIndex(Card.CardType type, Card.Colour colour) {
-        //Card.CardType.WILD
 
         ArrayList<Card> playableCards = new ArrayList<>();
 
@@ -218,10 +262,6 @@ public class Player {
         }
 
         if (playableCards.isEmpty()) {
-            //draw a card, there is nothing you can play
-
-//            model.drawOne();
-//            System.out.println("AI Player" + model.getCurrentPlayer() + " drew a card");
 
             return -1; //return -1 to indicate that the AI player drew a card
         }
@@ -249,7 +289,6 @@ public class Player {
     public Card getCard(int i){
         return this.myCards.get(i);
     }
-
 
 }
 

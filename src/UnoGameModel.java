@@ -1,8 +1,9 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UnoGameModel {
+public class UnoGameModel implements Serializable {
 
     private boolean darkSide = false;
     private Deck deck;
@@ -20,6 +21,8 @@ public class UnoGameModel {
     private Card.CardType playedType;
     private Card.Colour topColour;
     private Card.CardType topType;
+
+    public GameSaver save;
 
     /**
      * Initializes the UnoGameModel, creating players, deck, and starting card, and deals the initial set of cards.
@@ -46,8 +49,9 @@ public class UnoGameModel {
         this.topType = topCard.getCardType();
         this.finished = false;
         currentPlayer = players.get(playerIndex);
-
+        this.save = new GameSaver(this);
         dealCards();
+
     }
 
     /**
@@ -71,7 +75,6 @@ public class UnoGameModel {
      * Gets the type of the top card
      * @return top Type
      */
-
     public Card.CardType getTopType(){return this.topType;}
 
     /**
@@ -90,6 +93,158 @@ public class UnoGameModel {
      */
     public Card getStartingCard(){
         return this.startingCard;
+    }
+
+    /**
+     * Returns the deck of uno cards used by the game
+     *
+     * @return Deck a deck of uno cards
+     */
+    public Deck getDeck() {
+        return this.deck;
+    }
+    /**
+     * Returns the discard pile of uno cards that were played
+     *
+     * @return Deck a discard pile of uno cards
+     */
+    public Deck getDiscardPile() {
+        return this.discardPile;
+    }
+
+    /**
+     * Returns the state of the game
+     *
+     * @return Boolean, false if the game is not over otherwise true
+     */
+    public boolean isFinished() {
+        return this.finished;
+    }
+
+    /**
+     * Sets the game to either the light side or dark side
+     *
+     * @param darkSide the State of the game
+     */
+    public void setDarkSide(boolean darkSide) {
+        this.darkSide = darkSide;
+    }
+
+    /**
+     * Sets the game's discard pile
+     *
+     * @param discardPile the deck of discarded cards
+     */
+    public void setDiscardPile(Deck discardPile) {
+        this.discardPile = discardPile;
+    }
+
+    /**
+     * Sets the top card of the game
+     *
+     * @param topCard the top card of the game
+     */
+    public void setTopCard(Card topCard) {
+        this.topCard = topCard;
+    }
+
+    /**
+     * Sets game's top card type
+     *
+     * @param type the type of card
+     */
+    public void setTopType(Card.CardType type) {
+        this.topType = type;
+    }
+
+    /**
+     * Sets game's top card colour
+     *
+     * @param topColour the type of card
+     */
+    public void setTopColour(Card.Colour topColour) {
+        this.topColour = topColour;
+    }
+
+    /**
+     * Sets game's deck of uno cards
+     *
+     * @param deck the deck of uno cards used by the game
+     */
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    /**
+     * Sets the colour of the played card
+     *
+     * @param playedColour the colour of the played card
+     */
+    public void setPlayedColour(Card.Colour playedColour) {
+        this.playedColour = playedColour;
+    }
+
+    /**
+     * Sets the type of the played card
+     *
+     * @param playedType the type of card
+     */
+    public void setPlayedType(Card.CardType playedType) {
+        this.playedType = playedType;
+    }
+
+    /**
+     * Sets game's current player index
+     *
+     * @param playerIndex the index of the current player
+     */
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+
+    /**
+     * Sets the current player of the game
+     *
+     * @param currentPlayer the current player of the game
+     */
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    /**
+     * Sets the card played by the player
+     *
+     * @param playedCard the card played by the player
+     */
+    public void setPlayedCard(Card playedCard) {
+        this.playedCard = playedCard;
+    }
+
+    /**
+     * Sets the card that the game begins with
+     *
+     * @param startingCard the card at the start of the game
+     */
+    public void setStartingCard(Card startingCard) {
+        this.startingCard = startingCard;
+    }
+
+    /**
+     * Sets the ArrayList of players in the game
+     *
+     * @param players an Arraylist of players in the game
+     */
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    /**
+     * Sets the state of the game
+     *
+     * @param finished the state of the game
+     */
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     /**
@@ -231,7 +386,6 @@ public class UnoGameModel {
 
         for (int i = players.size() - numAI; i < players.size(); i++) {
             players.get(i).setAITrue(); // set the AI field for the AI players to true
-            System.out.println(players.get(i).getName());
         }
     }
 
@@ -255,8 +409,6 @@ public class UnoGameModel {
      */
     public boolean selectCard(Card card) {
         playedCard = card;
-        System.out.println("Valid: " + isValidChoice());
-        System.out.println("Canplay " + currentPlayer.canPlay());
         if (isValidChoice() && currentPlayer.canPlay()) {
             topCard = playedCard;
             topColour = topCard.getColour();
@@ -310,6 +462,7 @@ public class UnoGameModel {
     public void notEnoughPoints(){
         for (Player i : players) {
             i.getMyCards().clear();
+            i.setNumCards(0);
         }
         deck = new Deck();
         dealCards();
@@ -348,9 +501,9 @@ public class UnoGameModel {
 
         // Check if next player is AI, Block buttons off so that humans can't interfere with AI turn.
         if (currentPlayer.isAI()){
-            //currentPlayer.setCanPlay(false);
             currentPlayer.setHasDrawn(true);
         }
+
     }
 
     /**
@@ -392,12 +545,13 @@ public class UnoGameModel {
 
     /**
      * Gets the list of players in the game.
+     *
      * @return The list of players.
      */
-
     public ArrayList<Player> getPlayers(){
         return players;
     }
+
 
 
 }

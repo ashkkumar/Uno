@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -16,6 +17,7 @@ public class UnoGameController implements ActionListener {
      * @param model The UnoGameModel to associate with the controller.
      */
     public UnoGameController(UnoGameModel model) {
+
         this.model = model;
     }
 
@@ -31,9 +33,32 @@ public class UnoGameController implements ActionListener {
 
         if (command.equals("draw")) {
             model.getCurrentPlayer().setHasDrawn(true);
+            model.save.previousGame();
             model.drawOne();
+            model.save.currentGame();
         } else if (command.equals("nextPlayer")) {
             model.nextPlayer();
+            model.save.previousGame();
+            model.save.currentGame();
+        } else if (command.equals("load")) {
+            try {
+                model.save.load();
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        } else if (command.equals("save")){
+            try {
+                model.save.save();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        } else if (command.equals("redo")){
+            model.save.redo();
+        } else if (command.equals("undo")){
+            model.save.undo();
+            if (getCurrentPlayer().getHasDrawn()){
+                getCurrentPlayer().setHasDrawn(false);
+            }
         }
         /// Add more conditions for other actions as needed
     }
@@ -53,11 +78,10 @@ public class UnoGameController implements ActionListener {
      * @return True if the card is successfully played; false otherwise.
      */
     public boolean playCard(Card card){
-        checkForWinner();
-        keepPlaying();
         if(model.selectCard(card)){
             model.getCurrentPlayer().removeCard(card);
             model.checkActionCard();
+            model.save.currentGame();
             return true;
         }
         return false;
@@ -70,17 +94,11 @@ public class UnoGameController implements ActionListener {
      * @return True if the AI successfully played a card; false otherwise.
      */
     public boolean playAICard(){
-        checkForWinner();
-        keepPlaying();
-
-        System.out.println(model.getTopCard().getColour().name());
 
         int bestCardIndex = model.getCurrentPlayer().getBestCardIndex(model.getTopType(), model.getTopColour());
 
         if(bestCardIndex == -1){
             model.drawOne();
-            System.out.println("AI Player" + model.getCurrentPlayer().toString() + " drew a card");
-
             int bestCardIndex2 = model.getCurrentPlayer().getBestCardIndex(model.getTopType(), model.getTopColour());
 
             if(bestCardIndex2 == -1){ //if the AI still can't play a card
@@ -90,19 +108,14 @@ public class UnoGameController implements ActionListener {
 
             if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex2))){
 
-                System.out.println("Select card worked...");
-
                 Card card = model.getCurrentPlayer().getCard(bestCardIndex2);
 
                 model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex2));
-
-                System.out.println("card removed from Ai player...");
                 model.checkActionCard();
                 if (model.getTopColour() == Card.Colour.WILD){
                     String[] colours = {"BLUE", "RED", "YELLOW", "GREEN"};
                     Random randNum = new Random();
                     playWild(card,Card.Colour.valueOf(colours[randNum.nextInt(4)]));
-                    //model.wildCard(Card.Colour.valueOf(colours[randNum.nextInt(4)]));
                 }
 
                 return true;
@@ -112,28 +125,20 @@ public class UnoGameController implements ActionListener {
 
         } else{
 
-            System.out.println("Playing AI Card...");
-
             if(model.selectCard(model.getCurrentPlayer().getCard(bestCardIndex))){
-
-                System.out.println("Select card worked...");
 
                 Card card = model.getCurrentPlayer().getCard(bestCardIndex);
 
                 model.getCurrentPlayer().removeCard(model.getCurrentPlayer().getCard(bestCardIndex));
-
-                System.out.println("card removed from Ai player...");
 
                 model.checkActionCard();
                 if (model.getTopColour() == Card.Colour.WILD){
                     String[] colours = {"BLUE", "RED", "YELLOW", "GREEN"};
                     Random randNum = new Random();
                     playWild(card,Card.Colour.valueOf(colours[randNum.nextInt(4)]));
-                    //model.wildCard(Card.Colour.valueOf(colours[randNum.nextInt(4)]));
                 }
                 return true;
             }
-            System.out.println("Failed to playAICard");
         }
         return false;
     }
@@ -143,13 +148,16 @@ public class UnoGameController implements ActionListener {
      * @return true if there's a winner
      */
     public boolean checkForWinner() {
+        System.out.println("Current Player: " + model.getCurrentPlayer().getName());
+        System.out.println("Current Player Card Count: " + model.getCurrentPlayer().getNumCards());
         System.out.println("Points = " + model.getCurrentPlayer().getScore());
         if (model.checkWinner()) {
+            System.out.println("Points = " + model.getCurrentPlayer().getScore());
             System.out.println("Winner found");
             return true;
         }
         else
-            System.out.println("no winner found");
+            System.out.println("No winner found");
         return false;
     }
 
@@ -158,7 +166,7 @@ public class UnoGameController implements ActionListener {
      * @return true if they should keep playing
      */
     public boolean keepPlaying(){
-        if (model.checkWinner() && model.getCurrentPlayer().getScore() < 500) {
+        if (model.getCurrentPlayer().getScore() < 500) {
             model.notEnoughPoints();
             System.out.println("not enough points. points = " + model.getCurrentPlayer().getScore());
             return true;
@@ -173,7 +181,9 @@ public class UnoGameController implements ActionListener {
      */
     public int playWild(Card card, Card.Colour colour){
         model.wildCard(colour);
-        model.getCurrentPlayer().getMyCards().remove(card);
+        if (!model.getCurrentPlayer().isAI()) {
+            model.getCurrentPlayer().removeCard(card);
+        }
 
         if (card.getCardType() == Card.CardType.WILD_DRAW_TWO){
             if (checkDarkState()){
