@@ -22,6 +22,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     private JButton loadButton;
     private JButton redoButton;
     private JButton undoButton;
+    private JButton replayButton;
     private JPanel statusPane;
     private JLabel currentPlayerLabel;
 
@@ -76,12 +77,15 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         saveButton = new JButton("Save Game");
         redoButton = new JButton("Redo");
         undoButton = new JButton("Undo");
+        replayButton = new JButton("Replay");
+
         loadButton.setActionCommand("load");
         saveButton.setActionCommand("save");
         nextButton.setActionCommand("nextPlayer");
         drawButton.setActionCommand("draw");
         undoButton.setActionCommand("undo");
         redoButton.setActionCommand("redo");
+        replayButton.setActionCommand("replay");
 
         currentPlayerLabel = new JLabel();
 
@@ -112,6 +116,7 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         buttonPanel.add(saveButton);
         buttonPanel.add(undoButton);
         buttonPanel.add(redoButton);
+        buttonPanel.add(replayButton);
         this.add(buttonPanel, BorderLayout.NORTH);
 
         //next and draw buttons
@@ -155,6 +160,13 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleUndo(e);
+            }
+        });
+
+        replayButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                replay();
             }
         });
 
@@ -225,13 +237,12 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
      * Restarts the game
      */
     private void replay(){
-        /**
         String message = "Restart the game?";
         int result = JOptionPane.showConfirmDialog(null, message, "Restart Game", JOptionPane.OK_CANCEL_OPTION);
-
         if (result == JOptionPane.OK_OPTION){
-            controller.createPlayers(controller.getNumPlayers(), controller.getAIPlayers);
-        }*/
+            this.dispose();
+            new UnoGameView();
+        }// git is fun
     }
 
 
