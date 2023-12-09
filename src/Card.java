@@ -1,9 +1,11 @@
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     private String imageFilePath;
 
     private String darkFilePath;
 
-    public enum CardType {
+    public enum CardType implements Serializable{
         ONE(1),
         TWO(2),
         THREE(3),
@@ -29,9 +31,7 @@ public class Card {
 
     }
 
-    public enum Colour {RED, BLUE, GREEN, YELLOW, WILD}
-
-    public enum DarkColour {PINK,PURPLE,TEAL,ORANGE, WILD}
+    public enum Colour implements Serializable {RED, BLUE, GREEN, YELLOW, WILD}
 
     private final CardType TYPE;
     private final Colour COLOUR;

@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -16,6 +17,7 @@ public class UnoGameController implements ActionListener {
      * @param model The UnoGameModel to associate with the controller.
      */
     public UnoGameController(UnoGameModel model) {
+
         this.model = model;
     }
 
@@ -31,9 +33,32 @@ public class UnoGameController implements ActionListener {
 
         if (command.equals("draw")) {
             model.getCurrentPlayer().setHasDrawn(true);
+            model.save.previousGame();
             model.drawOne();
+            model.save.currentGame();
         } else if (command.equals("nextPlayer")) {
             model.nextPlayer();
+            model.save.previousGame();
+            model.save.currentGame();
+        } else if (command.equals("load")) {
+            try {
+                model.save.load();
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        } else if (command.equals("save")){
+            try {
+                model.save.save();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        } else if (command.equals("redo")){
+            model.save.redo();
+        } else if (command.equals("undo")){
+            model.save.undo();
+            if (getCurrentPlayer().getHasDrawn()){
+                getCurrentPlayer().setHasDrawn(false);
+            }
         }
         /// Add more conditions for other actions as needed
     }
@@ -56,6 +81,7 @@ public class UnoGameController implements ActionListener {
         if(model.selectCard(card)){
             model.getCurrentPlayer().removeCard(card);
             model.checkActionCard();
+            model.save.currentGame();
             return true;
         }
         return false;

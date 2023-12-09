@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -5,7 +6,7 @@ import java.util.Comparator;
 /**
  * Represents a player in the Uno game, with attributes such as name, score, and a hand of cards.
  */
-public class Player {
+public class Player implements Serializable {
 
     private String name;
 
@@ -16,6 +17,10 @@ public class Player {
     private int numCards;
 
     private boolean canPlay = true;
+
+    private boolean canRedo = false;
+
+    private boolean canUndo = false;
 
     private boolean hasDrawn = false;
 
@@ -94,6 +99,20 @@ public class Player {
     }
 
     /**
+     * Gets if the player can redo
+     *
+     * @return if the player can redo
+     */
+    public boolean getCanRedo(){ return this.canRedo; }
+
+    /**
+     * Gets if the player can undo
+     *
+     * @return if the player can undo
+     */
+    public boolean getCanUndo(){ return this.canUndo; }
+
+    /**
      * Sets the player's score.
      *
      * @param score The score to set for the player.
@@ -118,6 +137,24 @@ public class Player {
      */
     public void setCanPlay(Boolean bool){
         this.canPlay = bool;
+    }
+
+    /**
+     * Sets whether the player can play in the current turn.
+     *
+     * @param canRedo True if the player can play; false otherwise.
+     */
+    public void setCanRedo(boolean canRedo) {
+        this.canRedo = canRedo;
+    }
+
+    /**
+     * Sets whether the player can play in the current turn.
+     *
+     * @param canUndo True if the player can play; false otherwise.
+     */
+    public void setCanUndo(boolean canUndo) {
+        this.canUndo = canUndo;
     }
 
     /**
@@ -252,7 +289,6 @@ public class Player {
     public Card getCard(int i){
         return this.myCards.get(i);
     }
-
 
 }
 
