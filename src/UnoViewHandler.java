@@ -1,5 +1,10 @@
 import java.awt.event.ActionEvent;
 
+/**
+ * The interface that all UnoViewHandlers must inherit, containing methods for handling
+ * All uno game events
+ */
+
 public interface UnoViewHandler {
 
     /**

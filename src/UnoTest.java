@@ -30,7 +30,7 @@ public class UnoTest {
     public void test_DefaultConstructor(){
         System.out.println("Testing Default Constructor...");
         assertEquals(new ArrayList<Player>(), uno.getPlayers());
-        assertEquals(104, uno.getDeck().getNumDeckCards());
+        assertEquals(112, uno.getDeck().getNumDeckCards());
         counter = 3;
     }
 
@@ -63,7 +63,7 @@ public class UnoTest {
     @Test
     public void test_getDeckCards(){
         System.out.println("Testing Method getDeckCards...");
-        assertEquals(104,uno.getDeckCards());
+        assertEquals(112,uno.getDeckCards());
         counter = 1;
     }
 

@@ -10,7 +10,8 @@ of your cards or accumulate the lowest score when the game ends.
 
 ## Game Components 
 The Uno game has been revamped using the
-Model-View-Controller (MVC) design pattern in Java, and Uno Flip is integrated. Here are the key
+Model-View-Controller (MVC) design pattern in Java, and Uno Flip is integrated. Milestone 4 has now added 
+redo/undo functionality, replay functionality, and save/load. Here are the key
 components:
 
 1. `UnoGameModel` class: This serves as the model for the Uno game,
@@ -26,11 +27,15 @@ interactions.
 receives user inputs from the view and updates the model accordingly. It
 also communicates with the view to reflect changes in the game state.
 
-4. `Player`, `Deck`, and `Card` classes: These classes remain
+4. `GameSaver` and `GameData` classes: These classes facilitate the methods related to the
+serialization and deserialization of the uno game. They also contain methods related to the 
+functionality of the undo/redo buttons.
+
+5. `Player`, `Deck`, and `Card` classes: These classes remain
 integral to the Uno game, defining players, the deck of Uno cards, and
 the properties of each card, respectively.
 
-5. `Main` class: The entry point of the Uno game, where an instance
+6. `Main` class: The entry point of the Uno game, where an instance
 of the `UnoGameView` class is created to start the graphical
 interface.
 

@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The model class for the Uno Game. This class implements all Uno operations.
+ */
 public class UnoGameModel implements Serializable {
 
     private boolean darkSide = false;

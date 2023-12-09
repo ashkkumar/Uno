@@ -2,6 +2,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class serializes the game data so that it may be used to save/load the game at
+ * a user's will.
+ */
 public class GameData implements Serializable {
 
     // Game Info

@@ -39,7 +39,7 @@ public class DeckTest {
     public void test_DefaultConstructor() {
         System.out.println("Testing Default Constructor...");
         deck = new Deck();
-        assertEquals(104, deck.getNumDeckCards());
+        assertEquals(112, deck.getNumDeckCards());
         // Default constructor uses makeCards method for adding to deck, tested on its own
         counter = 1;
     }
@@ -128,7 +128,7 @@ public class DeckTest {
     public void test_makeCards() {
         System.out.println("Testing Method makeCards...");
         deck = new Deck();
-        assertEquals(104, deck.getNumDeckCards());
+        assertEquals(112, deck.getNumDeckCards());
         counter = 1;
     }
 }

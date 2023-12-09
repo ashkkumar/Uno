@@ -130,7 +130,7 @@ public class PlayerTest {
         player = new Player();
         player.drawCard(deck);
         assertEquals(1, player.getNumCards());
-        assertEquals(103, deck.getNumDeckCards());
+        assertEquals(111, deck.getNumDeckCards());
         counter = 2;
     }
 
@@ -138,13 +138,14 @@ public class PlayerTest {
     public void test_removeCard() {
         System.out.println("Testing Method removeCard...");
         player = new Player();
-        player.addCard(new Card(Card.CardType.FOUR, Card.Colour.YELLOW));
+        Card card = new Card(Card.CardType.FOUR, Card.Colour.YELLOW);
+        player.addCard(card);
         player.addCard(new Card(Card.CardType.SEVEN, Card.Colour.RED));
         player.addCard(new Card(Card.CardType.REVERSE, Card.Colour.BLUE));
-        //player.removeCard(1);
+        player.removeCard(card);
         assertEquals(2, player.getNumCards());
-        assertEquals(Card.CardType.FOUR, player.getMyCards().get(0).getCardType());
-        assertEquals(Card.Colour.YELLOW, player.getMyCards().get(0).getColour());
+        assertEquals(Card.CardType.SEVEN, player.getMyCards().get(0).getCardType());
+        assertEquals(Card.Colour.RED, player.getMyCards().get(0).getColour());
         assertEquals(Card.CardType.REVERSE, player.getMyCards().get(1).getCardType());
         assertEquals(Card.Colour.BLUE, player.getMyCards().get(1).getColour());
         counter = 5;

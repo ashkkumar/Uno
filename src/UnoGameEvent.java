@@ -1,6 +1,10 @@
 import java.awt.event.ActionEvent;
 import java.util.EventObject;
 
+/**
+ * The Event Class for the Uno Game. Extends EventObject and provides events
+ * for the uno game listeners to use.
+ */
 public class UnoGameEvent extends EventObject {
 
     Card card;

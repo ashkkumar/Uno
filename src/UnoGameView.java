@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.lang.*;
 
-
 /**
  * The main view class for the Uno game. This class extends JFrame and implements
  * the UnoViewHandler interface to handle UI components and events.
@@ -234,7 +233,8 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
     }
 
     /**
-     * Restarts the game
+     * Adds replay functionality for the game. A pop-up comes up confirming the choice and a new
+     * UnoGameView is generated.
      */
     private void replay(){
         String message = "Restart the game?";
@@ -460,6 +460,10 @@ public class UnoGameView extends JFrame implements UnoViewHandler {
         playerHandPane.repaint();
     }
 
+    /**
+     * Checks if there is a winner in the current Uno Game. If there is no winner with all points
+     * added up, the game will show a popup to keep playing and reshuffle the deck.
+     */
     public void checkWinner(){
         if (controller.checkForWinner()) {
             if (controller.keepPlaying()) {

@@ -1,5 +1,8 @@
 import java.io.*;
 
+/**
+ * This class implements all save/load functionality, as well as redo/undo.
+ */
 public class GameSaver {
 
     UnoGameModel model;
@@ -46,6 +49,9 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Saves the current state of the game.
+     */
     public void currentGame(){
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("currentGame.txt")));
@@ -57,6 +63,10 @@ public class GameSaver {
         }
 
     }
+
+    /**
+     * Saves the state of the previous game.
+     */
     public void previousGame(){
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("previousGame.txt")));
@@ -68,6 +78,9 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Performs the player's previous action to restore the game state to where it was before an undo command.
+     */
     public void redo(){
 
         try {
@@ -81,6 +94,10 @@ public class GameSaver {
         }
     }
 
+    /**
+     * Undoes the player's current action to restore the game to the previous state before
+     * an action occurred.
+     */
     public void undo(){
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("previousGame.txt")));
@@ -93,7 +110,11 @@ public class GameSaver {
         }
     }
 
-
+    /**
+     * Sets the game data
+     * @param oos the object output stream of the game
+     * @throws IOException if invalid
+     */
     private void setGameData(ObjectOutputStream oos) throws IOException {
         GameData data = new GameData();
 
@@ -115,6 +136,12 @@ public class GameSaver {
         oos.writeObject(data);
     }
 
+    /**
+     * Loads the game data to the UnoGameModel
+     * @param ois the object input stream
+     * @throws IOException if invalid
+     * @throws ClassNotFoundException if class not found
+     */
     private void loadGameData(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         GameData data = (GameData) ois.readObject();
 
